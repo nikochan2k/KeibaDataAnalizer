@@ -70,8 +70,8 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            importWindow.Show(dockPanel);
             dateWindow.Show(dockPanel);
+            importWindow.Show(dockPanel);
         }
 
         private void sqlMenuItem_Click(object sender, EventArgs e)
