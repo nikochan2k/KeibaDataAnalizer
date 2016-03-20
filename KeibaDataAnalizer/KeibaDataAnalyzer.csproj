@@ -185,10 +185,13 @@
     <Compile Include="Logic\Importer\KD1KyousoubaImporter.cs" />
     <Compile Include="Logic\Importer\KD1SeisekiImporter.cs" />
     <Compile Include="Logic\ImporterFactory\KD1SeisekiImporterFactory.cs" />
+    <Compile Include="Logic\Importer\KD2KakuteiOddsImporter.cs" />
     <Compile Include="Logic\Importer\KD2KyousoubaImporter.cs" />
+    <Compile Include="Logic\Importer\KD2OddsImporter.cs" />
     <Compile Include="Logic\Importer\KD2SeisekiImporter.cs" />
     <Compile Include="Logic\ImporterFactory\KD2SeisekiImporterFactory.cs" />
     <Compile Include="Logic\Importer\KD2ShutsubahyouImporter.cs" />
+    <Compile Include="Logic\Importer\KD2YosouOddsImporter.cs" />
     <Compile Include="Logic\Importer\KD3KakuteiOddsImporter.cs" />
     <Compile Include="Logic\Importer\KD3SeisekiImporter.cs" />
     <Compile Include="Logic\ImporterFactory\KD3SeisekiImporterFactory.cs" />

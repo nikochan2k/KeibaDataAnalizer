@@ -15,15 +15,9 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
 	/// </summary>
 	public class KD3YosouOddsImporter : KD3OddsImporter
 	{
-		private readonly String kolOdsPath;
-
-		private readonly String kolOds2Path;
-
 		public KD3YosouOddsImporter(ImportHistory importHistory, String kolOdsPath, String kolOds2Path)
-			: base(importHistory)
+			: base(importHistory, kolOdsPath, kolOds2Path)
 		{
-			this.kolOdsPath = kolOdsPath;
-			this.kolOds2Path = kolOds2Path;
 		}
 		
 		protected override YosouKakutei YosouOrKakutei {
@@ -32,21 +26,27 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
 			}
 		}
         
-		protected override string KolOddsPath {
-			get {
-				return kolOdsPath;
-			}
-		}
-        
-		protected override string KolOdds2Path {
-			get {
-				return kolOds2Path;
-			}
-		}
-		
 		protected override string KolOdds3Path {
 			get {
 				return null;
+			}
+		}
+        
+		protected override int FukushouOddsIndex {
+			get {
+				return 0;
+			}
+		}
+		
+		protected override int WideOddsIndex {
+			get {
+				return 0;
+			}
+		}
+		
+		protected override int SanrentanOddsIndex {
+			get {
+				return 0;
 			}
 		}
         
@@ -59,18 +59,6 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
 		protected override bool HasWideOdds {
 			get {
 				return false;
-			}
-		}
-        
-		protected override bool HasUmatanOdds {
-			get {
-				return true;
-			}
-		}
-        
-		protected override bool HasSanrenpukuOdds {
-			get {
-				return true;
 			}
 		}
         

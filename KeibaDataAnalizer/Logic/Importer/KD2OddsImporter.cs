@@ -11,19 +11,16 @@ using System;
 namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
 {
 	/// <summary>
-	/// Description of KD3OddsImporter.
+	/// Description of KD2OddsImporter.
 	/// </summary>
-	public abstract class KD3OddsImporter : KDOddsImporter
+	public abstract class KD2OddsImporter : KDOddsImporter
 	{
 		private readonly String kolOddsPath;
-
-		private readonly String kolOdds2Path;
-
-		protected KD3OddsImporter(ImportHistory importHistory, String kolOddsPath, String kolOdds2Path)
+		
+		protected KD2OddsImporter(ImportHistory importHistory, String kolOddsPath)
 			: base(importHistory)
 		{
 			this.kolOddsPath = kolOddsPath;
-			this.kolOdds2Path = kolOdds2Path;
 		}
 		
 		protected override string KolOddsPath {
@@ -34,7 +31,13 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
         
 		protected override string KolOdds2Path {
 			get {
-				return kolOdds2Path;
+				return null;
+			}
+		}
+		
+		protected override string KolOdds3Path {
+			get {
+				return null;
 			}
 		}
 		
@@ -46,19 +49,19 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
         
 		protected override int ByteOfOdds2 {
 			get {
-				return 9043;
+				return 0;
 			}
 		}
 		
 		protected override int ByteOfOdds3 {
 			get {
-				return 49123;
+				return 0;
 			}
 		}
         
 		protected override int DataSakuseiNengappiIndex {
 			get {
-				return 114;
+				return 113;
 			}
 		}
 		
@@ -80,27 +83,57 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
 			}
 		}
         
+		protected override int FukushouOddsIndex {
+			get {
+				return 0;
+			}
+		}
+		
+		protected override int WideOddsIndex {
+			get {
+				return 0;
+			}
+		}
+		
 		protected override int UmatanOddsIndex {
 			get {
-				return 1799;
+				return 0;
 			}
 		}
         
 		protected override int SanrenpukuOddsIndex {
 			get {
-				return 3329;
+				return 0;
 			}
 		}
 		
+		protected override int SanrentanOddsIndex {
+			get {
+				return 0;
+			}
+		}
+       
+		protected override bool HasFukushouOdds {
+			get {
+				return false;
+			}
+		}
+        
+		protected override bool HasWideOdds {
+			get {
+				return false;
+			}
+		}
+        
 		protected override bool HasUmatanOdds {
 			get {
-				return true;
+				return false;
 			}
 		}
         
 		protected override bool HasSanrenpukuOdds {
 			get {
-				return true;
+				return false;
 			}
 		}
 	}
