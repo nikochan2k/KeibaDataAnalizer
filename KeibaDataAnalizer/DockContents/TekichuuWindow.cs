@@ -11,11 +11,13 @@ using WeifenLuo.WinFormsUI.Docking;
 using Nikochan.Keiba.KeibaDataAnalyzer.Model;
 using Nikochan.Keiba.KeibaDataAnalyzer.UserControls;
 using Nikochan.Keiba.KeibaDataAnalyzer.Util;
+using Nikochan.Keiba.KeibaDataAnalyzer.Logic.Generator;
 
 namespace Nikochan.Keiba.KeibaDataAnalyzer.DockContents
 {
     public partial class TekichuuWindow : DockContent
     {
+ 	
         private IList<ToushiKekka> tekichuuResultList = new List<ToushiKekka>();
 
         private ToushiKekka tanshou = new ToushiKekka() { Houshiki = "単勝" };
@@ -99,6 +101,10 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.DockContents
             col.HeaderText = "配当金";
             dataGridView.Columns.Add(col);
             col = new DataGridViewTextBoxColumn();
+            col.DataPropertyName = "HeikinHaitoukin";
+            col.HeaderText = "平均配当金";
+            dataGridView.Columns.Add(col);
+            col = new DataGridViewTextBoxColumn();
             col.DataPropertyName = "KaishuuRitsu";
             col.HeaderText = "回収率";
             dataGridView.Columns.Add(col);
@@ -135,6 +141,8 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.DockContents
 
             toolStrip.Enabled = false;
             flowLayoutPanel.Enabled = false;
+            dataGridView.Enabled = false;
+            statusLabel.Text = "的中率を計算しています";
             backgroundWorker.RunWorkerAsync(selectionSQL);
         }
 
@@ -504,6 +512,7 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.DockContents
 
         private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
+        	try{
             var selectionSQL = (SelectionSQL)e.Argument;
 
 			IList<dynamic> raceList;            
@@ -523,7 +532,14 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.DockContents
 	            using(var transaction = new Transaction()){
 	            	var db = transaction.DB;
 	            	var con = transaction.Connection;
-	            	shussoubaList = db.Query<dynamic>(con, selectionSQL.Shussouba, id);
+		            	shussoubaList = db.Query<dynamic>(
+		            		con,
+		            		selectionSQL.Shussouba,
+		            		new { Id = id }
+		            	);
+		            	if(shussoubaList.Count == 0){
+		            		continue;
+		            	}
 	            	haitou = db.Find<RaceHaitou>(con, id);
                 }
                 
@@ -531,6 +547,10 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.DockContents
                 this.count++;
                 backgroundWorker.ReportProgress(count * 100 / max);
             }
+        	} catch(Exception ex){
+        		MessageBox.Show(CommonUtil.FlattenException(ex));
+        		return;
+        	}
         }
 
         private void Reset()
@@ -548,8 +568,6 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.DockContents
 
         private void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            dataGridView.DataSource = null;
-            dataGridView.DataSource = tekichuuResultList;
             this.toolStripProgressBar.Value = e.ProgressPercentage;
         }
 
@@ -557,7 +575,12 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.DockContents
         {
             this.flowLayoutPanel.Enabled = true;
             this.toolStrip.Enabled = true;
+            this.dataGridView.Enabled = true;
+            dataGridView.DataSource = null;
+            dataGridView.DataSource = tekichuuResultList;
+            statusLabel.Text = string.Empty;
         }
+        
     }
 
     public class ToushiKekka
@@ -584,6 +607,23 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.DockContents
         public virtual int? ToushiKin { get; set; }
 
         public virtual int? HaitouKin { get; set; }
+
+        public virtual string HeikinHaitoukin
+        {
+            get
+            {
+                if (TekichuuSuu == null)
+                {
+                    return null;
+                }
+                if(HaitouKin == 0)
+                {
+                    return "0";
+                }
+                int heikinHaitoukin = (int)Math.Round((double)HaitouKin / (double)TekichuuSuu / 10.0) * 10;
+                return heikinHaitoukin.ToString();
+            }
+        }
 
         public virtual string KaishuuRitsu
         {

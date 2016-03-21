@@ -235,8 +235,8 @@ CREATE TABLE RaceHaitou(
 CREATE TABLE OddsKubun(
 	Id BIGINT NOT NULL PRIMARY KEY
 	,RaceId BIGINT NOT NULL REFERENCES Race(Id) ON DELETE CASCADE
-	,YosouKakutei INT NOT NULL /* 1:äºˆæƒ³ã‚ªãƒƒã‚º 2:ç¢ºå®šã‚ªãƒƒã‚º */
-	,BakenShubetsu INT NOT NULL /* 1:å˜å‹ 2:æ é€£ 3:é¦¬é€£ 4:è¤‡å‹ 5:ãƒ¯ã‚¤ãƒ‰ 6:é¦¬å˜ 7:ä¸‰é€£è¤‡ 8:ä¸‰é€£å˜ */
+	,YosouKakutei INT NOT NULL /* 1:—\‘zƒIƒbƒY 2:Šm’èƒIƒbƒY */
+	,BakenShubetsu INT NOT NULL /* 1:’PŸ 2:˜g˜A 3:”n˜A 4:•¡Ÿ 5:ƒƒCƒh 6:”n’P 7:O˜A•¡ 8:O˜A’P */
 	,DataSakuseiNengappi DATE NOT NULL
 );
 CREATE UNIQUE INDEX UQ_OddsKubun ON OddsKubun(RaceId, YosouKakutei, BakenShubetsu);
@@ -298,6 +298,8 @@ CREATE TABLE Shussouba(
 	,Chakusa2 INT
 	,TimeSa REAL
 	,Zenhan3F REAL
+  ,Chuukan REAL
+  ,Kouhan3FMade REAL
 	,Kouhan3F REAL
 	,YonCornerIchiDori INT
 	,Seinen INT NOT NULL
@@ -325,10 +327,6 @@ CREATE TABLE Kishu(
 	,KishuShikakuKubun INT
 	,MinaraiKubun INT
 	,KishuShozokuKyuushaId INT
-	,KishuShozokuKyuushaMei TEXT
-	,TanshukuKyuushaMei TEXT
-	,KyuushaShozokuBasho INT
-	,KyuushaRitsuHokuNanBetsu INT
 	,TourokuMasshouFlag INT
 	,DataSakuseiNengappi DATE
 );
@@ -357,8 +355,8 @@ INSERT INTO Kyuusha
 VALUES
 (
   0
-  ,'ãƒ•ãƒªãƒ¼'
-  ,'ãƒ•ãƒªãƒ¼'
+  ,'ƒtƒŠ['
+  ,'ƒtƒŠ['
 );
 
 CREATE TABLE Choukyou(
@@ -497,6 +495,69 @@ CREATE TABLE ImportFile(
 	,Status INT NOT NULL
 );
 
+CREATE TABLE Course(
+  KaisaiBasho INT NOT NULL
+  ,DirtShiba INT NOT NULL
+  ,UchiSoto INT
+  ,Course INT
+  ,ChokusenKyori REAL NOT NULL
+  ,ChokusenKouteisa REAL NOT NULL
+  ,PRIMARY KEY(KaisaiBasho, DirtShiba, UchiSoto, Course)
+);
+INSERT INTO Course VALUES(0,0,NULL,NULL,329,0.0);
+INSERT INTO Course VALUES(0,1,0,0,328,0.0);
+INSERT INTO Course VALUES(0,1,0,1,323,0.0);
+INSERT INTO Course VALUES(0,1,0,2,323,0.0);
+INSERT INTO Course VALUES(0,1,0,3,323,0.0);
+INSERT INTO Course VALUES(0,1,1,0,404,0.0);
+INSERT INTO Course VALUES(0,1,1,1,399,0.0);
+INSERT INTO Course VALUES(0,1,1,2,399,0.0);
+INSERT INTO Course VALUES(0,1,1,3,399,0.0);
+INSERT INTO Course VALUES(1,0,NULL,NULL,352.5,-1.4);
+INSERT INTO Course VALUES(1,1,0,0,356.5,-1.4);
+INSERT INTO Course VALUES(1,1,0,1,359.1,-1.4);
+INSERT INTO Course VALUES(1,1,1,0,473.6,-0.5);
+INSERT INTO Course VALUES(1,1,1,1,476.3,-0.5);
+INSERT INTO Course VALUES(2,0,NULL,NULL,312,0.9);
+INSERT INTO Course VALUES(2,1,NULL,0,314,0.5);
+INSERT INTO Course VALUES(2,1,NULL,1,314,0.5);
+INSERT INTO Course VALUES(2,1,NULL,2,314,0.5);
+INSERT INTO Course VALUES(3,0,NULL,NULL,291,-0.3);
+INSERT INTO Course VALUES(3,1,NULL,0,293,0);
+INSERT INTO Course VALUES(3,1,NULL,1,293,0);
+INSERT INTO Course VALUES(3,1,NULL,2,293,0);
+INSERT INTO Course VALUES(4,0,NULL,NULL,501,-2.5);
+INSERT INTO Course VALUES(4,1,NULL,0,525.9,-2.1);
+INSERT INTO Course VALUES(4,1,NULL,1,525.9,-2.1);
+INSERT INTO Course VALUES(4,1,NULL,2,525.9,-2.1);
+INSERT INTO Course VALUES(4,1,NULL,3,525.9,-2.1);
+INSERT INTO Course VALUES(5,0,NULL,NULL,308,-2.2);
+INSERT INTO Course VALUES(5,1,0,0,310,-2.5);
+INSERT INTO Course VALUES(5,1,0,1,310,-2.5);
+INSERT INTO Course VALUES(5,1,0,2,310,-2.5);
+INSERT INTO Course VALUES(5,1,1,0,310,-2.5);
+INSERT INTO Course VALUES(5,1,1,1,310,-2.5);
+INSERT INTO Course VALUES(5,1,1,2,310,-2.5);
+INSERT INTO Course VALUES(6,0,NULL,NULL,295.7,-0.9);
+INSERT INTO Course VALUES(6,1,NULL,0,292,-0.5);
+INSERT INTO Course VALUES(6,1,NULL,1,297.5,-0.5);
+INSERT INTO Course VALUES(6,1,NULL,2,299.7,-0.5);
+INSERT INTO Course VALUES(7,0,NULL,NULL,354,0);
+INSERT INTO Course VALUES(7,1,NULL,0,600,0.2);
+INSERT INTO Course VALUES(7,1,NULL,1,600,0.2);
+INSERT INTO Course VALUES(7,1,0,0,359,0.1);
+INSERT INTO Course VALUES(7,1,0,1,359,0.1);
+INSERT INTO Course VALUES(7,1,1,0,600,0.2);
+INSERT INTO Course VALUES(7,1,1,1,600,0.2);
+INSERT INTO Course VALUES(8,0,NULL,NULL,264,-0.1);
+INSERT INTO Course VALUES(8,1,NULL,0,266,-0.1);
+INSERT INTO Course VALUES(8,1,NULL,1,266,-0.1);
+INSERT INTO Course VALUES(8,1,NULL,2,266,-0.1);
+INSERT INTO Course VALUES(9,0,NULL,NULL,260,1);
+INSERT INTO Course VALUES(9,1,NULL,0,262,1);
+INSERT INTO Course VALUES(9,1,NULL,1,262,1);
+INSERT INTO Course VALUES(9,1,NULL,2,262,1);
+
 CREATE TABLE ImportLog(
 	Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL
 	,ImportFileId BIGINT NOT NULL REFERENCES ImportFile(Id) ON DELETE CASCADE
@@ -514,190 +575,190 @@ CREATE TABLE Code(
 	,Val TEXT NOT NULL
 	,PRIMARY KEY(Domain, Key)
 );
-INSERT INTO "Code" VALUES('Basho',0,'äº¬éƒ½');
-INSERT INTO "Code" VALUES('Basho',1,'é˜ªç¥');
-INSERT INTO "Code" VALUES('Basho',2,'ä¸­äº¬');
-INSERT INTO "Code" VALUES('Basho',3,'å°å€‰');
-INSERT INTO "Code" VALUES('Basho',4,'æ±äº¬');
-INSERT INTO "Code" VALUES('Basho',5,'ä¸­å±±');
-INSERT INTO "Code" VALUES('Basho',6,'ç¦å³¶');
-INSERT INTO "Code" VALUES('Basho',7,'æ–°æ½Ÿ');
-INSERT INTO "Code" VALUES('Basho',8,'æœ­å¹Œ');
-INSERT INTO "Code" VALUES('Basho',9,'å‡½é¤¨');
-INSERT INTO "Code" VALUES('Basho',10,'å¤§äº•');
-INSERT INTO "Code" VALUES('Basho',11,'å·å´');
-INSERT INTO "Code" VALUES('Basho',12,'èˆ¹æ©‹');
-INSERT INTO "Code" VALUES('Basho',13,'æµ¦å’Œ');
-INSERT INTO "Code" VALUES('Basho',14,'å²©è¦‹');
-INSERT INTO "Code" VALUES('Basho',15,'æ—­å·');
-INSERT INTO "Code" VALUES('Basho',16,'å¸¯åºƒ');
-INSERT INTO "Code" VALUES('Basho',17,'é‡ç”°');
-INSERT INTO "Code" VALUES('Basho',18,'åŒ—è¦‹');
-INSERT INTO "Code" VALUES('Basho',19,'ç¬ æ¾');
-INSERT INTO "Code" VALUES('Basho',20,'é‡‘æ²¢');
-INSERT INTO "Code" VALUES('Basho',21,'è’å°¾');
-INSERT INTO "Code" VALUES('Basho',22,'å®‡éƒ½');
-INSERT INTO "Code" VALUES('Basho',23,'ä½è³€');
-INSERT INTO "Code" VALUES('Basho',24,'ä¸­æ´¥');
-INSERT INTO "Code" VALUES('Basho',25,'é«˜å´');
-INSERT INTO "Code" VALUES('Basho',26,'é«˜çŸ¥');
-INSERT INTO "Code" VALUES('Basho',27,'è¶³åˆ©');
-INSERT INTO "Code" VALUES('Basho',28,'ä¸Šå±±');
-INSERT INTO "Code" VALUES('Basho',29,'æ°´æ²¢');
-INSERT INTO "Code" VALUES('Basho',30,'ä¸‰æ¡');
-INSERT INTO "Code" VALUES('Basho',31,'ç´€äº•');
-INSERT INTO "Code" VALUES('Basho',32,'ç›Šç”°');
-INSERT INTO "Code" VALUES('Basho',33,'ç››å²¡');
-INSERT INTO "Code" VALUES('Basho',34,'åå¤');
-INSERT INTO "Code" VALUES('Basho',35,'æœ­å¹Œ');
-INSERT INTO "Code" VALUES('Basho',36,'å‡½é¤¨');
-INSERT INTO "Code" VALUES('Basho',37,'åœ’ç”°');
-INSERT INTO "Code" VALUES('Basho',38,'ç¦å±±');
-INSERT INTO "Code" VALUES('Basho',39,'å§«è·¯');
-INSERT INTO "Code" VALUES('Basho',40,'ä¸­äº¬');
-INSERT INTO "Code" VALUES('Basho',41,'æ–°æ½Ÿ');
-INSERT INTO "Code" VALUES('Basho',42,'é–€åˆ¥');
-INSERT INTO "Code" VALUES('Basho',43,'å¼¥å¯Œ');
-INSERT INTO "Code" VALUES('Basho',44,'å°æ—');
-INSERT INTO "Code" VALUES('Basho',45,'è¥¿è„‡');
-INSERT INTO "Code" VALUES('Basho',46,'å¢ƒç”º');
-INSERT INTO "Code" VALUES('Basho',47,'å°å‘');
-INSERT INTO "Code" VALUES('Basho',50,'æ —æ±');
-INSERT INTO "Code" VALUES('Basho',51,'ç¾æµ¦å—');
-INSERT INTO "Code" VALUES('Basho',52,'ç¾æµ¦åŒ—');
-INSERT INTO "Code" VALUES('Basho',53,'ç™½äº•');
-INSERT INTO "Code" VALUES('Basho',54,'é“å–¶');
-INSERT INTO "Code" VALUES('Basho',55,'å²©æ‰‹');
-INSERT INTO "Code" VALUES('Basho',56,'å²©è¦‹');
-INSERT INTO "Code" VALUES('Basho',57,'æ—­å·');
-INSERT INTO "Code" VALUES('Basho',58,'å¸¯åºƒ');
-INSERT INTO "Code" VALUES('Basho',59,'åŒ—è¦‹');
-INSERT INTO "Code" VALUES('Basho',60,'é¦™æ¸¯');
-INSERT INTO "Code" VALUES('Basho',61,'ç±³å›½');
-INSERT INTO "Code" VALUES('Basho',62,'è‹±å›½');
-INSERT INTO "Code" VALUES('Basho',63,'ä»å›½');
-INSERT INTO "Code" VALUES('Basho',64,'æ„›å›½');
+INSERT INTO "Code" VALUES('Basho',0,'‹“s');
+INSERT INTO "Code" VALUES('Basho',1,'ã_');
+INSERT INTO "Code" VALUES('Basho',2,'’†‹');
+INSERT INTO "Code" VALUES('Basho',3,'¬‘q');
+INSERT INTO "Code" VALUES('Basho',4,'“Œ‹');
+INSERT INTO "Code" VALUES('Basho',5,'’†R');
+INSERT INTO "Code" VALUES('Basho',6,'•Ÿ“‡');
+INSERT INTO "Code" VALUES('Basho',7,'VŠƒ');
+INSERT INTO "Code" VALUES('Basho',8,'D–y');
+INSERT INTO "Code" VALUES('Basho',9,'”ŸŠÙ');
+INSERT INTO "Code" VALUES('Basho',10,'‘åˆä');
+INSERT INTO "Code" VALUES('Basho',11,'ìè');
+INSERT INTO "Code" VALUES('Basho',12,'‘D‹´');
+INSERT INTO "Code" VALUES('Basho',13,'‰Y˜a');
+INSERT INTO "Code" VALUES('Basho',14,'ŠâŒ©');
+INSERT INTO "Code" VALUES('Basho',15,'ˆ®ì');
+INSERT INTO "Code" VALUES('Basho',16,'‘ÑL');
+INSERT INTO "Code" VALUES('Basho',17,'–ì“c');
+INSERT INTO "Code" VALUES('Basho',18,'–kŒ©');
+INSERT INTO "Code" VALUES('Basho',19,'Š}¼');
+INSERT INTO "Code" VALUES('Basho',20,'‹à‘ò');
+INSERT INTO "Code" VALUES('Basho',21,'r”ö');
+INSERT INTO "Code" VALUES('Basho',22,'‰F“s');
+INSERT INTO "Code" VALUES('Basho',23,'²‰ê');
+INSERT INTO "Code" VALUES('Basho',24,'’†’Ã');
+INSERT INTO "Code" VALUES('Basho',25,'‚è');
+INSERT INTO "Code" VALUES('Basho',26,'‚’m');
+INSERT INTO "Code" VALUES('Basho',27,'‘«—˜');
+INSERT INTO "Code" VALUES('Basho',28,'ãR');
+INSERT INTO "Code" VALUES('Basho',29,'…‘ò');
+INSERT INTO "Code" VALUES('Basho',30,'Oğ');
+INSERT INTO "Code" VALUES('Basho',31,'‹Iˆä');
+INSERT INTO "Code" VALUES('Basho',32,'‰v“c');
+INSERT INTO "Code" VALUES('Basho',33,'·‰ª');
+INSERT INTO "Code" VALUES('Basho',34,'–¼ŒÃ');
+INSERT INTO "Code" VALUES('Basho',35,'D–y');
+INSERT INTO "Code" VALUES('Basho',36,'”ŸŠÙ');
+INSERT INTO "Code" VALUES('Basho',37,'‰€“c');
+INSERT INTO "Code" VALUES('Basho',38,'•ŸR');
+INSERT INTO "Code" VALUES('Basho',39,'•P˜H');
+INSERT INTO "Code" VALUES('Basho',40,'’†‹');
+INSERT INTO "Code" VALUES('Basho',41,'VŠƒ');
+INSERT INTO "Code" VALUES('Basho',42,'–å•Ê');
+INSERT INTO "Code" VALUES('Basho',43,'–í•x');
+INSERT INTO "Code" VALUES('Basho',44,'¬—Ñ');
+INSERT INTO "Code" VALUES('Basho',45,'¼˜e');
+INSERT INTO "Code" VALUES('Basho',46,'‹«’¬');
+INSERT INTO "Code" VALUES('Basho',47,'¬Œü');
+INSERT INTO "Code" VALUES('Basho',50,'ŒI“Œ');
+INSERT INTO "Code" VALUES('Basho',51,'”ü‰Y“ì');
+INSERT INTO "Code" VALUES('Basho',52,'”ü‰Y–k');
+INSERT INTO "Code" VALUES('Basho',53,'”’ˆä');
+INSERT INTO "Code" VALUES('Basho',54,'“¹‰c');
+INSERT INTO "Code" VALUES('Basho',55,'Šâè');
+INSERT INTO "Code" VALUES('Basho',56,'ŠâŒ©');
+INSERT INTO "Code" VALUES('Basho',57,'ˆ®ì');
+INSERT INTO "Code" VALUES('Basho',58,'‘ÑL');
+INSERT INTO "Code" VALUES('Basho',59,'–kŒ©');
+INSERT INTO "Code" VALUES('Basho',60,'`');
+INSERT INTO "Code" VALUES('Basho',61,'•Ä‘');
+INSERT INTO "Code" VALUES('Basho',62,'‰p‘');
+INSERT INTO "Code" VALUES('Basho',63,'•§‘');
+INSERT INTO "Code" VALUES('Basho',64,'ˆ¤‘');
 INSERT INTO "Code" VALUES('Basho',65,'UAE');
-INSERT INTO "Code" VALUES('Basho',66,'åŠ å›½');
-INSERT INTO "Code" VALUES('Basho',67,'ä¼Šå›½');
-INSERT INTO "Code" VALUES('Basho',68,'ç‹¬å›½');
-INSERT INTO "Code" VALUES('Basho',69,'è±ªå·');
-INSERT INTO "Code" VALUES('Basho',70,'è¥¿ç‹¬');
-INSERT INTO "Code" VALUES('Basho',71,'æ–°å›½');
-INSERT INTO "Code" VALUES('Basho',72,'ãƒãƒª');
-INSERT INTO "Code" VALUES('Basho',73,'äºœå›½');
-INSERT INTO "Code" VALUES('Basho',74,'ä¼¯å›½');
-INSERT INTO "Code" VALUES('Basho',75,'æ–°å˜‰å¡');
-INSERT INTO "Code" VALUES('Basho',76,'ç‘å…¸');
-INSERT INTO "Code" VALUES('Basho',77,'è¥¿ç­ç‰™');
-INSERT INTO "Code" VALUES('Basho',78,'ç‘è¥¿');
-INSERT INTO "Code" VALUES('Basho',79,'ç™½è€³ç¾©');
-INSERT INTO "Code" VALUES('Basho',80,'ãƒã‚«ã‚ª');
-INSERT INTO "Code" VALUES('Basho',81,'å¢ºå›½');
-INSERT INTO "Code" VALUES('Basho',90,'å…µåº«');
-INSERT INTO "Code" VALUES('Basho',91,'æ ƒæœ¨');
-INSERT INTO "Code" VALUES('Basho',99,'åŒ—æµ·');
-INSERT INTO "Code" VALUES('Kyuujitsu',0,'å¹³æ—¥');
-INSERT INTO "Code" VALUES('Kyuujitsu',1,'ç¥æ—¥');
-INSERT INTO "Code" VALUES('Kyuujitsu',2,'æŒ¯æ›¿ä¼‘æ—¥');
-INSERT INTO "Code" VALUES('Kyuujitsu',3,'å›½æ°‘ã®ä¼‘æ—¥');
-INSERT INTO "Code" VALUES('Youbi',1,'åœŸ');
-INSERT INTO "Code" VALUES('Youbi',2,'æ—¥');
-INSERT INTO "Code" VALUES('Youbi',3,'æœˆ');
-INSERT INTO "Code" VALUES('Youbi',4,'ç«');
-INSERT INTO "Code" VALUES('Youbi',5,'æ°´');
-INSERT INTO "Code" VALUES('Youbi',6,'æœ¨');
-INSERT INTO "Code" VALUES('Youbi',7,'é‡‘');
-INSERT INTO "Code" VALUES('KouryuuFlag',1,'äº¤æµ');
-INSERT INTO "Code" VALUES('ChuuouChihouGaikoku',0,'ä¸­å¤®');
-INSERT INTO "Code" VALUES('ChuuouChihouGaikoku',1,'å—é–¢æ±');
-INSERT INTO "Code" VALUES('ChuuouChihouGaikoku',2,'å…¬å–¶');
-INSERT INTO "Code" VALUES('ChuuouChihouGaikoku',3,'é“å–¶');
-INSERT INTO "Code" VALUES('ChuuouChihouGaikoku',4,'å¤–å›½');
-INSERT INTO "Code" VALUES('IppanTokubetsu',0,'ä¸€èˆ¬');
-INSERT INTO "Code" VALUES('IppanTokubetsu',1,'ç‰¹åˆ¥');
-INSERT INTO "Code" VALUES('IppanTokubetsu',2,'æº–é‡è³');
-INSERT INTO "Code" VALUES('IppanTokubetsu',3,'é‡è³');
-INSERT INTO "Code" VALUES('HeichiShougai',0,'å¹³åœ°');
-INSERT INTO "Code" VALUES('HeichiShougai',1,'éšœå®³');
+INSERT INTO "Code" VALUES('Basho',66,'‰Á‘');
+INSERT INTO "Code" VALUES('Basho',67,'ˆÉ‘');
+INSERT INTO "Code" VALUES('Basho',68,'“Æ‘');
+INSERT INTO "Code" VALUES('Basho',69,'‹B');
+INSERT INTO "Code" VALUES('Basho',70,'¼“Æ');
+INSERT INTO "Code" VALUES('Basho',71,'V‘');
+INSERT INTO "Code" VALUES('Basho',72,'ƒ`ƒŠ');
+INSERT INTO "Code" VALUES('Basho',73,'ˆŸ‘');
+INSERT INTO "Code" VALUES('Basho',74,'”Œ‘');
+INSERT INTO "Code" VALUES('Basho',75,'V‰Ãš±');
+INSERT INTO "Code" VALUES('Basho',76,'“T');
+INSERT INTO "Code" VALUES('Basho',77,'¼”Ç‰å');
+INSERT INTO "Code" VALUES('Basho',78,'¼');
+INSERT INTO "Code" VALUES('Basho',79,'”’¨‹`');
+INSERT INTO "Code" VALUES('Basho',80,'ƒ}ƒJƒI');
+INSERT INTO "Code" VALUES('Basho',81,'šÒ‘');
+INSERT INTO "Code" VALUES('Basho',90,'•ºŒÉ');
+INSERT INTO "Code" VALUES('Basho',91,'“È–Ø');
+INSERT INTO "Code" VALUES('Basho',99,'–kŠC');
+INSERT INTO "Code" VALUES('Kyuujitsu',0,'•½“ú');
+INSERT INTO "Code" VALUES('Kyuujitsu',1,'j“ú');
+INSERT INTO "Code" VALUES('Kyuujitsu',2,'U‘Ö‹x“ú');
+INSERT INTO "Code" VALUES('Kyuujitsu',3,'‘–¯‚Ì‹x“ú');
+INSERT INTO "Code" VALUES('Youbi',1,'“y');
+INSERT INTO "Code" VALUES('Youbi',2,'“ú');
+INSERT INTO "Code" VALUES('Youbi',3,'Œ');
+INSERT INTO "Code" VALUES('Youbi',4,'‰Î');
+INSERT INTO "Code" VALUES('Youbi',5,'…');
+INSERT INTO "Code" VALUES('Youbi',6,'–Ø');
+INSERT INTO "Code" VALUES('Youbi',7,'‹à');
+INSERT INTO "Code" VALUES('KouryuuFlag',1,'Œğ—¬');
+INSERT INTO "Code" VALUES('ChuuouChihouGaikoku',0,'’†‰›');
+INSERT INTO "Code" VALUES('ChuuouChihouGaikoku',1,'“ìŠÖ“Œ');
+INSERT INTO "Code" VALUES('ChuuouChihouGaikoku',2,'Œö‰c');
+INSERT INTO "Code" VALUES('ChuuouChihouGaikoku',3,'“¹‰c');
+INSERT INTO "Code" VALUES('ChuuouChihouGaikoku',4,'ŠO‘');
+INSERT INTO "Code" VALUES('IppanTokubetsu',0,'ˆê”Ê');
+INSERT INTO "Code" VALUES('IppanTokubetsu',1,'“Á•Ê');
+INSERT INTO "Code" VALUES('IppanTokubetsu',2,'€dÜ');
+INSERT INTO "Code" VALUES('IppanTokubetsu',3,'dÜ');
+INSERT INTO "Code" VALUES('HeichiShougai',0,'•½’n');
+INSERT INTO "Code" VALUES('HeichiShougai',1,'áŠQ');
 INSERT INTO "Code" VALUES('Grade',0,'G1');
 INSERT INTO "Code" VALUES('Grade',1,'G2');
 INSERT INTO "Code" VALUES('Grade',2,'G3');
 INSERT INTO "Code" VALUES('Grade',3,'JG1');
 INSERT INTO "Code" VALUES('Grade',4,'JG2');
 INSERT INTO "Code" VALUES('Grade',5,'JG3');
-INSERT INTO "Code" VALUES('BetteiBareiHandi',0,'åˆ¥å®š');
-INSERT INTO "Code" VALUES('BetteiBareiHandi',1,'é¦¬é½¢');
-INSERT INTO "Code" VALUES('BetteiBareiHandi',2,'ãƒãƒ³ãƒ‡');
-INSERT INTO "Code" VALUES('BetteiBareiHandi',3,'å®šé‡');
-INSERT INTO "Code" VALUES('BetteiBareiHandi',90,'è¦å®š');
-INSERT INTO "Code" VALUES('JoukenFuka1',0,'å‹å…¥');
-INSERT INTO "Code" VALUES('JoukenFuka1',1,'ä¹å·ç”£é¦¬');
-INSERT INTO "Code" VALUES('JoukenFuka1',2,'å†…å›½');
-INSERT INTO "Code" VALUES('JoukenFuka1',3,'ç‰');
-INSERT INTO "Code" VALUES('JoukenFuka1',4,'â—‹æ··');
-INSERT INTO "Code" VALUES('JoukenFuka1',5,'â—‹çˆ¶');
-INSERT INTO "Code" VALUES('JoukenFuka1',6,'â—‹æŠ½');
-INSERT INTO "Code" VALUES('JoukenFuka1',7,'â—‹å¸‚â—‹æŠ½');
-INSERT INTO "Code" VALUES('JoukenFuka1',8,'â—‹æ··å‹å…¥');
-INSERT INTO "Code" VALUES('JoukenFuka1',9,'â–¡æŠ½');
-INSERT INTO "Code" VALUES('JoukenFuka1',10,'â—‹æ··ç‰');
-INSERT INTO "Code" VALUES('JoukenFuka1',11,'â—‹å¸‚');
-INSERT INTO "Code" VALUES('JoukenFuka1',12,'â—‹æ‹›');
-INSERT INTO "Code" VALUES('JoukenFuka1',13,'â—‹æ··â—‹æŒ‡');
-INSERT INTO "Code" VALUES('JoukenFuka1',14,'â—‹æŠ½å‹å…¥');
-INSERT INTO "Code" VALUES('JoukenFuka1',15,'â—‹æŠ½é–¢è¥¿é…å¸ƒé¦¬');
-INSERT INTO "Code" VALUES('JoukenFuka1',16,'â—‹æŠ½é–¢æ±é…å¸ƒé¦¬');
-INSERT INTO "Code" VALUES('JoukenFuka1',17,'â–¡æŠ½é–¢è¥¿é…å¸ƒé¦¬');
-INSERT INTO "Code" VALUES('JoukenFuka1',18,'â–¡æŠ½é–¢æ±é…å¸ƒé¦¬');
-INSERT INTO "Code" VALUES('JoukenFuka1',19,'â—‹å¸‚â—‹æŠ½é–¢è¥¿é…å¸ƒé¦¬');
-INSERT INTO "Code" VALUES('JoukenFuka1',20,'â—‹å¸‚â—‹æŠ½é–¢æ±é…å¸ƒé¦¬');
-INSERT INTO "Code" VALUES('JoukenFuka1',21,'â—‹æŒ‡');
-INSERT INTO "Code" VALUES('JoukenFuka1',22,'èŠ¦æ¯›');
-INSERT INTO "Code" VALUES('JoukenFuka1',23,'æ —æ¯›');
-INSERT INTO "Code" VALUES('JoukenFuka1',24,'ç‰¡');
-INSERT INTO "Code" VALUES('JoukenFuka1',25,'äº¤æµ');
-INSERT INTO "Code" VALUES('JoukenFuka1',26,'åƒè‘‰ç”£');
-INSERT INTO "Code" VALUES('JoukenFuka1',27,'â—‹æ··ç‰¡ã›ã‚“é¦¬');
-INSERT INTO "Code" VALUES('JoukenFuka1',28,'ç‰¡ã›ã‚“é¦¬');
-INSERT INTO "Code" VALUES('JoukenFuka1',29,'å›½éš›');
-INSERT INTO "Code" VALUES('JoukenFuka1',30,'â—‹æŒ‡å®š');
-INSERT INTO "Code" VALUES('JoukenFuka1',31,'â—‹ç‰¹æŒ‡');
-INSERT INTO "Code" VALUES('JoukenFuka1',32,'â–¡æŒ‡å®š');
-INSERT INTO "Code" VALUES('JoukenFuka1',33,'ç‰¡ãƒ»ç‰');
-INSERT INTO "Code" VALUES('JoukenFuka1',34,'JRAèªå®š');
-INSERT INTO "Code" VALUES('JoukenFuka1',35,'ç‰é¦¬â—‹å›½éš›');
-INSERT INTO "Code" VALUES('JoukenFuka1',36,'èŠ¦ãƒ»ç™½');
-INSERT INTO "Code" VALUES('JoukenFuka1',37,'é»’é¹¿æ¯›');
-INSERT INTO "Code" VALUES('JoukenFuka1',38,'â—‹æ··ç‰¡ãƒ»ç‰');
-INSERT INTO "Code" VALUES('JoukenFuka1',39,'JRAæŒ‡å®š');
-INSERT INTO "Code" VALUES('JoukenFuka1',40,'â—‹å›½éš›ç‰¡ãƒ»ç‰');
-INSERT INTO "Code" VALUES('JoukenFuka2',1,'â—‹æŒ‡å®š');
-INSERT INTO "Code" VALUES('JoukenFuka2',2,'â—‹ç‰¹æŒ‡');
-INSERT INTO "Code" VALUES('JoukenFuka2',3,'â–¡æŒ‡å®š');
-INSERT INTO "Code" VALUES('JoukenFuka2',4,'â—‹æŒ‡');
-INSERT INTO "Code" VALUES('JoukenKei',0,'ã‚µãƒ©ç³»');
-INSERT INTO "Code" VALUES('JoukenKei',1,'ã‚¢ãƒ©ãƒ–ç³»');
-INSERT INTO "Code" VALUES('JoukenNenreiSeigen',0,'2æ­³');
-INSERT INTO "Code" VALUES('JoukenNenreiSeigen',1,'3æ­³');
-INSERT INTO "Code" VALUES('JoukenNenreiSeigen',2,'4æ­³');
-INSERT INTO "Code" VALUES('JoukenNenreiSeigen',3,'3,4,5æ­³');
-INSERT INTO "Code" VALUES('JoukenNenreiSeigen',4,'4,5,6æ­³');
-INSERT INTO "Code" VALUES('JoukenNenreiSeigen',5,'3æ­³ä»¥ä¸Š');
-INSERT INTO "Code" VALUES('JoukenNenreiSeigen',6,'4æ­³ä»¥ä¸Š');
-INSERT INTO "Code" VALUES('JoukenNenreiSeigen',7,'3,4æ­³');
-INSERT INTO "Code" VALUES('JoukenNenreiSeigen',8,'4,5æ­³');
-INSERT INTO "Code" VALUES('JoukenNenreiSeigen',9,'ãªã—');
-INSERT INTO "Code" VALUES('Jouken',0,'æœªå—');
-INSERT INTO "Code" VALUES('Jouken',1,'æ–°é¦¬');
-INSERT INTO "Code" VALUES('Jouken',2,'æœªå‡ºèµ°');
-INSERT INTO "Code" VALUES('Jouken',3,'æœªå‹åˆ©');
-INSERT INTO "Code" VALUES('Jouken',4,'ã‚ªãƒ¼ãƒ—ãƒ³');
-INSERT INTO "Code" VALUES('Jouken',5,'ã‚ªãƒ¼ãƒ—ãƒ³,ç‰é¦¬');
-INSERT INTO "Code" VALUES('Jouken',6,'æŒ‡å®šé¦¬');
-INSERT INTO "Code" VALUES('Jouken',7,'å‹å…¥ã‚ªãƒ¼ãƒ—ãƒ³');
-INSERT INTO "Code" VALUES('Jouken',8,'ç‰é¦¬');
-INSERT INTO "Code" VALUES('Jouken',9,'ã‚ªãƒ¼ãƒ–ãƒ³,ç‰é¦¬,ã‚¢ãƒ©ãƒ–æ··åˆ');
+INSERT INTO "Code" VALUES('BetteiBareiHandi',0,'•Ê’è');
+INSERT INTO "Code" VALUES('BetteiBareiHandi',1,'”n—î');
+INSERT INTO "Code" VALUES('BetteiBareiHandi',2,'ƒnƒ“ƒf');
+INSERT INTO "Code" VALUES('BetteiBareiHandi',3,'’è—Ê');
+INSERT INTO "Code" VALUES('BetteiBareiHandi',90,'‹K’è');
+INSERT INTO "Code" VALUES('JoukenFuka1',0,'Ÿ“ü');
+INSERT INTO "Code" VALUES('JoukenFuka1',1,'‹ãBY”n');
+INSERT INTO "Code" VALUES('JoukenFuka1',2,'“à‘');
+INSERT INTO "Code" VALUES('JoukenFuka1',3,'–Ä');
+INSERT INTO "Code" VALUES('JoukenFuka1',4,'›¬');
+INSERT INTO "Code" VALUES('JoukenFuka1',5,'›•ƒ');
+INSERT INTO "Code" VALUES('JoukenFuka1',6,'›’Š');
+INSERT INTO "Code" VALUES('JoukenFuka1',7,'›s›’Š');
+INSERT INTO "Code" VALUES('JoukenFuka1',8,'›¬Ÿ“ü');
+INSERT INTO "Code" VALUES('JoukenFuka1',9,' ’Š');
+INSERT INTO "Code" VALUES('JoukenFuka1',10,'›¬–Ä');
+INSERT INTO "Code" VALUES('JoukenFuka1',11,'›s');
+INSERT INTO "Code" VALUES('JoukenFuka1',12,'›µ');
+INSERT INTO "Code" VALUES('JoukenFuka1',13,'›¬›w');
+INSERT INTO "Code" VALUES('JoukenFuka1',14,'›’ŠŸ“ü');
+INSERT INTO "Code" VALUES('JoukenFuka1',15,'›’ŠŠÖ¼”z•z”n');
+INSERT INTO "Code" VALUES('JoukenFuka1',16,'›’ŠŠÖ“Œ”z•z”n');
+INSERT INTO "Code" VALUES('JoukenFuka1',17,' ’ŠŠÖ¼”z•z”n');
+INSERT INTO "Code" VALUES('JoukenFuka1',18,' ’ŠŠÖ“Œ”z•z”n');
+INSERT INTO "Code" VALUES('JoukenFuka1',19,'›s›’ŠŠÖ¼”z•z”n');
+INSERT INTO "Code" VALUES('JoukenFuka1',20,'›s›’ŠŠÖ“Œ”z•z”n');
+INSERT INTO "Code" VALUES('JoukenFuka1',21,'›w');
+INSERT INTO "Code" VALUES('JoukenFuka1',22,'ˆ°–Ñ');
+INSERT INTO "Code" VALUES('JoukenFuka1',23,'ŒI–Ñ');
+INSERT INTO "Code" VALUES('JoukenFuka1',24,'‰²');
+INSERT INTO "Code" VALUES('JoukenFuka1',25,'Œğ—¬');
+INSERT INTO "Code" VALUES('JoukenFuka1',26,'ç—tY');
+INSERT INTO "Code" VALUES('JoukenFuka1',27,'›¬‰²‚¹‚ñ”n');
+INSERT INTO "Code" VALUES('JoukenFuka1',28,'‰²‚¹‚ñ”n');
+INSERT INTO "Code" VALUES('JoukenFuka1',29,'‘Û');
+INSERT INTO "Code" VALUES('JoukenFuka1',30,'›w’è');
+INSERT INTO "Code" VALUES('JoukenFuka1',31,'›“Áw');
+INSERT INTO "Code" VALUES('JoukenFuka1',32,' w’è');
+INSERT INTO "Code" VALUES('JoukenFuka1',33,'‰²E–Ä');
+INSERT INTO "Code" VALUES('JoukenFuka1',34,'JRA”F’è');
+INSERT INTO "Code" VALUES('JoukenFuka1',35,'–Ä”n›‘Û');
+INSERT INTO "Code" VALUES('JoukenFuka1',36,'ˆ°E”’');
+INSERT INTO "Code" VALUES('JoukenFuka1',37,'•­–Ñ');
+INSERT INTO "Code" VALUES('JoukenFuka1',38,'›¬‰²E–Ä');
+INSERT INTO "Code" VALUES('JoukenFuka1',39,'JRAw’è');
+INSERT INTO "Code" VALUES('JoukenFuka1',40,'›‘Û‰²E–Ä');
+INSERT INTO "Code" VALUES('JoukenFuka2',1,'›w’è');
+INSERT INTO "Code" VALUES('JoukenFuka2',2,'›“Áw');
+INSERT INTO "Code" VALUES('JoukenFuka2',3,' w’è');
+INSERT INTO "Code" VALUES('JoukenFuka2',4,'›w');
+INSERT INTO "Code" VALUES('JoukenKei',0,'ƒTƒ‰Œn');
+INSERT INTO "Code" VALUES('JoukenKei',1,'ƒAƒ‰ƒuŒn');
+INSERT INTO "Code" VALUES('JoukenNenreiSeigen',0,'2Î');
+INSERT INTO "Code" VALUES('JoukenNenreiSeigen',1,'3Î');
+INSERT INTO "Code" VALUES('JoukenNenreiSeigen',2,'4Î');
+INSERT INTO "Code" VALUES('JoukenNenreiSeigen',3,'3,4,5Î');
+INSERT INTO "Code" VALUES('JoukenNenreiSeigen',4,'4,5,6Î');
+INSERT INTO "Code" VALUES('JoukenNenreiSeigen',5,'3ÎˆÈã');
+INSERT INTO "Code" VALUES('JoukenNenreiSeigen',6,'4ÎˆÈã');
+INSERT INTO "Code" VALUES('JoukenNenreiSeigen',7,'3,4Î');
+INSERT INTO "Code" VALUES('JoukenNenreiSeigen',8,'4,5Î');
+INSERT INTO "Code" VALUES('JoukenNenreiSeigen',9,'‚È‚µ');
+INSERT INTO "Code" VALUES('Jouken',0,'–¢ó');
+INSERT INTO "Code" VALUES('Jouken',1,'V”n');
+INSERT INTO "Code" VALUES('Jouken',2,'–¢o‘–');
+INSERT INTO "Code" VALUES('Jouken',3,'–¢Ÿ—˜');
+INSERT INTO "Code" VALUES('Jouken',4,'ƒI[ƒvƒ“');
+INSERT INTO "Code" VALUES('Jouken',5,'ƒI[ƒvƒ“,–Ä”n');
+INSERT INTO "Code" VALUES('Jouken',6,'w’è”n');
+INSERT INTO "Code" VALUES('Jouken',7,'Ÿ“üƒI[ƒvƒ“');
+INSERT INTO "Code" VALUES('Jouken',8,'–Ä”n');
+INSERT INTO "Code" VALUES('Jouken',9,'ƒI[ƒuƒ“,–Ä”n,ƒAƒ‰ƒu¬‡');
 INSERT INTO "Code" VALUES('Jouken',10,'A');
 INSERT INTO "Code" VALUES('Jouken',11,'A1');
 INSERT INTO "Code" VALUES('Jouken',12,'A2');
@@ -718,443 +779,441 @@ INSERT INTO "Code" VALUES('Jouken',41,'D1');
 INSERT INTO "Code" VALUES('Jouken',42,'D2');
 INSERT INTO "Code" VALUES('Jouken',43,'D3');
 INSERT INTO "Code" VALUES('Jouken',44,'D4');
-INSERT INTO "Code" VALUES('Jouken',93,'èª¿æ•™è©¦é¨“');
-INSERT INTO "Code" VALUES('Jouken',94,'èƒ½åŠ›è©¦é¨“');
-INSERT INTO "Code" VALUES('Jouken',5000,'500ä¸‡');
-INSERT INTO "Code" VALUES('Jouken',9000,'900ä¸‡');
-INSERT INTO "Code" VALUES('Jouken',10000,'1000ä¸‡');
-INSERT INTO "Code" VALUES('Jouken',15000,'1500ä¸‡');
-INSERT INTO "Code" VALUES('Jouken',16000,'1600ä¸‡');
-INSERT INTO "Code" VALUES('Jouken',-13,'æœªå‡º');
-INSERT INTO "Code" VALUES('Jouken',-14,'æœªå‹');
-INSERT INTO "Code" VALUES('Jouken',-15,'æ–°é¦¬');
-INSERT INTO "Code" VALUES('Jouken',-16,'ã‚ªãƒ¼ãƒ—ãƒ³');
-INSERT INTO "Code" VALUES('Jouken',-42,'3æ‰');
-INSERT INTO "Code" VALUES('Jouken',-43,'4æ‰');
-INSERT INTO "Code" VALUES('Jouken',-44,'èƒ½æ¤œ');
-INSERT INTO "Code" VALUES('Jouken',-50,'æœªå—');
-INSERT INTO "Code" VALUES('Jouken',-51,'Gâ… ');
-INSERT INTO "Code" VALUES('Jouken',-52,'Gâ…¡');
-INSERT INTO "Code" VALUES('Jouken',-53,'Gâ…¢');
-INSERT INTO "Code" VALUES('Jouken',-54,'Gâ…£');
-INSERT INTO "Code" VALUES('Jouken',-55,'Gâ…¤');
-INSERT INTO "Code" VALUES('Jouken',-56,'5æ‰');
+INSERT INTO "Code" VALUES('Jouken',93,'’²‹³Œ±');
+INSERT INTO "Code" VALUES('Jouken',94,'”\—ÍŒ±');
+INSERT INTO "Code" VALUES('Jouken',5000,'500–œ');
+INSERT INTO "Code" VALUES('Jouken',9000,'900–œ');
+INSERT INTO "Code" VALUES('Jouken',10000,'1000–œ');
+INSERT INTO "Code" VALUES('Jouken',15000,'1500–œ');
+INSERT INTO "Code" VALUES('Jouken',16000,'1600–œ');
+INSERT INTO "Code" VALUES('Jouken',-13,'–¢o');
+INSERT INTO "Code" VALUES('Jouken',-14,'–¢Ÿ');
+INSERT INTO "Code" VALUES('Jouken',-15,'V”n');
+INSERT INTO "Code" VALUES('Jouken',-16,'ƒI[ƒvƒ“');
+INSERT INTO "Code" VALUES('Jouken',-42,'3Ë');
+INSERT INTO "Code" VALUES('Jouken',-43,'4Ë');
+INSERT INTO "Code" VALUES('Jouken',-44,'”\ŒŸ');
+INSERT INTO "Code" VALUES('Jouken',-50,'–¢ó');
+INSERT INTO "Code" VALUES('Jouken',-51,'G‡T');
+INSERT INTO "Code" VALUES('Jouken',-52,'G‡U');
+INSERT INTO "Code" VALUES('Jouken',-53,'G‡V');
+INSERT INTO "Code" VALUES('Jouken',-54,'G‡W');
+INSERT INTO "Code" VALUES('Jouken',-55,'G‡X');
+INSERT INTO "Code" VALUES('Jouken',-56,'5Ë');
 INSERT INTO "Code" VALUES('Jouken',-57,'C5');
 INSERT INTO "Code" VALUES('Jouken',-58,'C6');
-INSERT INTO "Code" VALUES('Jouken',-59,'2æ‰');
-INSERT INTO "Code" VALUES('Jouken',-60,'èªåˆå‡º');
-INSERT INTO "Code" VALUES('Jouken',-61,'èªæœªå‹');
-INSERT INTO "Code" VALUES('Jouken',-62,'èªå®š');
-INSERT INTO "Code" VALUES('Jouken',-63,'ã‚µãƒ©');
+INSERT INTO "Code" VALUES('Jouken',-59,'2Ë');
+INSERT INTO "Code" VALUES('Jouken',-60,'”F‰o');
+INSERT INTO "Code" VALUES('Jouken',-61,'”F–¢Ÿ');
+INSERT INTO "Code" VALUES('Jouken',-62,'”F’è');
+INSERT INTO "Code" VALUES('Jouken',-63,'ƒTƒ‰');
 INSERT INTO "Code" VALUES('Jouken',-64,'E');
 INSERT INTO "Code" VALUES('Jouken',-65,'F');
-INSERT INTO "Code" VALUES('IjouIkaMiman',0,'ä»¥ä¸Š');
-INSERT INTO "Code" VALUES('IjouIkaMiman',1,'ä»¥ä¸‹');
-INSERT INTO "Code" VALUES('IjouIkaMiman',2,'ï½');
-INSERT INTO "Code" VALUES('IjouIkaMiman',3,'æœªæº€');
-INSERT INTO "Code" VALUES('IjouIkaMiman',4,'ãƒ»');
-INSERT INTO "Code" VALUES('IjouIkaMiman',5,'ä»¥ä¸Š');
-INSERT INTO "Code" VALUES('IjouIkaMiman',6,'ä»¥ä¸‹');
-INSERT INTO "Code" VALUES('IjouIkaMiman',7,'æœªæº€');
-INSERT INTO "Code" VALUES('DirtShiba',0,'ãƒ€ãƒ¼ãƒˆ');
-INSERT INTO "Code" VALUES('DirtShiba',1,'èŠ');
-INSERT INTO "Code" VALUES('MigiHidari',0,'å³');
-INSERT INTO "Code" VALUES('MigiHidari',1,'å·¦');
-INSERT INTO "Code" VALUES('MigiHidari',2,'ç›´ç·š');
-INSERT INTO "Code" VALUES('UchiSoto',0,'å†…');
-INSERT INTO "Code" VALUES('UchiSoto',1,'å¤–');
-INSERT INTO "Code" VALUES('UchiSoto',2,'å¤–â†’å†…');
-INSERT INTO "Code" VALUES('UchiSoto',3,'ã‚¿ãƒŒã‚­');
-INSERT INTO "Code" VALUES('UchiSoto',4,'å¤§éšœå®³');
-INSERT INTO "Code" VALUES('UchiSoto',5,'å†…2å‘¨');
-INSERT INTO "Code" VALUES('UchiSoto',6,'å†…â†’å¤–');
+INSERT INTO "Code" VALUES('IjouIkaMiman',0,'ˆÈã');
+INSERT INTO "Code" VALUES('IjouIkaMiman',1,'ˆÈ‰º');
+INSERT INTO "Code" VALUES('IjouIkaMiman',2,'`');
+INSERT INTO "Code" VALUES('IjouIkaMiman',3,'–¢–');
+INSERT INTO "Code" VALUES('IjouIkaMiman',4,'E');
+INSERT INTO "Code" VALUES('IjouIkaMiman',5,'ˆÈã');
+INSERT INTO "Code" VALUES('IjouIkaMiman',6,'ˆÈ‰º');
+INSERT INTO "Code" VALUES('IjouIkaMiman',7,'–¢–');
+INSERT INTO "Code" VALUES('DirtShiba',0,'ƒ_[ƒg');
+INSERT INTO "Code" VALUES('DirtShiba',1,'Å');
+INSERT INTO "Code" VALUES('MigiHidari',0,'‰E');
+INSERT INTO "Code" VALUES('MigiHidari',1,'¶');
+INSERT INTO "Code" VALUES('MigiHidari',2,'’¼ü');
+INSERT INTO "Code" VALUES('UchiSoto',0,'“à');
+INSERT INTO "Code" VALUES('UchiSoto',1,'ŠO');
+INSERT INTO "Code" VALUES('UchiSoto',2,'ŠO¨“à');
+INSERT INTO "Code" VALUES('UchiSoto',3,'ƒ^ƒkƒL');
+INSERT INTO "Code" VALUES('UchiSoto',4,'‘åáŠQ');
+INSERT INTO "Code" VALUES('UchiSoto',5,'“à2ü');
+INSERT INTO "Code" VALUES('UchiSoto',6,'“à¨ŠO');
 INSERT INTO "Code" VALUES('Course',0,'A');
 INSERT INTO "Code" VALUES('Course',1,'B');
 INSERT INTO "Code" VALUES('Course',2,'C');
 INSERT INTO "Code" VALUES('Course',3,'D');
 INSERT INTO "Code" VALUES('Course',4,'A1');
 INSERT INTO "Code" VALUES('Course',5,'A2');
-INSERT INTO "Code" VALUES('RecordFlag',0,'åŸºæº–');
-INSERT INTO "Code" VALUES('RecordFlag',1,'ãƒ¬ã‚³ãƒ¼ãƒ‰');
-INSERT INTO "Code" VALUES('RecordFlag',2,'å‚è€ƒ');
-INSERT INTO "Code" VALUES('MaeuriFlag',1,'å‰å£²ã‚Š');
+INSERT INTO "Code" VALUES('RecordFlag',0,'Šî€');
+INSERT INTO "Code" VALUES('RecordFlag',1,'ƒŒƒR[ƒh');
+INSERT INTO "Code" VALUES('RecordFlag',2,'Ql');
+INSERT INTO "Code" VALUES('MaeuriFlag',1,'‘O”„‚è');
 INSERT INTO "Code" VALUES('Pace',0,'H');
 INSERT INTO "Code" VALUES('Pace',1,'M');
 INSERT INTO "Code" VALUES('Pace',2,'S');
-INSERT INTO "Code" VALUES('Tenki',0,'æ™´');
-INSERT INTO "Code" VALUES('Tenki',1,'æ›‡');
-INSERT INTO "Code" VALUES('Tenki',2,'é›¨');
-INSERT INTO "Code" VALUES('Tenki',3,'å°é›¨');
-INSERT INTO "Code" VALUES('Tenki',4,'é›ª');
-INSERT INTO "Code" VALUES('Tenki',5,'é¢¨');
-INSERT INTO "Code" VALUES('Tenki',6,'å°é›ª');
-INSERT INTO "Code" VALUES('Baba',0,'è‰¯');
-INSERT INTO "Code" VALUES('Baba',1,'ç¨é‡');
-INSERT INTO "Code" VALUES('Baba',2,'é‡');
-INSERT INTO "Code" VALUES('Baba',3,'ä¸è‰¯');
-INSERT INTO "Code" VALUES('Seed',1,'ã‚·ãƒ¼ãƒ‰');
-INSERT INTO "Code" VALUES('Midashi1',1,'é€†');
-INSERT INTO "Code" VALUES('Midashi1',2,'1å‘¨');
-INSERT INTO "Code" VALUES('Midashi1',3,'é€†1å‘¨');
-INSERT INTO "Code" VALUES('Midashi1',4,'2å‘¨');
-INSERT INTO "Code" VALUES('Midashi2',0,'ã‚¹ã‚¿ãƒ³ãƒ‰å‰');
-INSERT INTO "Code" VALUES('Midashi2',1,'å‘æ­£é¢');
-INSERT INTO "Code" VALUES('Midashi2',2,'2è§’');
-INSERT INTO "Code" VALUES('Midashi2',3,'3è§’');
-INSERT INTO "Code" VALUES('Midashi2',4,'4è§’ ');
-INSERT INTO "Code" VALUES('Midashi2',5,'ã‚¿ãƒŒã‚­');
-INSERT INTO "Code" VALUES('Midashi2',6,'ãƒãƒ³ã‚±ãƒƒãƒˆ');
-INSERT INTO "Code" VALUES('Midashi2',7,'æ°´æ¿ ');
-INSERT INTO "Code" VALUES('Midashi2',8,'å¤§ç«¹æŸµ');
-INSERT INTO "Code" VALUES('Midashi2',9,'å¤§åœŸå¡');
-INSERT INTO "Code" VALUES('Midashi2',10,'èµ¤ãƒ¬ãƒ³ã‚¬');
-INSERT INTO "Code" VALUES('Midashi2',11,'ç™ºé¦¬');
-INSERT INTO "Code" VALUES('Midashi2',12,'1è§’');
-INSERT INTO "Code" VALUES('Midashi2',13,'å¤§ã„ã‘å£');
+INSERT INTO "Code" VALUES('Tenki',0,'°');
+INSERT INTO "Code" VALUES('Tenki',1,'“Ü');
+INSERT INTO "Code" VALUES('Tenki',2,'‰J');
+INSERT INTO "Code" VALUES('Tenki',3,'¬‰J');
+INSERT INTO "Code" VALUES('Tenki',4,'á');
+INSERT INTO "Code" VALUES('Tenki',5,'•—');
+INSERT INTO "Code" VALUES('Tenki',6,'¬á');
+INSERT INTO "Code" VALUES('Baba',0,'—Ç');
+INSERT INTO "Code" VALUES('Baba',1,'âcd');
+INSERT INTO "Code" VALUES('Baba',2,'d');
+INSERT INTO "Code" VALUES('Baba',3,'•s—Ç');
+INSERT INTO "Code" VALUES('Seed',1,'ƒV[ƒh');
+INSERT INTO "Code" VALUES('Midashi1',1,'‹t');
+INSERT INTO "Code" VALUES('Midashi1',2,'1ü');
+INSERT INTO "Code" VALUES('Midashi1',3,'‹t1ü');
+INSERT INTO "Code" VALUES('Midashi1',4,'2ü');
+INSERT INTO "Code" VALUES('Midashi2',0,'ƒXƒ^ƒ“ƒh‘O');
+INSERT INTO "Code" VALUES('Midashi2',1,'Œü³–Ê');
+INSERT INTO "Code" VALUES('Midashi2',2,'2Šp');
+INSERT INTO "Code" VALUES('Midashi2',3,'3Šp');
+INSERT INTO "Code" VALUES('Midashi2',4,'4Šp ');
+INSERT INTO "Code" VALUES('Midashi2',5,'ƒ^ƒkƒL');
+INSERT INTO "Code" VALUES('Midashi2',6,'ƒoƒ“ƒPƒbƒg');
+INSERT INTO "Code" VALUES('Midashi2',7,'…Š');
+INSERT INTO "Code" VALUES('Midashi2',8,'‘å’|ò');
+INSERT INTO "Code" VALUES('Midashi2',9,'‘å“y—Û');
+INSERT INTO "Code" VALUES('Midashi2',10,'ÔƒŒƒ“ƒK');
+INSERT INTO "Code" VALUES('Midashi2',11,'”­”n');
+INSERT INTO "Code" VALUES('Midashi2',12,'1Šp');
+INSERT INTO "Code" VALUES('Midashi2',13,'‘å‚¢‚¯Š_');
 INSERT INTO "Code" VALUES('Midashi2',14,'3F');
-INSERT INTO "Code" VALUES('UmaKigou',1,'â—‹æŠ½');
-INSERT INTO "Code" VALUES('UmaKigou',2,'â–¡æŠ½');
-INSERT INTO "Code" VALUES('UmaKigou',3,'â—‹çˆ¶');
-INSERT INTO "Code" VALUES('UmaKigou',4,'â—‹å¸‚');
-INSERT INTO "Code" VALUES('UmaKigou',5,'â—‹åœ°');
-INSERT INTO "Code" VALUES('UmaKigou',6,'â—‹å¤–');
-INSERT INTO "Code" VALUES('UmaKigou',7,'â—‹çˆ¶â—‹æŠ½');
-INSERT INTO "Code" VALUES('UmaKigou',8,'â—‹çˆ¶â—‹å¸‚');
-INSERT INTO "Code" VALUES('UmaKigou',9,'â—‹çˆ¶â—‹åœ°');
-INSERT INTO "Code" VALUES('UmaKigou',10,'â—‹å¸‚â—‹åœ°');
-INSERT INTO "Code" VALUES('UmaKigou',11,'â—‹å¤–â—‹åœ°');
-INSERT INTO "Code" VALUES('UmaKigou',12,'â—‹çˆ¶â—‹å¸‚â—‹åœ°');
-INSERT INTO "Code" VALUES('UmaKigou',15,'â—‹æ‹›');
-INSERT INTO "Code" VALUES('UmaKigou',16,'â—‹æ‹›â—‹å¤–');
-INSERT INTO "Code" VALUES('UmaKigou',17,'â—‹æ‹›â—‹çˆ¶');
-INSERT INTO "Code" VALUES('UmaKigou',18,'â—‹æ‹›â—‹å¸‚');
-INSERT INTO "Code" VALUES('UmaKigou',19,'â—‹æ‹›â—‹çˆ¶â—‹å¸‚');
-INSERT INTO "Code" VALUES('UmaKigou',20,'â—‹çˆ¶â—‹å¤–');
-INSERT INTO "Code" VALUES('UmaKigou',21,'â–¡åœ°');
-INSERT INTO "Code" VALUES('UmaKigou',22,'â—‹å¤–â–¡åœ°');
-INSERT INTO "Code" VALUES('UmaKigou',23,'â—‹çˆ¶â–¡åœ°');
-INSERT INTO "Code" VALUES('UmaKigou',24,'â—‹å¸‚â–¡åœ°');
-INSERT INTO "Code" VALUES('UmaKigou',25,'â—‹çˆ¶â—‹å¸‚â–¡åœ°');
-INSERT INTO "Code" VALUES('UmaKigou',26,'â–¡å¤–');
-INSERT INTO "Code" VALUES('UmaKigou',27,'â—‹çˆ¶â–¡å¤–');
-INSERT INTO "Code" VALUES('UmaKigou',40,'â—‹çˆ¶â—‹å¤–â—‹åœ°');
-INSERT INTO "Code" VALUES('UmaKigou',41,'â—‹çˆ¶â—‹å¤–â–¡åœ°');
-INSERT INTO "Code" VALUES('Seibetsu',0,'ç‰¡');
-INSERT INTO "Code" VALUES('Seibetsu',1,'ç‰');
-INSERT INTO "Code" VALUES('Seibetsu',2,'ã›ã‚“');
-INSERT INTO "Code" VALUES('Blinker',1,'ãƒ–ãƒªãƒ³ã‚«ãƒ¼');
-INSERT INTO "Code" VALUES('KishuTouzaiBetsu',1,'è¥¿');
-INSERT INTO "Code" VALUES('KishuTouzaiBetsu',2,'æ±');
-INSERT INTO "Code" VALUES('KishuTouzaiBetsu',3,'æ‹›å¾…');
-INSERT INTO "Code" VALUES('KyuushaTouzaiBetsu',1,'è¥¿');
-INSERT INTO "Code" VALUES('KyuushaTouzaiBetsu',2,'æ±');
-INSERT INTO "Code" VALUES('MinaraiKubun',1,'1kgæ¸›');
-INSERT INTO "Code" VALUES('MinaraiKubun',2,'2kgæ¸›');
-INSERT INTO "Code" VALUES('MinaraiKubun',3,'3kgæ¸›');
-INSERT INTO "Code" VALUES('Norikawari',1,'ä¹—ã‚Šæ›¿ã‚Š');
-INSERT INTO "Code" VALUES('KyuushaRitsuHokuNanBetsu',1,'æ —æ±');
-INSERT INTO "Code" VALUES('KyuushaRitsuHokuNanBetsu',2,'ç¾æµ¦å—');
-INSERT INTO "Code" VALUES('KyuushaRitsuHokuNanBetsu',3,'ç¾æµ¦åŒ—');
-INSERT INTO "Code" VALUES('Yosou',0,'â—');
-INSERT INTO "Code" VALUES('Yosou',1,'â—‹');
-INSERT INTO "Code" VALUES('Yosou',2,'â–²');
-INSERT INTO "Code" VALUES('Yosou',3,'â–³');
-INSERT INTO "Code" VALUES('Yosou',4,'Ã—');
-INSERT INTO "Code" VALUES('ChakujunFuka',31,'è½é¦¬');
-INSERT INTO "Code" VALUES('ChakujunFuka',32,'å¤±æ ¼');
-INSERT INTO "Code" VALUES('ChakujunFuka',33,'ä¸­æ­¢');
-INSERT INTO "Code" VALUES('ChakujunFuka',34,'å–æ¶ˆ');
-INSERT INTO "Code" VALUES('ChakujunFuka',35,'é™¤å¤–');
-INSERT INTO "Code" VALUES('ChakujunFuka',36,'é™ç€');
-INSERT INTO "Code" VALUES('ChakujunFuka',37,'ç¹°ä¸Š');
-INSERT INTO "Code" VALUES('ChakujunFuka',40,'ä¸åˆ©');
-INSERT INTO "Code" VALUES('TorikeshiShubetsu',1,'å‡ºèµ°å–æ¶ˆ');
-INSERT INTO "Code" VALUES('TorikeshiShubetsu',2,'å‡ºèµ°é™¤å¤–');
-INSERT INTO "Code" VALUES('TorikeshiShubetsu',3,'ç«¶èµ°é™¤å¤–');
-INSERT INTO "Code" VALUES('TorikeshiShubetsu',4,'ç«¶èµ°ä¸­æ­¢');
-INSERT INTO "Code" VALUES('TorikeshiShubetsu',5,'æ”¾é¦¬');
-INSERT INTO "Code" VALUES('TorikeshiShubetsu',6,'ç™ºèµ°é™¤å¤–');
-INSERT INTO "Code" VALUES('Chakusa2',0,'ãƒãƒŠ');
-INSERT INTO "Code" VALUES('Chakusa2',1,'ã‚¢ã‚¿ãƒ');
-INSERT INTO "Code" VALUES('Chakusa2',2,'ã‚¯ãƒ“');
+INSERT INTO "Code" VALUES('UmaKigou',1,'›’Š');
+INSERT INTO "Code" VALUES('UmaKigou',2,' ’Š');
+INSERT INTO "Code" VALUES('UmaKigou',3,'›•ƒ');
+INSERT INTO "Code" VALUES('UmaKigou',4,'›s');
+INSERT INTO "Code" VALUES('UmaKigou',5,'›’n');
+INSERT INTO "Code" VALUES('UmaKigou',6,'›ŠO');
+INSERT INTO "Code" VALUES('UmaKigou',7,'›•ƒ›’Š');
+INSERT INTO "Code" VALUES('UmaKigou',8,'›•ƒ›s');
+INSERT INTO "Code" VALUES('UmaKigou',9,'›•ƒ›’n');
+INSERT INTO "Code" VALUES('UmaKigou',10,'›s›’n');
+INSERT INTO "Code" VALUES('UmaKigou',11,'›ŠO›’n');
+INSERT INTO "Code" VALUES('UmaKigou',12,'›•ƒ›s›’n');
+INSERT INTO "Code" VALUES('UmaKigou',15,'›µ');
+INSERT INTO "Code" VALUES('UmaKigou',16,'›µ›ŠO');
+INSERT INTO "Code" VALUES('UmaKigou',17,'›µ›•ƒ');
+INSERT INTO "Code" VALUES('UmaKigou',18,'›µ›s');
+INSERT INTO "Code" VALUES('UmaKigou',19,'›µ›•ƒ›s');
+INSERT INTO "Code" VALUES('UmaKigou',20,'›•ƒ›ŠO');
+INSERT INTO "Code" VALUES('UmaKigou',21,' ’n');
+INSERT INTO "Code" VALUES('UmaKigou',22,'›ŠO ’n');
+INSERT INTO "Code" VALUES('UmaKigou',23,'›•ƒ ’n');
+INSERT INTO "Code" VALUES('UmaKigou',24,'›s ’n');
+INSERT INTO "Code" VALUES('UmaKigou',25,'›•ƒ›s ’n');
+INSERT INTO "Code" VALUES('UmaKigou',26,' ŠO');
+INSERT INTO "Code" VALUES('UmaKigou',27,'›•ƒ ŠO');
+INSERT INTO "Code" VALUES('UmaKigou',40,'›•ƒ›ŠO›’n');
+INSERT INTO "Code" VALUES('UmaKigou',41,'›•ƒ›ŠO ’n');
+INSERT INTO "Code" VALUES('Seibetsu',0,'‰²');
+INSERT INTO "Code" VALUES('Seibetsu',1,'–Ä');
+INSERT INTO "Code" VALUES('Seibetsu',2,'‚¹‚ñ');
+INSERT INTO "Code" VALUES('Blinker',1,'ƒuƒŠƒ“ƒJ[');
+INSERT INTO "Code" VALUES('KishuTouzaiBetsu',1,'¼');
+INSERT INTO "Code" VALUES('KishuTouzaiBetsu',2,'“Œ');
+INSERT INTO "Code" VALUES('KishuTouzaiBetsu',3,'µ‘Ò');
+INSERT INTO "Code" VALUES('KyuushaTouzaiBetsu',1,'¼');
+INSERT INTO "Code" VALUES('KyuushaTouzaiBetsu',2,'“Œ');
+INSERT INTO "Code" VALUES('MinaraiKubun',1,'1kgŒ¸');
+INSERT INTO "Code" VALUES('MinaraiKubun',2,'2kgŒ¸');
+INSERT INTO "Code" VALUES('MinaraiKubun',3,'3kgŒ¸');
+INSERT INTO "Code" VALUES('Norikawari',1,'æ‚è‘Ö‚è');
+INSERT INTO "Code" VALUES('KyuushaRitsuHokuNanBetsu',1,'ŒI“Œ');
+INSERT INTO "Code" VALUES('KyuushaRitsuHokuNanBetsu',2,'”ü‰Y“ì');
+INSERT INTO "Code" VALUES('KyuushaRitsuHokuNanBetsu',3,'”ü‰Y–k');
+INSERT INTO "Code" VALUES('Yosou',0,'');
+INSERT INTO "Code" VALUES('Yosou',1,'›');
+INSERT INTO "Code" VALUES('Yosou',2,'£');
+INSERT INTO "Code" VALUES('Yosou',3,'¢');
+INSERT INTO "Code" VALUES('Yosou',4,'~');
+INSERT INTO "Code" VALUES('ChakujunFuka',31,'—”n');
+INSERT INTO "Code" VALUES('ChakujunFuka',32,'¸Ši');
+INSERT INTO "Code" VALUES('ChakujunFuka',33,'’†~');
+INSERT INTO "Code" VALUES('ChakujunFuka',34,'æÁ');
+INSERT INTO "Code" VALUES('ChakujunFuka',35,'œŠO');
+INSERT INTO "Code" VALUES('ChakujunFuka',36,'~’…');
+INSERT INTO "Code" VALUES('ChakujunFuka',37,'ŒJã');
+INSERT INTO "Code" VALUES('ChakujunFuka',40,'•s—˜');
+INSERT INTO "Code" VALUES('TorikeshiShubetsu',1,'o‘–æÁ');
+INSERT INTO "Code" VALUES('TorikeshiShubetsu',2,'o‘–œŠO');
+INSERT INTO "Code" VALUES('TorikeshiShubetsu',3,'‹£‘–œŠO');
+INSERT INTO "Code" VALUES('TorikeshiShubetsu',4,'‹£‘–’†~');
+INSERT INTO "Code" VALUES('TorikeshiShubetsu',5,'•ú”n');
+INSERT INTO "Code" VALUES('TorikeshiShubetsu',6,'”­‘–œŠO');
+INSERT INTO "Code" VALUES('Chakusa2',0,'ƒnƒi');
+INSERT INTO "Code" VALUES('Chakusa2',1,'ƒAƒ^ƒ}');
+INSERT INTO "Code" VALUES('Chakusa2',2,'ƒNƒr');
 INSERT INTO "Code" VALUES('Chakusa2',3,'1/2');
 INSERT INTO "Code" VALUES('Chakusa2',4,'1/4');
 INSERT INTO "Code" VALUES('Chakusa2',5,'3/4');
-INSERT INTO "Code" VALUES('Chakusa2',7,'å¤§å·®');
-INSERT INTO "Code" VALUES('Chakusa2',8,'åŒç€');
-INSERT INTO "Code" VALUES('YonCornerIchiDori',0,'æœ€å†…');
-INSERT INTO "Code" VALUES('YonCornerIchiDori',1,'å†…');
-INSERT INTO "Code" VALUES('YonCornerIchiDori',2,'ä¸­');
-INSERT INTO "Code" VALUES('YonCornerIchiDori',3,'å¤–');
-INSERT INTO "Code" VALUES('YonCornerIchiDori',4,'å¤§å¤–');
-INSERT INTO "Code" VALUES('Oikiri',0,'å‰å›');
-INSERT INTO "Code" VALUES('Oikiri',1,'è¿½åˆ‡ã‚Š');
-INSERT INTO "Code" VALUES('AwaseFlag',1,'èª¿æ•™1ã®ä½µã›');
-INSERT INTO "Code" VALUES('AwaseFlag',2,'èª¿æ•™2ã®ä½µã›');
-INSERT INTO "Code" VALUES('AwaseFlag',3,'èª¿æ•™3ã®ä½µã›');
-INSERT INTO "Code" VALUES('Yajirushi',1,'ä¸€å¤‰');
-INSERT INTO "Code" VALUES('Yajirushi',2,'å¹³è¡Œ');
-INSERT INTO "Code" VALUES('Yajirushi',3,'ä¸‹é™');
-INSERT INTO "Code" VALUES('Yajirushi',4,'è‰¯åŒ–');
-INSERT INTO "Code" VALUES('Yajirushi',5,'ä¸‹é™æ°—å‘³');
-INSERT INTO "Code" VALUES('Ichi',1,'ã‚¹ã‚¿ãƒ¼ãƒˆ');
-INSERT INTO "Code" VALUES('Ichi',2,'ç›´ç·š');
-INSERT INTO "Code" VALUES('Ichi',3,'ã‚³ãƒ¼ãƒŠ');
-INSERT INTO "Code" VALUES('Ichi',4,'éšœå®³');
-INSERT INTO "Code" VALUES('Ichi',5,'é“ä¸­');
-INSERT INTO "Code" VALUES('Joukyou',31,'è½é¦¬');
-INSERT INTO "Code" VALUES('Joukyou',33,'ä¸­æ­¢');
-INSERT INTO "Code" VALUES('Joukyou',40,'ä¸åˆ©');
-INSERT INTO "Code" VALUES('Joukyou',41,'å‡ºé…ã‚Œ');
-INSERT INTO "Code" VALUES('Joukyou',42,'å¤–æ ç™ºèµ°');
-INSERT INTO "Code" VALUES('Joukyou',43,'æ–œè¡Œ');
-INSERT INTO "Code" VALUES('Joukyou',50,'å¥½ç™º');
-INSERT INTO "Code" VALUES('Keiro',1,'æ —');
-INSERT INTO "Code" VALUES('Keiro',2,'æ ƒæ —');
-INSERT INTO "Code" VALUES('Keiro',3,'é¹¿');
-INSERT INTO "Code" VALUES('Keiro',4,'é»’é¹¿');
-INSERT INTO "Code" VALUES('Keiro',5,'é’é¹¿');
-INSERT INTO "Code" VALUES('Keiro',6,'é’');
-INSERT INTO "Code" VALUES('Keiro',7,'èŠ¦');
-INSERT INTO "Code" VALUES('Keiro',8,'æ —ç²•');
-INSERT INTO "Code" VALUES('Keiro',9,'é¹¿ç²•');
-INSERT INTO "Code" VALUES('Keiro',10,'é’ç²•');
-INSERT INTO "Code" VALUES('Keiro',11,'ç™½');
-INSERT INTO "Code" VALUES('Keiro',12,'èŠ¦é¹¿');
-INSERT INTO "Code" VALUES('Keiro',13,'ç²•');
-INSERT INTO "Code" VALUES('Keiro',20,'é»’é¹¿');
-INSERT INTO "Code" VALUES('Keiro',21,'èŠ¦');
-INSERT INTO "Code" VALUES('Keiro',22,'èŠ¦');
-INSERT INTO "Code" VALUES('Keiro',23,'é¹¿');
-INSERT INTO "Code" VALUES('Keiro',24,'é»’é¹¿');
-INSERT INTO "Code" VALUES('Keiro',25,'èŠ¦');
-INSERT INTO "Code" VALUES('Keiro',26,'èŠ¦');
-INSERT INTO "Code" VALUES('Keiro',27,'èŠ¦');
-INSERT INTO "Code" VALUES('Keiro',28,'é¹¿');
-INSERT INTO "Code" VALUES('Keiro',29,'èŠ¦');
-INSERT INTO "Code" VALUES('Keiro',30,'é¹¿');
-INSERT INTO "Code" VALUES('Keiro',31,'é»’é¹¿');
-INSERT INTO "Code" VALUES('Keiro',32,'é»’é¹¿');
-INSERT INTO "Code" VALUES('Keiro',33,'é»’é¹¿');
-INSERT INTO "Code" VALUES('Keiro',34,'é»’é¹¿');
-INSERT INTO "Code" VALUES('Keiro',35,'é»’é¹¿');
-INSERT INTO "Code" VALUES('Kesshu',1,'ã‚µãƒ©');
-INSERT INTO "Code" VALUES('Kesshu',2,'ã‚¢ãƒ©');
-INSERT INTO "Code" VALUES('Kesshu',3,'ã‚¢ã‚¢');
-INSERT INTO "Code" VALUES('Kesshu',4,'ã‚µãƒ©ç³»');
-INSERT INTO "Code" VALUES('Kesshu',5,'ã‚¢ãƒ©ç³»');
-INSERT INTO "Code" VALUES('Kesshu',7,'è»½åŠ');
-INSERT INTO "Code" VALUES('Kesshu',8,'ä¸­åŠ');
-INSERT INTO "Code" VALUES('Kesshu',10,'é‡åŠ');
-INSERT INTO "Code" VALUES('Kesshu',11,'ã‚¢ãƒ');
-INSERT INTO "Code" VALUES('Kesshu',12,'ã‚¢ãƒç³»');
-INSERT INTO "Code" VALUES('Kesshu',13,'ã‚¯ãƒª');
-INSERT INTO "Code" VALUES('Kesshu',14,'ã‚¯ãƒªç³»');
-INSERT INTO "Code" VALUES('Kesshu',15,'ãƒˆãƒ­');
-INSERT INTO "Code" VALUES('Kesshu',16,'ãƒˆãƒ­ç³»');
-INSERT INTO "Code" VALUES('Kesshu',17,'ãƒãƒ‹');
-INSERT INTO "Code" VALUES('Kesshu',18,'ãƒãƒ‹ç³»');
-INSERT INTO "Code" VALUES('Kesshu',19,'ãƒã‚¯');
-INSERT INTO "Code" VALUES('Kesshu',20,'ãƒã‚¯ç³»');
-INSERT INTO "Code" VALUES('Kesshu',50,'ã‚µãƒ©ç³»');
-INSERT INTO "Code" VALUES('Sanchi',0,'åŒ—æªœå±±');
-INSERT INTO "Code" VALUES('Sanchi',1,'ãˆã‚Šã‚‚');
-INSERT INTO "Code" VALUES('Sanchi',2,'æ§˜ä¼¼');
-INSERT INTO "Code" VALUES('Sanchi',3,'æµ¦æ²³');
-INSERT INTO "Code" VALUES('Sanchi',4,'ä¸‰çŸ³');
-INSERT INTO "Code" VALUES('Sanchi',5,'é™å†…');
-INSERT INTO "Code" VALUES('Sanchi',6,'æ–°å† ');
-INSERT INTO "Code" VALUES('Sanchi',7,'é–€åˆ¥');
-INSERT INTO "Code" VALUES('Sanchi',8,'å¹³å–');
-INSERT INTO "Code" VALUES('Sanchi',9,'éµ¡å·');
-INSERT INTO "Code" VALUES('Sanchi',10,'æ—©æ¥');
-INSERT INTO "Code" VALUES('Sanchi',11,'ç™½è€');
-INSERT INTO "Code" VALUES('Sanchi',12,'å®¤è˜­');
-INSERT INTO "Code" VALUES('Sanchi',13,'ä¼Šé”');
-INSERT INTO "Code" VALUES('Sanchi',14,'è™»ç”°');
-INSERT INTO "Code" VALUES('Sanchi',15,'å¹•åˆ¥');
-INSERT INTO "Code" VALUES('Sanchi',16,'åšçœŸ');
-INSERT INTO "Code" VALUES('Sanchi',17,'ç¶²èµ°');
-INSERT INTO "Code" VALUES('Sanchi',18,'æ± ç”°');
-INSERT INTO "Code" VALUES('Sanchi',19,'æœ‰ç ');
-INSERT INTO "Code" VALUES('Sanchi',20,'æµ¦å¹Œ');
-INSERT INTO "Code" VALUES('Sanchi',21,'æµåº­');
-INSERT INTO "Code" VALUES('Sanchi',22,'æ±Ÿåˆ¥');
-INSERT INTO "Code" VALUES('Sanchi',23,'è¿½åˆ¥');
-INSERT INTO "Code" VALUES('Sanchi',24,'é•·ä¸‡éƒ¨');
-INSERT INTO "Code" VALUES('Sanchi',25,'éŸ³æ›´');
-INSERT INTO "Code" VALUES('Sanchi',26,'éŸ³åˆ¥');
-INSERT INTO "Code" VALUES('Sanchi',27,'å¸¯åºƒ');
-INSERT INTO "Code" VALUES('Sanchi',28,'æ²³è¥¿');
-INSERT INTO "Code" VALUES('Sanchi',29,'é‡§è·¯');
-INSERT INTO "Code" VALUES('Sanchi',30,'æ —å±±');
-INSERT INTO "Code" VALUES('Sanchi',31,'å°æ¸…æ°´');
-INSERT INTO "Code" VALUES('Sanchi',32,'æœ­å¹Œ');
-INSERT INTO "Code" VALUES('Sanchi',33,'é¹¿è¿½');
-INSERT INTO "Code" VALUES('Sanchi',34,'æ¸…æ°´');
-INSERT INTO "Code" VALUES('Sanchi',35,'æ¨™èŒ¶');
-INSERT INTO "Code" VALUES('Sanchi',36,'ç™½ç³ ');
-INSERT INTO "Code" VALUES('Sanchi',37,'æ–°å¾—');
-INSERT INTO "Code" VALUES('Sanchi',38,'å¤§æ¨¹');
-INSERT INTO "Code" VALUES('Sanchi',39,'é·¹æ –');
-INSERT INTO "Code" VALUES('Sanchi',40,'åƒæ­³');
-INSERT INTO "Code" VALUES('Sanchi',41,'å¿ é¡');
-INSERT INTO "Code" VALUES('Sanchi',42,'å£«å¹Œ');
-INSERT INTO "Code" VALUES('Sanchi',43,'å¼Ÿå­å±ˆ');
-INSERT INTO "Code" VALUES('Sanchi',44,'è‹«å°ç‰§');
-INSERT INTO "Code" VALUES('Sanchi',45,'è±Šæµ¦');
-INSERT INTO "Code" VALUES('Sanchi',46,'è±Šé ƒ');
-INSERT INTO "Code" VALUES('Sanchi',47,'æ ¹å®¤');
-INSERT INTO "Code" VALUES('Sanchi',48,'ç™»åˆ¥');
-INSERT INTO "Code" VALUES('Sanchi',49,'å‡½é¤¨');
-INSERT INTO "Code" VALUES('Sanchi',50,'æµœä¸­');
-INSERT INTO "Code" VALUES('Sanchi',51,'åºƒå°¾');
-INSERT INTO "Code" VALUES('Sanchi',52,'æ·±å·');
-INSERT INTO "Code" VALUES('Sanchi',53,'ç©‚åˆ¥');
-INSERT INTO "Code" VALUES('Sanchi',54,'æœ¬åˆ¥');
-INSERT INTO "Code" VALUES('Sanchi',55,'æ£®');
-INSERT INTO "Code" VALUES('Sanchi',56,'å…«é›²');
-INSERT INTO "Code" VALUES('Sanchi',57,'é’æ£®');
-INSERT INTO "Code" VALUES('Sanchi',58,'å²©æ‰‹');
-INSERT INTO "Code" VALUES('Sanchi',59,'å®®åŸ');
-INSERT INTO "Code" VALUES('Sanchi',60,'å±±å½¢');
-INSERT INTO "Code" VALUES('Sanchi',61,'ç¦å³¶');
-INSERT INTO "Code" VALUES('Sanchi',62,'æ ƒæœ¨');
-INSERT INTO "Code" VALUES('Sanchi',63,'ç¾¤é¦¬');
-INSERT INTO "Code" VALUES('Sanchi',64,'åŸ¼ç‰');
-INSERT INTO "Code" VALUES('Sanchi',65,'èŒ¨åŸ');
-INSERT INTO "Code" VALUES('Sanchi',66,'åƒè‘‰');
-INSERT INTO "Code" VALUES('Sanchi',67,'é•·é‡');
-INSERT INTO "Code" VALUES('Sanchi',68,'äº¬éƒ½');
-INSERT INTO "Code" VALUES('Sanchi',69,'é«˜çŸ¥');
-INSERT INTO "Code" VALUES('Sanchi',70,'å®®å´');
-INSERT INTO "Code" VALUES('Sanchi',71,'é¹¿å…å³¶');
-INSERT INTO "Code" VALUES('Sanchi',72,'ç†Šæœ¬');
-INSERT INTO "Code" VALUES('Sanchi',73,'ç±³å›½');
-INSERT INTO "Code" VALUES('Sanchi',74,'è‹±å›½');
-INSERT INTO "Code" VALUES('Sanchi',75,'æ„›å›½');
-INSERT INTO "Code" VALUES('Sanchi',76,'ä»å›½');
-INSERT INTO "Code" VALUES('Sanchi',77,'ä¼Šå›½');
-INSERT INTO "Code" VALUES('Sanchi',78,'ç‹¬å›½');
-INSERT INTO "Code" VALUES('Sanchi',79,'ã‚«ãƒŠãƒ€');
-INSERT INTO "Code" VALUES('Sanchi',80,'æ–°å›½');
-INSERT INTO "Code" VALUES('Sanchi',81,'è±ªå·');
-INSERT INTO "Code" VALUES('Sanchi',82,'æ´çˆº');
-INSERT INTO "Code" VALUES('Sanchi',83,'ä¸ƒé£¯');
-INSERT INTO "Code" VALUES('Sanchi',84,'ä¸Šãƒå›½');
-INSERT INTO "Code" VALUES('Sanchi',85,'äºœå›½');
-INSERT INTO "Code" VALUES('Sanchi',86,'ç™½å›½');
-INSERT INTO "Code" VALUES('Sanchi',87,'ç‘å›½');
-INSERT INTO "Code" VALUES('Sanchi',88,'å£®ç¥');
-INSERT INTO "Code" VALUES('Sanchi',89,'ç ‚åŸ');
-INSERT INTO "Code" VALUES('Sanchi',90,'è¶³å¯„');
-INSERT INTO "Code" VALUES('Sanchi',91,'åˆ¥æµ·');
-INSERT INTO "Code" VALUES('Sanchi',92,'æ±äº¬');
-INSERT INTO "Code" VALUES('Sanchi',93,'ç¥å¥ˆå·');
-INSERT INTO "Code" VALUES('Sanchi',94,'å…µåº«');
-INSERT INTO "Code" VALUES('Sanchi',95,'ä½è³€');
-INSERT INTO "Code" VALUES('Sanchi',96,'æ—¥é«˜');
-INSERT INTO "Code" VALUES('Sanchi',97,'å—éƒ·');
-INSERT INTO "Code" VALUES('Sanchi',98,'æ›´åˆ¥');
-INSERT INTO "Code" VALUES('Sanchi',99,'ãƒãƒª');
-INSERT INTO "Code" VALUES('Sanchi',100,'é åˆ¥');
-INSERT INTO "Code" VALUES('Sanchi',101,'èŠ½å®¤');
-INSERT INTO "Code" VALUES('Sanchi',102,'ä¸­æ¨™æ´¥');
-INSERT INTO "Code" VALUES('Sanchi',103,'å±±æ¢¨');
-INSERT INTO "Code" VALUES('Sanchi',104,'ä¼¯å›½');
-INSERT INTO "Code" VALUES('Sanchi',105,'ä»Šé‡‘');
-INSERT INTO "Code" VALUES('Sanchi',106,'åšå²¸');
-INSERT INTO "Code" VALUES('Sanchi',107,'æ±ä¹…ç•™');
-INSERT INTO "Code" VALUES('Sanchi',108,'æ¨™æ´¥');
-INSERT INTO "Code" VALUES('Sanchi',109,'å¤§åˆ†');
-INSERT INTO "Code" VALUES('Sanchi',110,'é™å²¡');
-INSERT INTO "Code" VALUES('Sanchi',111,'ç”±ä»');
-INSERT INTO "Code" VALUES('Sanchi',112,'æœ¨å¤å†…');
-INSERT INTO "Code" VALUES('Sanchi',113,'å¹Œæ³‰');
-INSERT INTO "Code" VALUES('Sanchi',114,'æ¯”å›½');
-INSERT INTO "Code" VALUES('Sanchi',115,'æ˜Ÿå›½');
-INSERT INTO "Code" VALUES('Sanchi',116,'ï¼µï¼¡ï¼¥');
-INSERT INTO "Code" VALUES('Sanchi',117,'åºƒå³¶');
-INSERT INTO "Code" VALUES('Sanchi',118,'å—ã‚¢å›½');
-INSERT INTO "Code" VALUES('Sanchi',119,'ã‚€ã‹ã‚');
-INSERT INTO "Code" VALUES('Sanchi',120,'å®‰å¹³');
-INSERT INTO "Code" VALUES('Sanchi',121,'æ–°ã²ã ã‹');
-INSERT INTO "Code" VALUES('Sanchi',122,'æ´çˆºæ¹–');
-INSERT INTO "Code" VALUES('Sanchi',123,'éœ²å›½');
-INSERT INTO "Code" VALUES('Sanchi',124,'ç§‹ç”°');
-INSERT INTO "Code" VALUES('Sanchi',200,'ã‚¢ãƒ«ã‚¸');
-INSERT INTO "Code" VALUES('Sanchi',201,'å¢ºå›½');
-INSERT INTO "Code" VALUES('Sanchi',202,'ãƒãƒ«ãƒ');
-INSERT INTO "Code" VALUES('Sanchi',203,'ãƒ–ãƒ«ã‚¬');
-INSERT INTO "Code" VALUES('Sanchi',204,'ã‚³ãƒ­ãƒ³');
-INSERT INTO "Code" VALUES('Sanchi',205,'ã‚­ãƒ¥ãƒ¼');
-INSERT INTO "Code" VALUES('Sanchi',206,'ã‚­ãƒ—ãƒ­');
-INSERT INTO "Code" VALUES('Sanchi',207,'ãƒã‚§ã‚³');
-INSERT INTO "Code" VALUES('Sanchi',208,'ä¸å›½');
-INSERT INTO "Code" VALUES('Sanchi',209,'æ±ç‹¬å›½');
-INSERT INTO "Code" VALUES('Sanchi',210,'ã‚¨ã‚¯ã‚¢');
-INSERT INTO "Code" VALUES('Sanchi',211,'åŸƒå›½');
-INSERT INTO "Code" VALUES('Sanchi',212,'å¸Œå›½');
-INSERT INTO "Code" VALUES('Sanchi',213,'è˜­å›½');
-INSERT INTO "Code" VALUES('Sanchi',214,'é¦™æ¸¯');
-INSERT INTO "Code" VALUES('Sanchi',215,'æ´ªå›½');
-INSERT INTO "Code" VALUES('Sanchi',216,'å°åº¦');
-INSERT INTO "Code" VALUES('Sanchi',217,'ã‚¤ãƒ³ãƒ‰');
-INSERT INTO "Code" VALUES('Sanchi',218,'ã‚¤ãƒ©ãƒ³');
-INSERT INTO "Code" VALUES('Sanchi',219,'ã‚¤ã‚¹ãƒ©');
-INSERT INTO "Code" VALUES('Sanchi',220,'ã‚¸ãƒ£ãƒ');
-INSERT INTO "Code" VALUES('Sanchi',221,'æ—¥æœ¬');
-INSERT INTO "Code" VALUES('Sanchi',222,'ã‚±ãƒ‹ã‚¢');
-INSERT INTO "Code" VALUES('Sanchi',223,'ãƒ¬ãƒãƒ');
-INSERT INTO "Code" VALUES('Sanchi',224,'ãƒªãƒ™ã‚¢');
-INSERT INTO "Code" VALUES('Sanchi',225,'ãƒ«ã‚¯ã‚»');
-INSERT INTO "Code" VALUES('Sanchi',226,'ãƒãƒ¬ãƒ¼');
-INSERT INTO "Code" VALUES('Sanchi',227,'ãƒãƒ«ã‚¿');
-INSERT INTO "Code" VALUES('Sanchi',229,'ãƒ¢ãƒ¼ãƒª');
-INSERT INTO "Code" VALUES('Sanchi',230,'ãƒ¡ã‚­ã‚·');
-INSERT INTO "Code" VALUES('Sanchi',231,'ãƒ¢ãƒ­ã‚³');
-INSERT INTO "Code" VALUES('Sanchi',232,'ãƒãƒ«ã‚¦');
-INSERT INTO "Code" VALUES('Sanchi',233,'ãƒ‘ã‚­ã‚¹');
-INSERT INTO "Code" VALUES('Sanchi',234,'ãƒ‘ãƒŠãƒ');
-INSERT INTO "Code" VALUES('Sanchi',235,'ç§˜å›½');
-INSERT INTO "Code" VALUES('Sanchi',236,'æ¯”å›½');
-INSERT INTO "Code" VALUES('Sanchi',237,'æ³¢å›½');
-INSERT INTO "Code" VALUES('Sanchi',238,'è‘¡å›½');
-INSERT INTO "Code" VALUES('Sanchi',239,'ãƒ—ã‚¨ãƒ«');
-INSERT INTO "Code" VALUES('Sanchi',240,'ç¾…å›½');
-INSERT INTO "Code" VALUES('Sanchi',241,'ã‚·ãƒ³ã‚¬');
-INSERT INTO "Code" VALUES('Sanchi',242,'å—é˜¿å›½');
-INSERT INTO "Code" VALUES('Sanchi',243,'ã‚½é€£');
-INSERT INTO "Code" VALUES('Sanchi',244,'è¥¿å›½');
-INSERT INTO "Code" VALUES('Sanchi',245,'ã‚¹ãƒªãƒ©');
-INSERT INTO "Code" VALUES('Sanchi',246,'ã‚¹ãƒ¼ãƒ€');
-INSERT INTO "Code" VALUES('Sanchi',247,'ã‚¹ã‚¤ã‚¹');
-INSERT INTO "Code" VALUES('Sanchi',248,'ãƒˆãƒªãƒ‹');
-INSERT INTO "Code" VALUES('Sanchi',249,'ãƒãƒ¥ãƒ‹');
-INSERT INTO "Code" VALUES('Sanchi',250,'åœŸå›½');
-INSERT INTO "Code" VALUES('Sanchi',251,'ã‚¦ãƒ«ã‚°');
-INSERT INTO "Code" VALUES('Sanchi',252,'ãƒšãƒã‚º');
-INSERT INTO "Code" VALUES('Sanchi',253,'ãƒ¦ãƒ¼ã‚´');
-INSERT INTO "Code" VALUES('Sanchi',254,'ã‚¸ãƒ³ãƒ');
-INSERT INTO "Code" VALUES('Sanchi',255,'ãƒ­ã‚·ã‚¢');
-INSERT INTO "Code" VALUES('Sanchi',256,'ã‚·ãƒªã‚¢');
-INSERT INTO "Code" VALUES('Sanchi',257,'æ²™å›½');
-INSERT INTO "Code" VALUES('Sanchi',258,'éŸ“å›½');
-INSERT INTO "Code" VALUES('Sanchi',259,'ä¸­å›½');
-INSERT INTO "Code" VALUES('MasshouFlag',1,'æŠ¹æ¶ˆ');
-INSERT INTO "Code" VALUES('KishuShikakuKubun',0,'è³‡æ ¼ãªã—');
-INSERT INTO "Code" VALUES('KishuShikakuKubun',1,'å¹³åœ°ãƒ»éšœå®³');
-INSERT INTO "Code" VALUES('KishuShikakuKubun',2,'å¹³åœ°');
-INSERT INTO "Code" VALUES('KishuShikakuKubun',3,'éšœå®³');
-INSERT INTO "Code" VALUES('TourokuMasshouFlag',0,'ç¾å½¹');
-INSERT INTO "Code" VALUES('TourokuMasshouFlag',1,'æŠ¹æ¶ˆ');
-INSERT INTO "Code" VALUES('TourokuMasshouFlag',2,'å¼•é€€');
-INSERT INTO "Code" VALUES('KyoriTekisei',1,'çŸ­');
-INSERT INTO "Code" VALUES('KyoriTekisei',2,'ä¸­');
-INSERT INTO "Code" VALUES('KyoriTekisei',3,'é•·');
-INSERT INTO "Code" VALUES('Kousetsu',1,'â—');
-INSERT INTO "Code" VALUES('Kousetsu',2,'â—‹');
-INSERT INTO "Code" VALUES('Kousetsu',3,'â–³');
+INSERT INTO "Code" VALUES('Chakusa2',7,'‘å·');
+INSERT INTO "Code" VALUES('Chakusa2',8,'“¯’…');
+INSERT INTO "Code" VALUES('YonCornerIchiDori',0,'Å“à');
+INSERT INTO "Code" VALUES('YonCornerIchiDori',1,'“à');
+INSERT INTO "Code" VALUES('YonCornerIchiDori',2,'’†');
+INSERT INTO "Code" VALUES('YonCornerIchiDori',3,'ŠO');
+INSERT INTO "Code" VALUES('YonCornerIchiDori',4,'‘åŠO');
+INSERT INTO "Code" VALUES('Oikiri',0,'‘O‰ñ');
+INSERT INTO "Code" VALUES('Oikiri',1,'’ÇØ‚è');
+INSERT INTO "Code" VALUES('AwaseFlag',1,'’²‹³1‚Ì•¹‚¹');
+INSERT INTO "Code" VALUES('AwaseFlag',2,'’²‹³2‚Ì•¹‚¹');
+INSERT INTO "Code" VALUES('AwaseFlag',3,'’²‹³3‚Ì•¹‚¹');
+INSERT INTO "Code" VALUES('Yajirushi',1,'ˆê•Ï');
+INSERT INTO "Code" VALUES('Yajirushi',2,'•½s');
+INSERT INTO "Code" VALUES('Yajirushi',3,'‰º~');
+INSERT INTO "Code" VALUES('Yajirushi',4,'—Ç‰»');
+INSERT INTO "Code" VALUES('Yajirushi',5,'‰º~‹C–¡');
+INSERT INTO "Code" VALUES('Ichi',1,'ƒeƒ“');
+INSERT INTO "Code" VALUES('Ichi',2,'’†ŠÔ');
+INSERT INTO "Code" VALUES('Ichi',3,'ƒAƒKƒŠ');
+INSERT INTO "Code" VALUES('Joukyou',31,'—”n');
+INSERT INTO "Code" VALUES('Joukyou',33,'’†~');
+INSERT INTO "Code" VALUES('Joukyou',40,'•s—˜');
+INSERT INTO "Code" VALUES('Joukyou',41,'o’x‚ê');
+INSERT INTO "Code" VALUES('Joukyou',42,'ŠO˜g”­‘–');
+INSERT INTO "Code" VALUES('Joukyou',43,'Îs');
+INSERT INTO "Code" VALUES('Joukyou',50,'D”­');
+INSERT INTO "Code" VALUES('Keiro',1,'ŒI');
+INSERT INTO "Code" VALUES('Keiro',2,'“ÈŒI');
+INSERT INTO "Code" VALUES('Keiro',3,'­');
+INSERT INTO "Code" VALUES('Keiro',4,'•­');
+INSERT INTO "Code" VALUES('Keiro',5,'Â­');
+INSERT INTO "Code" VALUES('Keiro',6,'Â');
+INSERT INTO "Code" VALUES('Keiro',7,'ˆ°');
+INSERT INTO "Code" VALUES('Keiro',8,'ŒI””');
+INSERT INTO "Code" VALUES('Keiro',9,'­””');
+INSERT INTO "Code" VALUES('Keiro',10,'Â””');
+INSERT INTO "Code" VALUES('Keiro',11,'”’');
+INSERT INTO "Code" VALUES('Keiro',12,'ˆ°­');
+INSERT INTO "Code" VALUES('Keiro',13,'””');
+INSERT INTO "Code" VALUES('Keiro',20,'•­');
+INSERT INTO "Code" VALUES('Keiro',21,'ˆ°');
+INSERT INTO "Code" VALUES('Keiro',22,'ˆ°');
+INSERT INTO "Code" VALUES('Keiro',23,'­');
+INSERT INTO "Code" VALUES('Keiro',24,'•­');
+INSERT INTO "Code" VALUES('Keiro',25,'ˆ°');
+INSERT INTO "Code" VALUES('Keiro',26,'ˆ°');
+INSERT INTO "Code" VALUES('Keiro',27,'ˆ°');
+INSERT INTO "Code" VALUES('Keiro',28,'­');
+INSERT INTO "Code" VALUES('Keiro',29,'ˆ°');
+INSERT INTO "Code" VALUES('Keiro',30,'­');
+INSERT INTO "Code" VALUES('Keiro',31,'•­');
+INSERT INTO "Code" VALUES('Keiro',32,'•­');
+INSERT INTO "Code" VALUES('Keiro',33,'•­');
+INSERT INTO "Code" VALUES('Keiro',34,'•­');
+INSERT INTO "Code" VALUES('Keiro',35,'•­');
+INSERT INTO "Code" VALUES('Kesshu',1,'ƒTƒ‰');
+INSERT INTO "Code" VALUES('Kesshu',2,'ƒAƒ‰');
+INSERT INTO "Code" VALUES('Kesshu',3,'ƒAƒA');
+INSERT INTO "Code" VALUES('Kesshu',4,'ƒTƒ‰Œn');
+INSERT INTO "Code" VALUES('Kesshu',5,'ƒAƒ‰Œn');
+INSERT INTO "Code" VALUES('Kesshu',7,'Œy”¼');
+INSERT INTO "Code" VALUES('Kesshu',8,'’†”¼');
+INSERT INTO "Code" VALUES('Kesshu',10,'d”¼');
+INSERT INTO "Code" VALUES('Kesshu',11,'ƒAƒm');
+INSERT INTO "Code" VALUES('Kesshu',12,'ƒAƒmŒn');
+INSERT INTO "Code" VALUES('Kesshu',13,'ƒNƒŠ');
+INSERT INTO "Code" VALUES('Kesshu',14,'ƒNƒŠŒn');
+INSERT INTO "Code" VALUES('Kesshu',15,'ƒgƒ');
+INSERT INTO "Code" VALUES('Kesshu',16,'ƒgƒŒn');
+INSERT INTO "Code" VALUES('Kesshu',17,'ƒmƒj');
+INSERT INTO "Code" VALUES('Kesshu',18,'ƒmƒjŒn');
+INSERT INTO "Code" VALUES('Kesshu',19,'ƒnƒN');
+INSERT INTO "Code" VALUES('Kesshu',20,'ƒnƒNŒn');
+INSERT INTO "Code" VALUES('Kesshu',50,'ƒTƒ‰Œn');
+INSERT INTO "Code" VALUES('Sanchi',0,'–kwR');
+INSERT INTO "Code" VALUES('Sanchi',1,'‚¦‚è‚à');
+INSERT INTO "Code" VALUES('Sanchi',2,'—l—');
+INSERT INTO "Code" VALUES('Sanchi',3,'‰Y‰Í');
+INSERT INTO "Code" VALUES('Sanchi',4,'OÎ');
+INSERT INTO "Code" VALUES('Sanchi',5,'Ã“à');
+INSERT INTO "Code" VALUES('Sanchi',6,'VŠ¥');
+INSERT INTO "Code" VALUES('Sanchi',7,'–å•Ê');
+INSERT INTO "Code" VALUES('Sanchi',8,'•½æ');
+INSERT INTO "Code" VALUES('Sanchi',9,'–·ì');
+INSERT INTO "Code" VALUES('Sanchi',10,'‘—ˆ');
+INSERT INTO "Code" VALUES('Sanchi',11,'”’˜V');
+INSERT INTO "Code" VALUES('Sanchi',12,'º—–');
+INSERT INTO "Code" VALUES('Sanchi',13,'ˆÉ’B');
+INSERT INTO "Code" VALUES('Sanchi',14,'ˆ¸“c');
+INSERT INTO "Code" VALUES('Sanchi',15,'–‹•Ê');
+INSERT INTO "Code" VALUES('Sanchi',16,'Œú^');
+INSERT INTO "Code" VALUES('Sanchi',17,'–Ô‘–');
+INSERT INTO "Code" VALUES('Sanchi',18,'’r“c');
+INSERT INTO "Code" VALUES('Sanchi',19,'—Lì');
+INSERT INTO "Code" VALUES('Sanchi',20,'‰Y–y');
+INSERT INTO "Code" VALUES('Sanchi',21,'Œb’ë');
+INSERT INTO "Code" VALUES('Sanchi',22,']•Ê');
+INSERT INTO "Code" VALUES('Sanchi',23,'’Ç•Ê');
+INSERT INTO "Code" VALUES('Sanchi',24,'’·–œ•”');
+INSERT INTO "Code" VALUES('Sanchi',25,'‰¹X');
+INSERT INTO "Code" VALUES('Sanchi',26,'‰¹•Ê');
+INSERT INTO "Code" VALUES('Sanchi',27,'‘ÑL');
+INSERT INTO "Code" VALUES('Sanchi',28,'‰Í¼');
+INSERT INTO "Code" VALUES('Sanchi',29,'‹ú˜H');
+INSERT INTO "Code" VALUES('Sanchi',30,'ŒIR');
+INSERT INTO "Code" VALUES('Sanchi',31,'¬´…');
+INSERT INTO "Code" VALUES('Sanchi',32,'D–y');
+INSERT INTO "Code" VALUES('Sanchi',33,'­’Ç');
+INSERT INTO "Code" VALUES('Sanchi',34,'´…');
+INSERT INTO "Code" VALUES('Sanchi',35,'•W’ƒ');
+INSERT INTO "Code" VALUES('Sanchi',36,'”’f');
+INSERT INTO "Code" VALUES('Sanchi',37,'V“¾');
+INSERT INTO "Code" VALUES('Sanchi',38,'‘å÷');
+INSERT INTO "Code" VALUES('Sanchi',39,'‘é²');
+INSERT INTO "Code" VALUES('Sanchi',40,'çÎ');
+INSERT INTO "Code" VALUES('Sanchi',41,'’‰—Ş');
+INSERT INTO "Code" VALUES('Sanchi',42,'m–y');
+INSERT INTO "Code" VALUES('Sanchi',43,'’íq‹ü');
+INSERT INTO "Code" VALUES('Sanchi',44,'“Ï¬–q');
+INSERT INTO "Code" VALUES('Sanchi',45,'–L‰Y');
+INSERT INTO "Code" VALUES('Sanchi',46,'–L ');
+INSERT INTO "Code" VALUES('Sanchi',47,'ªº');
+INSERT INTO "Code" VALUES('Sanchi',48,'“o•Ê');
+INSERT INTO "Code" VALUES('Sanchi',49,'”ŸŠÙ');
+INSERT INTO "Code" VALUES('Sanchi',50,'•l’†');
+INSERT INTO "Code" VALUES('Sanchi',51,'L”ö');
+INSERT INTO "Code" VALUES('Sanchi',52,'[ì');
+INSERT INTO "Code" VALUES('Sanchi',53,'•ä•Ê');
+INSERT INTO "Code" VALUES('Sanchi',54,'–{•Ê');
+INSERT INTO "Code" VALUES('Sanchi',55,'X');
+INSERT INTO "Code" VALUES('Sanchi',56,'”ª‰_');
+INSERT INTO "Code" VALUES('Sanchi',57,'ÂX');
+INSERT INTO "Code" VALUES('Sanchi',58,'Šâè');
+INSERT INTO "Code" VALUES('Sanchi',59,'‹{é');
+INSERT INTO "Code" VALUES('Sanchi',60,'RŒ`');
+INSERT INTO "Code" VALUES('Sanchi',61,'•Ÿ“‡');
+INSERT INTO "Code" VALUES('Sanchi',62,'“È–Ø');
+INSERT INTO "Code" VALUES('Sanchi',63,'ŒQ”n');
+INSERT INTO "Code" VALUES('Sanchi',64,'é‹Ê');
+INSERT INTO "Code" VALUES('Sanchi',65,'ˆïé');
+INSERT INTO "Code" VALUES('Sanchi',66,'ç—t');
+INSERT INTO "Code" VALUES('Sanchi',67,'’·–ì');
+INSERT INTO "Code" VALUES('Sanchi',68,'‹“s');
+INSERT INTO "Code" VALUES('Sanchi',69,'‚’m');
+INSERT INTO "Code" VALUES('Sanchi',70,'‹{è');
+INSERT INTO "Code" VALUES('Sanchi',71,'­™“‡');
+INSERT INTO "Code" VALUES('Sanchi',72,'ŒF–{');
+INSERT INTO "Code" VALUES('Sanchi',73,'•Ä‘');
+INSERT INTO "Code" VALUES('Sanchi',74,'‰p‘');
+INSERT INTO "Code" VALUES('Sanchi',75,'ˆ¤‘');
+INSERT INTO "Code" VALUES('Sanchi',76,'•§‘');
+INSERT INTO "Code" VALUES('Sanchi',77,'ˆÉ‘');
+INSERT INTO "Code" VALUES('Sanchi',78,'“Æ‘');
+INSERT INTO "Code" VALUES('Sanchi',79,'ƒJƒiƒ_');
+INSERT INTO "Code" VALUES('Sanchi',80,'V‘');
+INSERT INTO "Code" VALUES('Sanchi',81,'‹B');
+INSERT INTO "Code" VALUES('Sanchi',82,'“´–ê');
+INSERT INTO "Code" VALUES('Sanchi',83,'µ”Ñ');
+INSERT INTO "Code" VALUES('Sanchi',84,'ãƒm‘');
+INSERT INTO "Code" VALUES('Sanchi',85,'ˆŸ‘');
+INSERT INTO "Code" VALUES('Sanchi',86,'”’‘');
+INSERT INTO "Code" VALUES('Sanchi',87,'‘');
+INSERT INTO "Code" VALUES('Sanchi',88,'‘s•Ë');
+INSERT INTO "Code" VALUES('Sanchi',89,'»Œ´');
+INSERT INTO "Code" VALUES('Sanchi',90,'‘«Šñ');
+INSERT INTO "Code" VALUES('Sanchi',91,'•ÊŠC');
+INSERT INTO "Code" VALUES('Sanchi',92,'“Œ‹');
+INSERT INTO "Code" VALUES('Sanchi',93,'_“Şì');
+INSERT INTO "Code" VALUES('Sanchi',94,'•ºŒÉ');
+INSERT INTO "Code" VALUES('Sanchi',95,'²‰ê');
+INSERT INTO "Code" VALUES('Sanchi',96,'“ú‚');
+INSERT INTO "Code" VALUES('Sanchi',97,'“ì‹½');
+INSERT INTO "Code" VALUES('Sanchi',98,'X•Ê');
+INSERT INTO "Code" VALUES('Sanchi',99,'ƒ`ƒŠ');
+INSERT INTO "Code" VALUES('Sanchi',100,'‰“•Ê');
+INSERT INTO "Code" VALUES('Sanchi',101,'‰èº');
+INSERT INTO "Code" VALUES('Sanchi',102,'’†•W’Ã');
+INSERT INTO "Code" VALUES('Sanchi',103,'R—œ');
+INSERT INTO "Code" VALUES('Sanchi',104,'”Œ‘');
+INSERT INTO "Code" VALUES('Sanchi',105,'¡‹à');
+INSERT INTO "Code" VALUES('Sanchi',106,'ŒúŠİ');
+INSERT INTO "Code" VALUES('Sanchi',107,'“Œ‹v—¯');
+INSERT INTO "Code" VALUES('Sanchi',108,'•W’Ã');
+INSERT INTO "Code" VALUES('Sanchi',109,'‘å•ª');
+INSERT INTO "Code" VALUES('Sanchi',110,'Ã‰ª');
+INSERT INTO "Code" VALUES('Sanchi',111,'—Rm');
+INSERT INTO "Code" VALUES('Sanchi',112,'–ØŒÃ“à');
+INSERT INTO "Code" VALUES('Sanchi',113,'–yò');
+INSERT INTO "Code" VALUES('Sanchi',114,'”ä‘');
+INSERT INTO "Code" VALUES('Sanchi',115,'¯‘');
+INSERT INTO "Code" VALUES('Sanchi',116,'‚t‚`‚d');
+INSERT INTO "Code" VALUES('Sanchi',117,'L“‡');
+INSERT INTO "Code" VALUES('Sanchi',118,'“ìƒA‘');
+INSERT INTO "Code" VALUES('Sanchi',119,'‚Ş‚©‚í');
+INSERT INTO "Code" VALUES('Sanchi',120,'ˆÀ•½');
+INSERT INTO "Code" VALUES('Sanchi',121,'V‚Ğ‚¾‚©');
+INSERT INTO "Code" VALUES('Sanchi',122,'“´–êŒÎ');
+INSERT INTO "Code" VALUES('Sanchi',123,'˜I‘');
+INSERT INTO "Code" VALUES('Sanchi',124,'H“c');
+INSERT INTO "Code" VALUES('Sanchi',200,'ƒAƒ‹ƒW');
+INSERT INTO "Code" VALUES('Sanchi',201,'šÒ‘');
+INSERT INTO "Code" VALUES('Sanchi',202,'ƒoƒ‹ƒo');
+INSERT INTO "Code" VALUES('Sanchi',203,'ƒuƒ‹ƒK');
+INSERT INTO "Code" VALUES('Sanchi',204,'ƒRƒƒ“');
+INSERT INTO "Code" VALUES('Sanchi',205,'ƒLƒ…[');
+INSERT INTO "Code" VALUES('Sanchi',206,'ƒLƒvƒ');
+INSERT INTO "Code" VALUES('Sanchi',207,'ƒ`ƒFƒR');
+INSERT INTO "Code" VALUES('Sanchi',208,'’š‘');
+INSERT INTO "Code" VALUES('Sanchi',209,'“Œ“Æ‘');
+INSERT INTO "Code" VALUES('Sanchi',210,'ƒGƒNƒA');
+INSERT INTO "Code" VALUES('Sanchi',211,'šº‘');
+INSERT INTO "Code" VALUES('Sanchi',212,'Šó‘');
+INSERT INTO "Code" VALUES('Sanchi',213,'—–‘');
+INSERT INTO "Code" VALUES('Sanchi',214,'`');
+INSERT INTO "Code" VALUES('Sanchi',215,'^‘');
+INSERT INTO "Code" VALUES('Sanchi',216,'ˆó“x');
+INSERT INTO "Code" VALUES('Sanchi',217,'ƒCƒ“ƒh');
+INSERT INTO "Code" VALUES('Sanchi',218,'ƒCƒ‰ƒ“');
+INSERT INTO "Code" VALUES('Sanchi',219,'ƒCƒXƒ‰');
+INSERT INTO "Code" VALUES('Sanchi',220,'ƒWƒƒƒ}');
+INSERT INTO "Code" VALUES('Sanchi',221,'“ú–{');
+INSERT INTO "Code" VALUES('Sanchi',222,'ƒPƒjƒA');
+INSERT INTO "Code" VALUES('Sanchi',223,'ƒŒƒoƒm');
+INSERT INTO "Code" VALUES('Sanchi',224,'ƒŠƒxƒA');
+INSERT INTO "Code" VALUES('Sanchi',225,'ƒ‹ƒNƒZ');
+INSERT INTO "Code" VALUES('Sanchi',226,'ƒ}ƒŒ[');
+INSERT INTO "Code" VALUES('Sanchi',227,'ƒ}ƒ‹ƒ^');
+INSERT INTO "Code" VALUES('Sanchi',229,'ƒ‚[ƒŠ');
+INSERT INTO "Code" VALUES('Sanchi',230,'ƒƒLƒV');
+INSERT INTO "Code" VALUES('Sanchi',231,'ƒ‚ƒƒR');
+INSERT INTO "Code" VALUES('Sanchi',232,'ƒmƒ‹ƒE');
+INSERT INTO "Code" VALUES('Sanchi',233,'ƒpƒLƒX');
+INSERT INTO "Code" VALUES('Sanchi',234,'ƒpƒiƒ}');
+INSERT INTO "Code" VALUES('Sanchi',235,'”é‘');
+INSERT INTO "Code" VALUES('Sanchi',236,'”ä‘');
+INSERT INTO "Code" VALUES('Sanchi',237,'”g‘');
+INSERT INTO "Code" VALUES('Sanchi',238,'•’‘');
+INSERT INTO "Code" VALUES('Sanchi',239,'ƒvƒGƒ‹');
+INSERT INTO "Code" VALUES('Sanchi',240,'—…‘');
+INSERT INTO "Code" VALUES('Sanchi',241,'ƒVƒ“ƒK');
+INSERT INTO "Code" VALUES('Sanchi',242,'“ìˆ¢‘');
+INSERT INTO "Code" VALUES('Sanchi',243,'ƒ\˜A');
+INSERT INTO "Code" VALUES('Sanchi',244,'¼‘');
+INSERT INTO "Code" VALUES('Sanchi',245,'ƒXƒŠƒ‰');
+INSERT INTO "Code" VALUES('Sanchi',246,'ƒX[ƒ_');
+INSERT INTO "Code" VALUES('Sanchi',247,'ƒXƒCƒX');
+INSERT INTO "Code" VALUES('Sanchi',248,'ƒgƒŠƒj');
+INSERT INTO "Code" VALUES('Sanchi',249,'ƒ`ƒ…ƒj');
+INSERT INTO "Code" VALUES('Sanchi',250,'“y‘');
+INSERT INTO "Code" VALUES('Sanchi',251,'ƒEƒ‹ƒO');
+INSERT INTO "Code" VALUES('Sanchi',252,'ƒyƒlƒY');
+INSERT INTO "Code" VALUES('Sanchi',253,'ƒ†[ƒS');
+INSERT INTO "Code" VALUES('Sanchi',254,'ƒWƒ“ƒo');
+INSERT INTO "Code" VALUES('Sanchi',255,'ƒƒVƒA');
+INSERT INTO "Code" VALUES('Sanchi',256,'ƒVƒŠƒA');
+INSERT INTO "Code" VALUES('Sanchi',257,'¹‘');
+INSERT INTO "Code" VALUES('Sanchi',258,'ŠØ‘');
+INSERT INTO "Code" VALUES('Sanchi',259,'’†‘');
+INSERT INTO "Code" VALUES('MasshouFlag',1,'–•Á');
+INSERT INTO "Code" VALUES('KishuShikakuKubun',0,'‘Ši‚È‚µ');
+INSERT INTO "Code" VALUES('KishuShikakuKubun',1,'•½’nEáŠQ');
+INSERT INTO "Code" VALUES('KishuShikakuKubun',2,'•½’n');
+INSERT INTO "Code" VALUES('KishuShikakuKubun',3,'áŠQ');
+INSERT INTO "Code" VALUES('TourokuMasshouFlag',0,'Œ»–ğ');
+INSERT INTO "Code" VALUES('TourokuMasshouFlag',1,'–•Á');
+INSERT INTO "Code" VALUES('TourokuMasshouFlag',2,'ˆø‘Ş');
+INSERT INTO "Code" VALUES('KyoriTekisei',1,'’Z');
+INSERT INTO "Code" VALUES('KyoriTekisei',2,'’†');
+INSERT INTO "Code" VALUES('KyoriTekisei',3,'’·');
+INSERT INTO "Code" VALUES('Kousetsu',1,'');
+INSERT INTO "Code" VALUES('Kousetsu',2,'›');
+INSERT INTO "Code" VALUES('Kousetsu',3,'¢');
 
 
 CREATE TABLE Japanize(
@@ -1162,328 +1221,328 @@ CREATE TABLE Japanize(
 	,Name TEXT NOT NULL
 	,Domain TEXT
 );
-INSERT INTO "Japanize" VALUES('KaisaiBasho','é–‹å‚¬å ´æ‰€','Basho');
-INSERT INTO "Japanize" VALUES('KaisaiNen','é–‹å‚¬å¹´',NULL);
-INSERT INTO "Japanize" VALUES('KaisaiKaiji','é–‹å‚¬å›æ¬¡',NULL);
-INSERT INTO "Japanize" VALUES('KaisaiNichiji','é–‹å‚¬æ—¥æ¬¡',NULL);
-INSERT INTO "Japanize" VALUES('RaceBangou','ãƒ¬ãƒ¼ã‚¹ç•ªå·',NULL);
-INSERT INTO "Japanize" VALUES('Nengappi','å¹´æœˆæ—¥',NULL);
-INSERT INTO "Japanize" VALUES('Kyuujitsu','ä¼‘æ—¥','Kyuujitsu');
-INSERT INTO "Japanize" VALUES('Youbi','æ›œæ—¥','Youbi');
-INSERT INTO "Japanize" VALUES('KouryuuFlag','äº¤æµãƒ•ãƒ©ã‚°','KouryuuFlag');
-INSERT INTO "Japanize" VALUES('ChuuouChihouGaikoku','ä¸­å¤®ãƒ»åœ°æ–¹ãƒ»å¤–å›½','ChuuouChihouGaikoku');
-INSERT INTO "Japanize" VALUES('IppanTokubetsu','ä¸€ãƒ»ç‰¹','IppanTokubetsu');
-INSERT INTO "Japanize" VALUES('HeichiShougai','å¹³ãƒ»éšœ','HeichiShougai');
-INSERT INTO "Japanize" VALUES('JuushouKaisuu','é‡è³å›æ•°',NULL);
-INSERT INTO "Japanize" VALUES('TokubetsuMei','ç‰¹åˆ¥å',NULL);
-INSERT INTO "Japanize" VALUES('TanshukuTokubetsuMei','çŸ­ç¸®ç‰¹åˆ¥å',NULL);
-INSERT INTO "Japanize" VALUES('Grade','ã‚°ãƒ¬ãƒ¼ãƒ‰','Grade');
-INSERT INTO "Japanize" VALUES('JpnFlag','Jpnãƒ•ãƒ©ã‚°',NULL);
-INSERT INTO "Japanize" VALUES('BetteiBareiHandi','åˆ¥å®šé¦¬é½¢ãƒãƒ³ãƒ‡æ¦‚è¦','BetteiBareiHandi');
-INSERT INTO "Japanize" VALUES('BetteiBareiHandiShousai','åˆ¥å®šé¦¬é½¢ãƒãƒ³ãƒ‡è©³ç´°',NULL);
-INSERT INTO "Japanize" VALUES('JoukenFuka1','æ¡ä»¶ä»˜åŠ 1','JoukenFuka1');
-INSERT INTO "Japanize" VALUES('JoukenFuka2','æ¡ä»¶ä»˜åŠ 2','JoukenFuka2');
-INSERT INTO "Japanize" VALUES('JoukenKei','æ¡ä»¶ç³»','JoukenKei');
-INSERT INTO "Japanize" VALUES('JoukenNenreiSeigen','æ¡ä»¶å¹´é½¢åˆ¶é™','JoukenNenreiSeigen');
-INSERT INTO "Japanize" VALUES('Jouken1','æ¡ä»¶1 å…¬å–¶(ã‚¯ãƒ©ã‚¹)','Jouken');
-INSERT INTO "Japanize" VALUES('Kumi1','çµ„1',NULL);
-INSERT INTO "Japanize" VALUES('IjouIkaMiman','ä»¥ä¸Šãƒ»ä»¥ä¸‹ãƒ»ï½ãƒ»æœªæº€','IjouIkaMiman');
-INSERT INTO "Japanize" VALUES('Jouken2','æ¡ä»¶2 å…¬å–¶(ã‚¯ãƒ©ã‚¹)','Jouken');
-INSERT INTO "Japanize" VALUES('Kumi2','çµ„2',NULL);
-INSERT INTO "Japanize" VALUES('DirtShiba','ãƒ€ãƒ»èŠ','DirtShiba');
-INSERT INTO "Japanize" VALUES('MigiHidari','å³ãƒ»å·¦','MigiHidari');
-INSERT INTO "Japanize" VALUES('UchiSoto','å†…ãƒ»å¤–','UchiSoto');
-INSERT INTO "Japanize" VALUES('Course','ã‚³ãƒ¼ã‚¹','Course');
-INSERT INTO "Japanize" VALUES('Kyori','è·é›¢',NULL);
-INSERT INTO "Japanize" VALUES('CourseRecordFlag','ã‚³ãƒ¼ã‚¹ãƒ¬ã‚³ãƒ¼ãƒ‰ãƒ•ãƒ©ã‚°','RecordFlag');
-INSERT INTO "Japanize" VALUES('CourseRecordNengappi','ã‚³ãƒ¼ã‚¹ãƒ¬ã‚³ãƒ¼ãƒ‰æ—¥ä»˜',NULL);
-INSERT INTO "Japanize" VALUES('CourseRecordTime','ã‚³ãƒ¼ã‚¹ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚¿ã‚¤ãƒ ',NULL);
-INSERT INTO "Japanize" VALUES('CourseRecordBamei','ã‚³ãƒ¼ã‚¹ãƒ¬ã‚³ãƒ¼ãƒ‰é¦¬å',NULL);
-INSERT INTO "Japanize" VALUES('CourseRecordKinryou','ã‚³ãƒ¼ã‚¹ãƒ¬ã‚³ãƒ¼ãƒ‰æ–¤é‡',NULL);
-INSERT INTO "Japanize" VALUES('CourseRecordTanshukuKishuMei','ã‚³ãƒ¼ã‚¹ãƒ¬ã‚³ãƒ¼ãƒ‰çŸ­ç¸®é¨æ‰‹å',NULL);
-INSERT INTO "Japanize" VALUES('KyoriRecordNengappi','è·é›¢ãƒ¬ã‚³ãƒ¼ãƒ‰æ—¥ä»˜',NULL);
-INSERT INTO "Japanize" VALUES('KyoriRecordTime','è·é›¢ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚¿ã‚¤ãƒ ',NULL);
-INSERT INTO "Japanize" VALUES('KyoriRecordBamei','è·é›¢ãƒ¬ã‚³ãƒ¼ãƒ‰é¦¬å',NULL);
-INSERT INTO "Japanize" VALUES('KyoriRecordKinryou','è·é›¢ãƒ¬ã‚³ãƒ¼ãƒ‰æ–¤é‡',NULL);
-INSERT INTO "Japanize" VALUES('KyoriRecordTanshukuKishuMei','è·é›¢ãƒ¬ã‚³ãƒ¼ãƒ‰çŸ­ç¸®é¨æ‰‹å',NULL);
-INSERT INTO "Japanize" VALUES('KyoriRecordBasho','è·é›¢ãƒ¬ã‚³ãƒ¼ãƒ‰å ´æ‰€','Basho');
-INSERT INTO "Japanize" VALUES('RaceRecordNengappi','ãƒ¬ãƒ¼ã‚¹ãƒ¬ã‚³ãƒ¼ãƒ‰æ—¥ä»˜',NULL);
-INSERT INTO "Japanize" VALUES('RaceRecordTime','ãƒ¬ãƒ¼ã‚¹ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚¿ã‚¤ãƒ ',NULL);
-INSERT INTO "Japanize" VALUES('RaceRecordBamei','ãƒ¬ãƒ¼ã‚¹ãƒ¬ã‚³ãƒ¼ãƒ‰é¦¬å',NULL);
-INSERT INTO "Japanize" VALUES('RaceRecordKinryou','ãƒ¬ãƒ¼ã‚¹ãƒ¬ã‚³ãƒ¼ãƒ‰æ–¤é‡',NULL);
-INSERT INTO "Japanize" VALUES('RaceRecordKishuMei','ãƒ¬ãƒ¼ã‚¹ãƒ¬ã‚³ãƒ¼ãƒ‰çŸ­ç¸®é¨æ‰‹å',NULL);
-INSERT INTO "Japanize" VALUES('RaceRecordBasho','ãƒ¬ãƒ¼ã‚¹ãƒ¬ã‚³ãƒ¼ãƒ‰å ´æ‰€','Basho');
-INSERT INTO "Japanize" VALUES('Shoukin1Chaku','è³é‡‘1ç€',NULL);
-INSERT INTO "Japanize" VALUES('Shoukin2Chaku','è³é‡‘2ç€',NULL);
-INSERT INTO "Japanize" VALUES('Shoukin3Chaku','è³é‡‘3ç€',NULL);
-INSERT INTO "Japanize" VALUES('Shoukin4Chaku','è³é‡‘4ç€',NULL);
-INSERT INTO "Japanize" VALUES('Shoukin5Chaku','è³é‡‘5ç€',NULL);
-INSERT INTO "Japanize" VALUES('Shoukin5ChakuDouchaku1','è³é‡‘5ç€åŒç€',NULL);
-INSERT INTO "Japanize" VALUES('Shoukin5ChakuDouchaku2','è³é‡‘5ç€åŒç€2',NULL);
-INSERT INTO "Japanize" VALUES('FukaShou','é™„åŠ è³',NULL);
-INSERT INTO "Japanize" VALUES('MaeuriFlag','å‰å£²ã‚Šãƒ•ãƒ©ã‚°','MaeuriFlag');
-INSERT INTO "Japanize" VALUES('YoteiHassouJikan','äºˆå®šç™ºèµ°æ™‚é–“',NULL);
-INSERT INTO "Japanize" VALUES('Tousuu','é ­æ•°',NULL);
-INSERT INTO "Japanize" VALUES('TorikeshiTousuu','å–æ¶ˆé ­æ•°',NULL);
-INSERT INTO "Japanize" VALUES('SuiteiTimeRyou','æ¨å®šã‚¿ã‚¤ãƒ  è‰¯',NULL);
-INSERT INTO "Japanize" VALUES('SuiteiTimeOmoFuryou','æ¨å®šã‚¿ã‚¤ãƒ  é‡ãƒ»ä¸è‰¯',NULL);
-INSERT INTO "Japanize" VALUES('YosouPace','äºˆæƒ³ãƒšãƒ¼ã‚¹','Pace');
-INSERT INTO "Japanize" VALUES('Pace','ãƒšãƒ¼ã‚¹','Pace');
-INSERT INTO "Japanize" VALUES('Tenki','å¤©æ°—','Tenki');
-INSERT INTO "Japanize" VALUES('Baba','é¦¬å ´','Baba');
-INSERT INTO "Japanize" VALUES('Seed','ã‚·ãƒ¼ãƒ‰','Seed');
-INSERT INTO "Japanize" VALUES('ShougaiHeikin1F','éšœå®³å¹³å‡1F',NULL);
-INSERT INTO "Japanize" VALUES('Midashi1','è¦‹å‡ºã—1','Midashi1');
-INSERT INTO "Japanize" VALUES('Midashi2','è¦‹å‡ºã—2','Midashi2');
-INSERT INTO "Japanize" VALUES('Keika','çµŒé',NULL);
-INSERT INTO "Japanize" VALUES('HassouJoukyou','ç™ºèµ°çŠ¶æ³',NULL);
-INSERT INTO "Japanize" VALUES('KaishiKyori','é–‹å§‹è·é›¢',NULL);
-INSERT INTO "Japanize" VALUES('ShuuryouKyori','çµ‚äº†è·é›¢',NULL);
-INSERT INTO "Japanize" VALUES('LapTime','ãƒ©ãƒƒãƒ—ã‚¿ã‚¤ãƒ ',NULL);
-INSERT INTO "Japanize" VALUES('TanUmaban1','å˜é¦¬ç•ª1',NULL);
-INSERT INTO "Japanize" VALUES('TanshouHaitoukin1','å˜å‹é…å½“é‡‘1',NULL);
-INSERT INTO "Japanize" VALUES('TanUmaban2','å˜é¦¬ç•ª2',NULL);
-INSERT INTO "Japanize" VALUES('TanshouHaitoukin2','å˜å‹é…å½“é‡‘2',NULL);
-INSERT INTO "Japanize" VALUES('TanUmaban3','å˜é¦¬ç•ª3',NULL);
-INSERT INTO "Japanize" VALUES('TanshouHaitoukin3','å˜å‹é…å½“é‡‘3',NULL);
-INSERT INTO "Japanize" VALUES('FukuUmaban1','è¤‡é¦¬ç•ª1',NULL);
-INSERT INTO "Japanize" VALUES('FukushouHaitoukin1','è¤‡å‹é…å½“é‡‘1',NULL);
-INSERT INTO "Japanize" VALUES('FukuUmaban2','è¤‡é¦¬ç•ª2',NULL);
-INSERT INTO "Japanize" VALUES('FukushouHaitoukin2','è¤‡å‹é…å½“é‡‘2',NULL);
-INSERT INTO "Japanize" VALUES('FukuUmaban3','è¤‡é¦¬ç•ª3',NULL);
-INSERT INTO "Japanize" VALUES('FukushouHaitoukin3','è¤‡å‹é…å½“é‡‘3',NULL);
-INSERT INTO "Japanize" VALUES('FukuUmaban4','è¤‡é¦¬ç•ª4',NULL);
-INSERT INTO "Japanize" VALUES('FukushouHaitoukin4','è¤‡å‹é…å½“é‡‘4',NULL);
-INSERT INTO "Japanize" VALUES('FukuUmaban5','è¤‡é¦¬ç•ª5',NULL);
-INSERT INTO "Japanize" VALUES('FukushouHaitoukin5','è¤‡å‹é…å½“é‡‘5',NULL);
-INSERT INTO "Japanize" VALUES('Wakuren11','æ é€£1-1',NULL);
-INSERT INTO "Japanize" VALUES('Wakuren12','æ é€£1-2',NULL);
-INSERT INTO "Japanize" VALUES('WakurenHaitoukin1','æ é€£é…å½“é‡‘1',NULL);
-INSERT INTO "Japanize" VALUES('WakurenNinki1','æ é€£äººæ°—1',NULL);
-INSERT INTO "Japanize" VALUES('Wakuren21','æ é€£2-1',NULL);
-INSERT INTO "Japanize" VALUES('Wakuren22','æ é€£2-2',NULL);
-INSERT INTO "Japanize" VALUES('WakurenHaitoukin2','æ é€£é…å½“é‡‘2',NULL);
-INSERT INTO "Japanize" VALUES('WakurenNinki2','æ é€£äººæ°—2',NULL);
-INSERT INTO "Japanize" VALUES('Wakuren31','æ é€£3-1',NULL);
-INSERT INTO "Japanize" VALUES('Wakuren32','æ é€£3-2',NULL);
-INSERT INTO "Japanize" VALUES('WakurenHaitoukin3','æ é€£é…å½“é‡‘3',NULL);
-INSERT INTO "Japanize" VALUES('WakurenNinki3','æ é€£äººæ°—3',NULL);
-INSERT INTO "Japanize" VALUES('Umaren11','é¦¬é€£1-1',NULL);
-INSERT INTO "Japanize" VALUES('Umaren12','é¦¬é€£1-2',NULL);
-INSERT INTO "Japanize" VALUES('UmarenHaitoukin1','é¦¬é€£é…å½“é‡‘1',NULL);
-INSERT INTO "Japanize" VALUES('UmarenNinki1','é¦¬é€£äººæ°—1',NULL);
-INSERT INTO "Japanize" VALUES('Umaren21','é¦¬é€£2-1',NULL);
-INSERT INTO "Japanize" VALUES('Umaren22','é¦¬é€£2-2',NULL);
-INSERT INTO "Japanize" VALUES('UmarenHaitoukin2','é¦¬é€£é…å½“é‡‘2',NULL);
-INSERT INTO "Japanize" VALUES('UmarenNinki2','é¦¬é€£äººæ°—2',NULL);
-INSERT INTO "Japanize" VALUES('Umaren31','é¦¬é€£3-1',NULL);
-INSERT INTO "Japanize" VALUES('Umaren32','é¦¬é€£3-2',NULL);
-INSERT INTO "Japanize" VALUES('UmarenHaitoukin3','é¦¬é€£é…å½“é‡‘3',NULL);
-INSERT INTO "Japanize" VALUES('UmarenNinki3','é¦¬é€£äººæ°—3',NULL);
-INSERT INTO "Japanize" VALUES('WideUmaren11','ãƒ¯ã‚¤ãƒ‰é¦¬é€£1-1',NULL);
-INSERT INTO "Japanize" VALUES('WideUmaren12','ãƒ¯ã‚¤ãƒ‰é¦¬é€£1-2',NULL);
-INSERT INTO "Japanize" VALUES('WideUmarenHaitoukin1','ãƒ¯ã‚¤ãƒ‰é¦¬é€£é…å½“é‡‘1',NULL);
-INSERT INTO "Japanize" VALUES('WideUmarenNinki1','ãƒ¯ã‚¤ãƒ‰é¦¬é€£äººæ°—1',NULL);
-INSERT INTO "Japanize" VALUES('WideUmaren21','ãƒ¯ã‚¤ãƒ‰é¦¬é€£2-1',NULL);
-INSERT INTO "Japanize" VALUES('WideUmaren22','ãƒ¯ã‚¤ãƒ‰é¦¬é€£2-2',NULL);
-INSERT INTO "Japanize" VALUES('WideUmarenHaitoukin2','ãƒ¯ã‚¤ãƒ‰é¦¬é€£é…å½“é‡‘2',NULL);
-INSERT INTO "Japanize" VALUES('WideUmarenNinki2','ãƒ¯ã‚¤ãƒ‰é¦¬é€£äººæ°—2',NULL);
-INSERT INTO "Japanize" VALUES('WideUmaren31','ãƒ¯ã‚¤ãƒ‰é¦¬é€£3-1',NULL);
-INSERT INTO "Japanize" VALUES('WideUmaren32','ãƒ¯ã‚¤ãƒ‰é¦¬é€£3-2',NULL);
-INSERT INTO "Japanize" VALUES('WideUmarenHaitoukin3','ãƒ¯ã‚¤ãƒ‰é¦¬é€£é…å½“é‡‘3',NULL);
-INSERT INTO "Japanize" VALUES('WideUmarenNinki3','ãƒ¯ã‚¤ãƒ‰é¦¬é€£äººæ°—3',NULL);
-INSERT INTO "Japanize" VALUES('WideUmaren41','ãƒ¯ã‚¤ãƒ‰é¦¬é€£4-1',NULL);
-INSERT INTO "Japanize" VALUES('WideUmaren42','ãƒ¯ã‚¤ãƒ‰é¦¬é€£4-2',NULL);
-INSERT INTO "Japanize" VALUES('WideUmarenHaitoukin4','ãƒ¯ã‚¤ãƒ‰é¦¬é€£é…å½“é‡‘4',NULL);
-INSERT INTO "Japanize" VALUES('WideUmarenNinki4','ãƒ¯ã‚¤ãƒ‰é¦¬é€£äººæ°—4',NULL);
-INSERT INTO "Japanize" VALUES('WideUmaren51','ãƒ¯ã‚¤ãƒ‰é¦¬é€£5-1',NULL);
-INSERT INTO "Japanize" VALUES('WideUmaren52','ãƒ¯ã‚¤ãƒ‰é¦¬é€£5-2',NULL);
-INSERT INTO "Japanize" VALUES('WideUmarenHaitoukin5','ãƒ¯ã‚¤ãƒ‰é¦¬é€£é…å½“é‡‘5',NULL);
-INSERT INTO "Japanize" VALUES('WideUmarenNinki5','ãƒ¯ã‚¤ãƒ‰é¦¬é€£äººæ°—5',NULL);
-INSERT INTO "Japanize" VALUES('WideUmaren61','ãƒ¯ã‚¤ãƒ‰é¦¬é€£6-1',NULL);
-INSERT INTO "Japanize" VALUES('WideUmaren62','ãƒ¯ã‚¤ãƒ‰é¦¬é€£6-2',NULL);
-INSERT INTO "Japanize" VALUES('WideUmarenHaitoukin6','ãƒ¯ã‚¤ãƒ‰é¦¬é€£é…å½“é‡‘6',NULL);
-INSERT INTO "Japanize" VALUES('WideUmarenNinki6','ãƒ¯ã‚¤ãƒ‰é¦¬é€£äººæ°—6',NULL);
-INSERT INTO "Japanize" VALUES('WideUmaren71','ãƒ¯ã‚¤ãƒ‰é¦¬é€£7-1',NULL);
-INSERT INTO "Japanize" VALUES('WideUmaren72','ãƒ¯ã‚¤ãƒ‰é¦¬é€£7-2',NULL);
-INSERT INTO "Japanize" VALUES('WideUmarenHaitoukin7','ãƒ¯ã‚¤ãƒ‰é¦¬é€£é…å½“é‡‘7',NULL);
-INSERT INTO "Japanize" VALUES('WideUmarenNinki7','ãƒ¯ã‚¤ãƒ‰é¦¬é€£äººæ°—7',NULL);
-INSERT INTO "Japanize" VALUES('Umatan11','é¦¬å˜1-1',NULL);
-INSERT INTO "Japanize" VALUES('Umatan12','é¦¬å˜1-2',NULL);
-INSERT INTO "Japanize" VALUES('UmatanHaitoukin1','é¦¬å˜é…å½“é‡‘1',NULL);
-INSERT INTO "Japanize" VALUES('UmatanNinki1','é¦¬å˜äººæ°—1',NULL);
-INSERT INTO "Japanize" VALUES('Umatan21','é¦¬å˜2-1',NULL);
-INSERT INTO "Japanize" VALUES('Umatan22','é¦¬å˜2-2',NULL);
-INSERT INTO "Japanize" VALUES('UmatanHaitoukin2','é¦¬å˜é…å½“é‡‘2',NULL);
-INSERT INTO "Japanize" VALUES('UmatanNinki2','é¦¬å˜äººæ°—2',NULL);
-INSERT INTO "Japanize" VALUES('Umatan31','é¦¬å˜3-1',NULL);
-INSERT INTO "Japanize" VALUES('Umatan32','é¦¬å˜3-2',NULL);
-INSERT INTO "Japanize" VALUES('UmatanHaitoukin3','é¦¬å˜é…å½“é‡‘3',NULL);
-INSERT INTO "Japanize" VALUES('UmatanNinki3','é¦¬å˜äººæ°—3',NULL);
-INSERT INTO "Japanize" VALUES('Umatan41','é¦¬å˜4-1',NULL);
-INSERT INTO "Japanize" VALUES('Umatan42','é¦¬å˜4-2',NULL);
-INSERT INTO "Japanize" VALUES('UmatanHaitoukin4','é¦¬å˜é…å½“é‡‘4',NULL);
-INSERT INTO "Japanize" VALUES('UmatanNinki4','é¦¬å˜äººæ°—4',NULL);
-INSERT INTO "Japanize" VALUES('Umatan51','é¦¬å˜5-1',NULL);
-INSERT INTO "Japanize" VALUES('Umatan52','é¦¬å˜5-2',NULL);
-INSERT INTO "Japanize" VALUES('UmatanHaitoukin5','é¦¬å˜é…å½“é‡‘5',NULL);
-INSERT INTO "Japanize" VALUES('UmatanNinki5','é¦¬å˜äººæ°—5',NULL);
-INSERT INTO "Japanize" VALUES('Umatan61','é¦¬å˜6-1',NULL);
-INSERT INTO "Japanize" VALUES('Umatan62','é¦¬å˜6-2',NULL);
-INSERT INTO "Japanize" VALUES('UmatanHaitoukin6','é¦¬å˜é…å½“é‡‘6',NULL);
-INSERT INTO "Japanize" VALUES('UmatanNinki6','é¦¬å˜äººæ°—6',NULL);
-INSERT INTO "Japanize" VALUES('Sanrenpuku11','3é€£è¤‡1-1',NULL);
-INSERT INTO "Japanize" VALUES('Sanrenpuku12','3é€£è¤‡1-2',NULL);
-INSERT INTO "Japanize" VALUES('Sanrenpuku13','3é€£è¤‡1-3',NULL);
-INSERT INTO "Japanize" VALUES('SanrenpukuHaitoukin1','3é€£è¤‡é…å½“é‡‘1',NULL);
-INSERT INTO "Japanize" VALUES('SanrenpukuNinki1','3é€£è¤‡äººæ°—1',NULL);
-INSERT INTO "Japanize" VALUES('Sanrenpuku21','3é€£è¤‡2-1',NULL);
-INSERT INTO "Japanize" VALUES('Sanrenpuku22','3é€£è¤‡2-2',NULL);
-INSERT INTO "Japanize" VALUES('Sanrenpuku23','3é€£è¤‡2-3',NULL);
-INSERT INTO "Japanize" VALUES('SanrenpukuHaitoukin2','3é€£è¤‡é…å½“é‡‘2',NULL);
-INSERT INTO "Japanize" VALUES('SanrenpukuNinki2','3é€£è¤‡äººæ°—2',NULL);
-INSERT INTO "Japanize" VALUES('Sanrenpuku31','3é€£è¤‡3-1',NULL);
-INSERT INTO "Japanize" VALUES('Sanrenpuku32','3é€£è¤‡3-2',NULL);
-INSERT INTO "Japanize" VALUES('Sanrenpuku33','3é€£è¤‡3-3',NULL);
-INSERT INTO "Japanize" VALUES('SanrenpukuHaitoukin3','3é€£è¤‡é…å½“é‡‘3',NULL);
-INSERT INTO "Japanize" VALUES('SanrenpukuNinki3','3é€£è¤‡äººæ°—3',NULL);
-INSERT INTO "Japanize" VALUES('Sanrentan11','3é€£å˜1-1',NULL);
-INSERT INTO "Japanize" VALUES('Sanrentan12','3é€£å˜1-2',NULL);
-INSERT INTO "Japanize" VALUES('Sanrentan13','3é€£å˜1-3',NULL);
-INSERT INTO "Japanize" VALUES('SanrentanHaitoukin1','3é€£å˜é…å½“é‡‘1',NULL);
-INSERT INTO "Japanize" VALUES('SanrentanNinki1','3é€£å˜äººæ°—1',NULL);
-INSERT INTO "Japanize" VALUES('Sanrentan21','3é€£å˜2-1',NULL);
-INSERT INTO "Japanize" VALUES('Sanrentan22','3é€£å˜2-2',NULL);
-INSERT INTO "Japanize" VALUES('Sanrentan23','3é€£å˜2-3',NULL);
-INSERT INTO "Japanize" VALUES('SanrentanHaitoukin2','3é€£å˜é…å½“é‡‘2',NULL);
-INSERT INTO "Japanize" VALUES('SanrentanNinki2','3é€£å˜äººæ°—2',NULL);
-INSERT INTO "Japanize" VALUES('Sanrentan31','3é€£å˜3-1',NULL);
-INSERT INTO "Japanize" VALUES('Sanrentan32','3é€£å˜3-2',NULL);
-INSERT INTO "Japanize" VALUES('Sanrentan33','3é€£å˜3-3',NULL);
-INSERT INTO "Japanize" VALUES('SanrentanHaitoukin3','3é€£å˜é…å½“é‡‘3',NULL);
-INSERT INTO "Japanize" VALUES('SanrentanNinki3','3é€£å˜äººæ°—3',NULL);
-INSERT INTO "Japanize" VALUES('Sanrentan41','3é€£å˜4-1',NULL);
-INSERT INTO "Japanize" VALUES('Sanrentan42','3é€£å˜4-2',NULL);
-INSERT INTO "Japanize" VALUES('Sanrentan43','3é€£å˜4-3',NULL);
-INSERT INTO "Japanize" VALUES('SanrentanHaitoukin4','3é€£å˜é…å½“é‡‘4',NULL);
-INSERT INTO "Japanize" VALUES('SanrentanNinki4','3é€£å˜äººæ°—4',NULL);
-INSERT INTO "Japanize" VALUES('Sanrentan51','3é€£å˜5-1',NULL);
-INSERT INTO "Japanize" VALUES('Sanrentan52','3é€£å˜5-2',NULL);
-INSERT INTO "Japanize" VALUES('Sanrentan53','3é€£å˜5-3',NULL);
-INSERT INTO "Japanize" VALUES('SanrentanHaitoukin5','3é€£å˜é…å½“é‡‘5',NULL);
-INSERT INTO "Japanize" VALUES('SanrentanNinki5','3é€£å˜äººæ°—5',NULL);
-INSERT INTO "Japanize" VALUES('Sanrentan61','3é€£å˜6-1',NULL);
-INSERT INTO "Japanize" VALUES('Sanrentan62','3é€£å˜6-2',NULL);
-INSERT INTO "Japanize" VALUES('Sanrentan63','3é€£å˜6-3',NULL);
-INSERT INTO "Japanize" VALUES('SanrentanHaitoukin6','3é€£å˜é…å½“é‡‘6',NULL);
-INSERT INTO "Japanize" VALUES('SanrentanNinki6','3é€£å˜äººæ°—6',NULL);
-INSERT INTO "Japanize" VALUES('Wakuban','æ ç•ª',NULL);
-INSERT INTO "Japanize" VALUES('Umaban','é¦¬ç•ª',NULL);
-INSERT INTO "Japanize" VALUES('Gate','ã‚²ãƒ¼ãƒˆ',NULL);
-INSERT INTO "Japanize" VALUES('KyousoubaId','ç«¶èµ°é¦¬ID',NULL);
-INSERT INTO "Japanize" VALUES('KanaBamei','ã‚«ãƒŠé¦¬å',NULL);
-INSERT INTO "Japanize" VALUES('UmaKigou','é¦¬è¨˜å·','UmaKigou');
-INSERT INTO "Japanize" VALUES('Seibetsu','æ€§åˆ¥','Seibetsu');
-INSERT INTO "Japanize" VALUES('Nenrei','å¹´é½¢',NULL);
-INSERT INTO "Japanize" VALUES('BanushiMei','é¦¬ä¸»å',NULL);
-INSERT INTO "Japanize" VALUES('TanshukuBanushiMei','çŸ­ç¸®é¦¬ä¸»å',NULL);
-INSERT INTO "Japanize" VALUES('Blinker','ãƒ–ãƒªãƒ³ã‚«ãƒ¼','Blinker');
-INSERT INTO "Japanize" VALUES('Kinryou','æ–¤é‡',NULL);
-INSERT INTO "Japanize" VALUES('Bataijuu','é¦¬ä½“é‡',NULL);
-INSERT INTO "Japanize" VALUES('Zougen','å¢—æ¸›',NULL);
-INSERT INTO "Japanize" VALUES('RecordShisuu','ãƒ¬ã‚³ãƒ¼ãƒ‰æŒ‡æ•°',NULL);
-INSERT INTO "Japanize" VALUES('KishuId','é¨æ‰‹ID',NULL);
-INSERT INTO "Japanize" VALUES('KishuMei','é¨æ‰‹å',NULL);
-INSERT INTO "Japanize" VALUES('TanshukuKishuMei','çŸ­ç¸®é¨æ‰‹å',NULL);
-INSERT INTO "Japanize" VALUES('KishuTouzaiBetsu','é¨æ‰‹æ±è¥¿åˆ¥',NULL);
-INSERT INTO "Japanize" VALUES('KishuShozokuBasho','é¨æ‰‹æ‰€å±å ´æ‰€','Basho');
-INSERT INTO "Japanize" VALUES('KishuShozokuKyuushaId','é¨æ‰‹æ‰€å±å©èˆID',NULL);
-INSERT INTO "Japanize" VALUES('MinaraiKubun','è¦‹ç¿’ã„åŒºåˆ†','MinaraiKubun');
-INSERT INTO "Japanize" VALUES('Norikawari','ä¹—ã‚Šæ›¿ã‚Š','Norikawari');
-INSERT INTO "Japanize" VALUES('KyuushaId','å©èˆID',NULL);
-INSERT INTO "Japanize" VALUES('KyuushaMei','å©èˆå',NULL);
-INSERT INTO "Japanize" VALUES('TanshukuKyuushaMei','çŸ­ç¸®å©èˆå',NULL);
-INSERT INTO "Japanize" VALUES('KyuushaShozokuBasho','å©èˆæ‰€å±å ´æ‰€','Basho');
-INSERT INTO "Japanize" VALUES('KyuushaRitsuHokuNanBetsu','å©èˆæ —åŒ—å—åˆ¥','KyuushaRitsuHokuNanBetsu');
-INSERT INTO "Japanize" VALUES('YosouShirushi','å‡ºé¦¬è¡¨ã®äºˆæƒ³å°','Yosou');
-INSERT INTO "Japanize" VALUES('YosouShirushiHonshi','äºˆæƒ³(æœ¬ç´™)','Yosou');
-INSERT INTO "Japanize" VALUES('Ninki','äººæ°—',NULL);
-INSERT INTO "Japanize" VALUES('Odds','ã‚ªãƒƒã‚º',NULL);
-INSERT INTO "Japanize" VALUES('KakuteiChakujun','ç¢ºå®šç€é †',NULL);
-INSERT INTO "Japanize" VALUES('ChakujunFuka','ç€é †é™„åŠ ','ChakujunFuka');
-INSERT INTO "Japanize" VALUES('NyuusenChakujun','å…¥ç·šç€é †',NULL);
-INSERT INTO "Japanize" VALUES('TorikeshiShubetsu','å–æ¶ˆç¨®åˆ¥','TorikeshiShubetsu');
-INSERT INTO "Japanize" VALUES('RecordNinshiki','ãƒ¬ã‚³ãƒ¼ãƒ‰èªè­˜','RecordFlag');
-INSERT INTO "Japanize" VALUES('Time','ã‚¿ã‚¤ãƒ ',NULL);
-INSERT INTO "Japanize" VALUES('Chakusa1','ç€å·®1',NULL);
-INSERT INTO "Japanize" VALUES('Chakusa2','ç€å·®2','Chakusa2');
-INSERT INTO "Japanize" VALUES('TimeSa','ã‚¿ã‚¤ãƒ å·®',NULL);
-INSERT INTO "Japanize" VALUES('Zenhan3F','å‰åŠ3F',NULL);
-INSERT INTO "Japanize" VALUES('Kouhan3F','å¾ŒåŠ3F',NULL);
-INSERT INTO "Japanize" VALUES('Juni','é †ä½',NULL);
-INSERT INTO "Japanize" VALUES('YonCornerIchiDori','4è§’ä½ç½®å–ã‚Š','YonCornerIchiDori');
-INSERT INTO "Japanize" VALUES('ChoukyouFlag','èª¿æ•™ãƒ•ãƒ©ã‚°','ChoukyouFlag');
-INSERT INTO "Japanize" VALUES('AwaseFlag','ä½µã›ãƒ•ãƒ©ã‚°','AwaseFlag');
-INSERT INTO "Japanize" VALUES('Awase','ä½µã›',NULL);
-INSERT INTO "Japanize" VALUES('Tanpyou','çŸ­è©•',NULL);
-INSERT INTO "Japanize" VALUES('HonsuuCourse','æœ¬æ•°ã‚³ãƒ¼ã‚¹',NULL);
-INSERT INTO "Japanize" VALUES('HonsuuHanro','æœ¬æ•°å‚è·¯',NULL);
-INSERT INTO "Japanize" VALUES('HonsuuPool','æœ¬æ•°ãƒ—ãƒ¼ãƒ«',NULL);
-INSERT INTO "Japanize" VALUES('Rating','ãƒ¬ã‚¤ãƒ†ã‚£ãƒ³ã‚°',NULL);
-INSERT INTO "Japanize" VALUES('KyuuyouRiyuu','ä¼‘é¤Šç†ç”±',NULL);
-INSERT INTO "Japanize" VALUES('Kijousha','é¨ä¹—è€…',NULL);
-INSERT INTO "Japanize" VALUES('Basho','å ´æ‰€',NULL);
-INSERT INTO "Japanize" VALUES('ChoukyouCourse','ã‚³ãƒ¼ã‚¹',NULL);
-INSERT INTO "Japanize" VALUES('ChoukyouBaba','é¦¬å ´',NULL);
-INSERT INTO "Japanize" VALUES('Kaisuu','å›æ•°',NULL);
-INSERT INTO "Japanize" VALUES('IchiDori','ä½ç½®å–ã‚Š',NULL);
-INSERT INTO "Japanize" VALUES('Ashiiro','è„šè‰²',NULL);
-INSERT INTO "Japanize" VALUES('Yajirushi','èª¿æ•™çŸ¢å°','Yajirushi');
-INSERT INTO "Japanize" VALUES('Reigai','ä¾‹å¤–',NULL);
-INSERT INTO "Japanize" VALUES('Seinen','ç”Ÿå¹´',NULL);
-INSERT INTO "Japanize" VALUES('F','ãƒãƒ­ãƒ³',NULL);
-INSERT INTO "Japanize" VALUES('Comment','ã‚³ãƒ¡ãƒ³ãƒˆ',NULL);
-INSERT INTO "Japanize" VALUES('Ichi','ä½ç½®','Ichi');
-INSERT INTO "Japanize" VALUES('Joukyou','çŠ¶æ³','Joukyou');
-INSERT INTO "Japanize" VALUES('FuriByousuu','ä¸åˆ©ç§’æ•°',NULL);
-INSERT INTO "Japanize" VALUES('Shisuu','æŒ‡æ•°',NULL);
-INSERT INTO "Japanize" VALUES('Tate','ç¸¦',NULL);
-INSERT INTO "Japanize" VALUES('Yoko','æ¨ª',NULL);
-INSERT INTO "Japanize" VALUES('Keiro','æ¯›è‰²','Keiro');
-INSERT INTO "Japanize" VALUES('Kesshu','è¡€ç¨®','Kesshu');
-INSERT INTO "Japanize" VALUES('Sanchi','ç”£åœ°','Sanchi');
-INSERT INTO "Japanize" VALUES('ChichiUmaId','çˆ¶é¦¬ID',NULL);
-INSERT INTO "Japanize" VALUES('ChichiUmaMei','çˆ¶é¦¬å',NULL);
-INSERT INTO "Japanize" VALUES('HahaUmaId','æ¯é¦¬ID',NULL);
-INSERT INTO "Japanize" VALUES('HahaUmaMei','æ¯é¦¬å',NULL);
-INSERT INTO "Japanize" VALUES('HahaChichiUmaId','æ¯çˆ¶é¦¬ID',NULL);
-INSERT INTO "Japanize" VALUES('HahaChichiUmaMei','æ¯çˆ¶é¦¬',NULL);
-INSERT INTO "Japanize" VALUES('HahaHahaUmaId','æ¯æ¯é¦¬ID',NULL);
-INSERT INTO "Japanize" VALUES('HahaHahaUmaMei','æ¯æ¯é¦¬å',NULL);
-INSERT INTO "Japanize" VALUES('SeisanshaMei','ç”Ÿç”£è€…å',NULL);
-INSERT INTO "Japanize" VALUES('TanshukuSeisanshaMei','çŸ­ç¸®ç”Ÿç”£è€…å',NULL);
-INSERT INTO "Japanize" VALUES('KoueiGaikokuKyuushaMei','å…¬å–¶å¤–å›½å©èˆå',NULL);
-INSERT INTO "Japanize" VALUES('MasshouFlag','æŠ¹æ¶ˆãƒ•ãƒ©ã‚°','MasshouFlag');
-INSERT INTO "Japanize" VALUES('MasshouNengappi','æŠ¹æ¶ˆå¹´æœˆæ—¥',NULL);
-INSERT INTO "Japanize" VALUES('Jiyuu','äº‹ç”±',NULL);
-INSERT INTO "Japanize" VALUES('Ikisaki','è¡Œå…ˆ',NULL);
-INSERT INTO "Japanize" VALUES('Furigana','ãƒ•ãƒªã‚¬ãƒŠ',NULL);
-INSERT INTO "Japanize" VALUES('Seinengappi','ç”Ÿå¹´æœˆæ—¥',NULL);
-INSERT INTO "Japanize" VALUES('HatsuMenkyoNen','åˆå…è¨±å¹´',NULL);
-INSERT INTO "Japanize" VALUES('KishuShikakuKubun','é¨ä¹—è³‡æ ¼åŒºåˆ†',NULL);
-INSERT INTO "Japanize" VALUES('TourokuMasshouFlag','ç™»éŒ²æŠ¹æ¶ˆãƒ•ãƒ©ã‚°',NULL);
-INSERT INTO "Japanize" VALUES('ShutsubahyouSakuseiNengappi','å‡ºé¦¬è¡¨ä½œæˆå¹´æœˆæ—¥',NULL);
-INSERT INTO "Japanize" VALUES('SeisekiSakuseiNengappi','æˆç¸¾ä½œæˆå¹´æœˆæ—¥',NULL);
-INSERT INTO "Japanize" VALUES('DataSakuseiNengappi','ãƒ‡ãƒ¼ã‚¿ä½œæˆå¹´æœˆæ—¥',NULL);
-INSERT INTO "Japanize" VALUES('ChichiKyoriTekisei','çˆ¶è·é›¢é©æ€§','KyoriTekisei');
-INSERT INTO "Japanize" VALUES('HirabaOmoKousetsu','å¹³å ´é‡å·§æ‹™','Kousetsu');
-INSERT INTO "Japanize" VALUES('HirabaDirtKousetsu','å¹³å ´ãƒ€ãƒ¼ãƒˆå·§æ‹™','Kousetsu');
-INSERT INTO "Japanize" VALUES('ShougaiOmoKousetsu','éšœå®³é‡å·§æ‹™','Kousetsu');
-INSERT INTO "Japanize" VALUES('ShougaiDirtKousetsu','éšœå®³ãƒ€ãƒ¼ãƒˆå·§æ‹™','Kousetsu');
-INSERT INTO "Japanize" VALUES('Oikiri','è¿½åˆ‡ã‚Š','Oikiri');
-INSERT INTO "Japanize" VALUES('KyuushaTouzaiBetsu','å©èˆæ±è¥¿åˆ¥','KyuushaTouzaiBetsu');
-INSERT INTO "Japanize" VALUES('Bangou','ç•ªå·',NULL);
-INSERT INTO "Japanize" VALUES('KyuuBamei','æ—§é¦¬å',NULL);
+INSERT INTO "Japanize" VALUES('KaisaiBasho','ŠJÃêŠ','Basho');
+INSERT INTO "Japanize" VALUES('KaisaiNen','ŠJÃ”N',NULL);
+INSERT INTO "Japanize" VALUES('KaisaiKaiji','ŠJÃ‰ñŸ',NULL);
+INSERT INTO "Japanize" VALUES('KaisaiNichiji','ŠJÃ“úŸ',NULL);
+INSERT INTO "Japanize" VALUES('RaceBangou','ƒŒ[ƒX”Ô†',NULL);
+INSERT INTO "Japanize" VALUES('Nengappi','”NŒ“ú',NULL);
+INSERT INTO "Japanize" VALUES('Kyuujitsu','‹x“ú','Kyuujitsu');
+INSERT INTO "Japanize" VALUES('Youbi','—j“ú','Youbi');
+INSERT INTO "Japanize" VALUES('KouryuuFlag','Œğ—¬ƒtƒ‰ƒO','KouryuuFlag');
+INSERT INTO "Japanize" VALUES('ChuuouChihouGaikoku','’†‰›E’n•ûEŠO‘','ChuuouChihouGaikoku');
+INSERT INTO "Japanize" VALUES('IppanTokubetsu','ˆêE“Á','IppanTokubetsu');
+INSERT INTO "Japanize" VALUES('HeichiShougai','•½Eá','HeichiShougai');
+INSERT INTO "Japanize" VALUES('JuushouKaisuu','dÜ‰ñ”',NULL);
+INSERT INTO "Japanize" VALUES('TokubetsuMei','“Á•Ê–¼',NULL);
+INSERT INTO "Japanize" VALUES('TanshukuTokubetsuMei','’Zk“Á•Ê–¼',NULL);
+INSERT INTO "Japanize" VALUES('Grade','ƒOƒŒ[ƒh','Grade');
+INSERT INTO "Japanize" VALUES('JpnFlag','Jpnƒtƒ‰ƒO',NULL);
+INSERT INTO "Japanize" VALUES('BetteiBareiHandi','•Ê’è”n—îƒnƒ“ƒfŠT—v','BetteiBareiHandi');
+INSERT INTO "Japanize" VALUES('BetteiBareiHandiShousai','•Ê’è”n—îƒnƒ“ƒfÚ×',NULL);
+INSERT INTO "Japanize" VALUES('JoukenFuka1','ğŒ•t‰Á1','JoukenFuka1');
+INSERT INTO "Japanize" VALUES('JoukenFuka2','ğŒ•t‰Á2','JoukenFuka2');
+INSERT INTO "Japanize" VALUES('JoukenKei','ğŒŒn','JoukenKei');
+INSERT INTO "Japanize" VALUES('JoukenNenreiSeigen','ğŒ”N—î§ŒÀ','JoukenNenreiSeigen');
+INSERT INTO "Japanize" VALUES('Jouken1','ğŒ1 Œö‰c(ƒNƒ‰ƒX)','Jouken');
+INSERT INTO "Japanize" VALUES('Kumi1','‘g1',NULL);
+INSERT INTO "Japanize" VALUES('IjouIkaMiman','ˆÈãEˆÈ‰ºE`E–¢–','IjouIkaMiman');
+INSERT INTO "Japanize" VALUES('Jouken2','ğŒ2 Œö‰c(ƒNƒ‰ƒX)','Jouken');
+INSERT INTO "Japanize" VALUES('Kumi2','‘g2',NULL);
+INSERT INTO "Japanize" VALUES('DirtShiba','ƒ_EÅ','DirtShiba');
+INSERT INTO "Japanize" VALUES('MigiHidari','‰EE¶','MigiHidari');
+INSERT INTO "Japanize" VALUES('UchiSoto','“àEŠO','UchiSoto');
+INSERT INTO "Japanize" VALUES('Course','ƒR[ƒX','Course');
+INSERT INTO "Japanize" VALUES('Kyori','‹——£',NULL);
+INSERT INTO "Japanize" VALUES('CourseRecordFlag','ƒR[ƒXƒŒƒR[ƒhƒtƒ‰ƒO','RecordFlag');
+INSERT INTO "Japanize" VALUES('CourseRecordNengappi','ƒR[ƒXƒŒƒR[ƒh“ú•t',NULL);
+INSERT INTO "Japanize" VALUES('CourseRecordTime','ƒR[ƒXƒŒƒR[ƒhƒ^ƒCƒ€',NULL);
+INSERT INTO "Japanize" VALUES('CourseRecordBamei','ƒR[ƒXƒŒƒR[ƒh”n–¼',NULL);
+INSERT INTO "Japanize" VALUES('CourseRecordKinryou','ƒR[ƒXƒŒƒR[ƒh‹Ò—Ê',NULL);
+INSERT INTO "Japanize" VALUES('CourseRecordTanshukuKishuMei','ƒR[ƒXƒŒƒR[ƒh’Zk‹Rè–¼',NULL);
+INSERT INTO "Japanize" VALUES('KyoriRecordNengappi','‹——£ƒŒƒR[ƒh“ú•t',NULL);
+INSERT INTO "Japanize" VALUES('KyoriRecordTime','‹——£ƒŒƒR[ƒhƒ^ƒCƒ€',NULL);
+INSERT INTO "Japanize" VALUES('KyoriRecordBamei','‹——£ƒŒƒR[ƒh”n–¼',NULL);
+INSERT INTO "Japanize" VALUES('KyoriRecordKinryou','‹——£ƒŒƒR[ƒh‹Ò—Ê',NULL);
+INSERT INTO "Japanize" VALUES('KyoriRecordTanshukuKishuMei','‹——£ƒŒƒR[ƒh’Zk‹Rè–¼',NULL);
+INSERT INTO "Japanize" VALUES('KyoriRecordBasho','‹——£ƒŒƒR[ƒhêŠ','Basho');
+INSERT INTO "Japanize" VALUES('RaceRecordNengappi','ƒŒ[ƒXƒŒƒR[ƒh“ú•t',NULL);
+INSERT INTO "Japanize" VALUES('RaceRecordTime','ƒŒ[ƒXƒŒƒR[ƒhƒ^ƒCƒ€',NULL);
+INSERT INTO "Japanize" VALUES('RaceRecordBamei','ƒŒ[ƒXƒŒƒR[ƒh”n–¼',NULL);
+INSERT INTO "Japanize" VALUES('RaceRecordKinryou','ƒŒ[ƒXƒŒƒR[ƒh‹Ò—Ê',NULL);
+INSERT INTO "Japanize" VALUES('RaceRecordKishuMei','ƒŒ[ƒXƒŒƒR[ƒh’Zk‹Rè–¼',NULL);
+INSERT INTO "Japanize" VALUES('RaceRecordBasho','ƒŒ[ƒXƒŒƒR[ƒhêŠ','Basho');
+INSERT INTO "Japanize" VALUES('Shoukin1Chaku','Ü‹à1’…',NULL);
+INSERT INTO "Japanize" VALUES('Shoukin2Chaku','Ü‹à2’…',NULL);
+INSERT INTO "Japanize" VALUES('Shoukin3Chaku','Ü‹à3’…',NULL);
+INSERT INTO "Japanize" VALUES('Shoukin4Chaku','Ü‹à4’…',NULL);
+INSERT INTO "Japanize" VALUES('Shoukin5Chaku','Ü‹à5’…',NULL);
+INSERT INTO "Japanize" VALUES('Shoukin5ChakuDouchaku1','Ü‹à5’…“¯’…',NULL);
+INSERT INTO "Japanize" VALUES('Shoukin5ChakuDouchaku2','Ü‹à5’…“¯’…2',NULL);
+INSERT INTO "Japanize" VALUES('FukaShou','•‰ÁÜ',NULL);
+INSERT INTO "Japanize" VALUES('MaeuriFlag','‘O”„‚èƒtƒ‰ƒO','MaeuriFlag');
+INSERT INTO "Japanize" VALUES('YoteiHassouJikan','—\’è”­‘–ŠÔ',NULL);
+INSERT INTO "Japanize" VALUES('Tousuu','“ª”',NULL);
+INSERT INTO "Japanize" VALUES('TorikeshiTousuu','æÁ“ª”',NULL);
+INSERT INTO "Japanize" VALUES('SuiteiTimeRyou','„’èƒ^ƒCƒ€ —Ç',NULL);
+INSERT INTO "Japanize" VALUES('SuiteiTimeOmoFuryou','„’èƒ^ƒCƒ€ dE•s—Ç',NULL);
+INSERT INTO "Japanize" VALUES('YosouPace','—\‘zƒy[ƒX','Pace');
+INSERT INTO "Japanize" VALUES('Pace','ƒy[ƒX','Pace');
+INSERT INTO "Japanize" VALUES('Tenki','“V‹C','Tenki');
+INSERT INTO "Japanize" VALUES('Baba','”nê','Baba');
+INSERT INTO "Japanize" VALUES('Seed','ƒV[ƒh','Seed');
+INSERT INTO "Japanize" VALUES('ShougaiHeikin1F','áŠQ•½‹Ï1F',NULL);
+INSERT INTO "Japanize" VALUES('Midashi1','Œ©o‚µ1','Midashi1');
+INSERT INTO "Japanize" VALUES('Midashi2','Œ©o‚µ2','Midashi2');
+INSERT INTO "Japanize" VALUES('Keika','Œo‰ß',NULL);
+INSERT INTO "Japanize" VALUES('HassouJoukyou','”­‘–ó‹µ',NULL);
+INSERT INTO "Japanize" VALUES('KaishiKyori','ŠJn‹——£',NULL);
+INSERT INTO "Japanize" VALUES('ShuuryouKyori','I—¹‹——£',NULL);
+INSERT INTO "Japanize" VALUES('LapTime','ƒ‰ƒbƒvƒ^ƒCƒ€',NULL);
+INSERT INTO "Japanize" VALUES('TanUmaban1','’P”n”Ô1',NULL);
+INSERT INTO "Japanize" VALUES('TanshouHaitoukin1','’PŸ”z“–‹à1',NULL);
+INSERT INTO "Japanize" VALUES('TanUmaban2','’P”n”Ô2',NULL);
+INSERT INTO "Japanize" VALUES('TanshouHaitoukin2','’PŸ”z“–‹à2',NULL);
+INSERT INTO "Japanize" VALUES('TanUmaban3','’P”n”Ô3',NULL);
+INSERT INTO "Japanize" VALUES('TanshouHaitoukin3','’PŸ”z“–‹à3',NULL);
+INSERT INTO "Japanize" VALUES('FukuUmaban1','•¡”n”Ô1',NULL);
+INSERT INTO "Japanize" VALUES('FukushouHaitoukin1','•¡Ÿ”z“–‹à1',NULL);
+INSERT INTO "Japanize" VALUES('FukuUmaban2','•¡”n”Ô2',NULL);
+INSERT INTO "Japanize" VALUES('FukushouHaitoukin2','•¡Ÿ”z“–‹à2',NULL);
+INSERT INTO "Japanize" VALUES('FukuUmaban3','•¡”n”Ô3',NULL);
+INSERT INTO "Japanize" VALUES('FukushouHaitoukin3','•¡Ÿ”z“–‹à3',NULL);
+INSERT INTO "Japanize" VALUES('FukuUmaban4','•¡”n”Ô4',NULL);
+INSERT INTO "Japanize" VALUES('FukushouHaitoukin4','•¡Ÿ”z“–‹à4',NULL);
+INSERT INTO "Japanize" VALUES('FukuUmaban5','•¡”n”Ô5',NULL);
+INSERT INTO "Japanize" VALUES('FukushouHaitoukin5','•¡Ÿ”z“–‹à5',NULL);
+INSERT INTO "Japanize" VALUES('Wakuren11','˜g˜A1-1',NULL);
+INSERT INTO "Japanize" VALUES('Wakuren12','˜g˜A1-2',NULL);
+INSERT INTO "Japanize" VALUES('WakurenHaitoukin1','˜g˜A”z“–‹à1',NULL);
+INSERT INTO "Japanize" VALUES('WakurenNinki1','˜g˜Al‹C1',NULL);
+INSERT INTO "Japanize" VALUES('Wakuren21','˜g˜A2-1',NULL);
+INSERT INTO "Japanize" VALUES('Wakuren22','˜g˜A2-2',NULL);
+INSERT INTO "Japanize" VALUES('WakurenHaitoukin2','˜g˜A”z“–‹à2',NULL);
+INSERT INTO "Japanize" VALUES('WakurenNinki2','˜g˜Al‹C2',NULL);
+INSERT INTO "Japanize" VALUES('Wakuren31','˜g˜A3-1',NULL);
+INSERT INTO "Japanize" VALUES('Wakuren32','˜g˜A3-2',NULL);
+INSERT INTO "Japanize" VALUES('WakurenHaitoukin3','˜g˜A”z“–‹à3',NULL);
+INSERT INTO "Japanize" VALUES('WakurenNinki3','˜g˜Al‹C3',NULL);
+INSERT INTO "Japanize" VALUES('Umaren11','”n˜A1-1',NULL);
+INSERT INTO "Japanize" VALUES('Umaren12','”n˜A1-2',NULL);
+INSERT INTO "Japanize" VALUES('UmarenHaitoukin1','”n˜A”z“–‹à1',NULL);
+INSERT INTO "Japanize" VALUES('UmarenNinki1','”n˜Al‹C1',NULL);
+INSERT INTO "Japanize" VALUES('Umaren21','”n˜A2-1',NULL);
+INSERT INTO "Japanize" VALUES('Umaren22','”n˜A2-2',NULL);
+INSERT INTO "Japanize" VALUES('UmarenHaitoukin2','”n˜A”z“–‹à2',NULL);
+INSERT INTO "Japanize" VALUES('UmarenNinki2','”n˜Al‹C2',NULL);
+INSERT INTO "Japanize" VALUES('Umaren31','”n˜A3-1',NULL);
+INSERT INTO "Japanize" VALUES('Umaren32','”n˜A3-2',NULL);
+INSERT INTO "Japanize" VALUES('UmarenHaitoukin3','”n˜A”z“–‹à3',NULL);
+INSERT INTO "Japanize" VALUES('UmarenNinki3','”n˜Al‹C3',NULL);
+INSERT INTO "Japanize" VALUES('WideUmaren11','ƒƒCƒh”n˜A1-1',NULL);
+INSERT INTO "Japanize" VALUES('WideUmaren12','ƒƒCƒh”n˜A1-2',NULL);
+INSERT INTO "Japanize" VALUES('WideUmarenHaitoukin1','ƒƒCƒh”n˜A”z“–‹à1',NULL);
+INSERT INTO "Japanize" VALUES('WideUmarenNinki1','ƒƒCƒh”n˜Al‹C1',NULL);
+INSERT INTO "Japanize" VALUES('WideUmaren21','ƒƒCƒh”n˜A2-1',NULL);
+INSERT INTO "Japanize" VALUES('WideUmaren22','ƒƒCƒh”n˜A2-2',NULL);
+INSERT INTO "Japanize" VALUES('WideUmarenHaitoukin2','ƒƒCƒh”n˜A”z“–‹à2',NULL);
+INSERT INTO "Japanize" VALUES('WideUmarenNinki2','ƒƒCƒh”n˜Al‹C2',NULL);
+INSERT INTO "Japanize" VALUES('WideUmaren31','ƒƒCƒh”n˜A3-1',NULL);
+INSERT INTO "Japanize" VALUES('WideUmaren32','ƒƒCƒh”n˜A3-2',NULL);
+INSERT INTO "Japanize" VALUES('WideUmarenHaitoukin3','ƒƒCƒh”n˜A”z“–‹à3',NULL);
+INSERT INTO "Japanize" VALUES('WideUmarenNinki3','ƒƒCƒh”n˜Al‹C3',NULL);
+INSERT INTO "Japanize" VALUES('WideUmaren41','ƒƒCƒh”n˜A4-1',NULL);
+INSERT INTO "Japanize" VALUES('WideUmaren42','ƒƒCƒh”n˜A4-2',NULL);
+INSERT INTO "Japanize" VALUES('WideUmarenHaitoukin4','ƒƒCƒh”n˜A”z“–‹à4',NULL);
+INSERT INTO "Japanize" VALUES('WideUmarenNinki4','ƒƒCƒh”n˜Al‹C4',NULL);
+INSERT INTO "Japanize" VALUES('WideUmaren51','ƒƒCƒh”n˜A5-1',NULL);
+INSERT INTO "Japanize" VALUES('WideUmaren52','ƒƒCƒh”n˜A5-2',NULL);
+INSERT INTO "Japanize" VALUES('WideUmarenHaitoukin5','ƒƒCƒh”n˜A”z“–‹à5',NULL);
+INSERT INTO "Japanize" VALUES('WideUmarenNinki5','ƒƒCƒh”n˜Al‹C5',NULL);
+INSERT INTO "Japanize" VALUES('WideUmaren61','ƒƒCƒh”n˜A6-1',NULL);
+INSERT INTO "Japanize" VALUES('WideUmaren62','ƒƒCƒh”n˜A6-2',NULL);
+INSERT INTO "Japanize" VALUES('WideUmarenHaitoukin6','ƒƒCƒh”n˜A”z“–‹à6',NULL);
+INSERT INTO "Japanize" VALUES('WideUmarenNinki6','ƒƒCƒh”n˜Al‹C6',NULL);
+INSERT INTO "Japanize" VALUES('WideUmaren71','ƒƒCƒh”n˜A7-1',NULL);
+INSERT INTO "Japanize" VALUES('WideUmaren72','ƒƒCƒh”n˜A7-2',NULL);
+INSERT INTO "Japanize" VALUES('WideUmarenHaitoukin7','ƒƒCƒh”n˜A”z“–‹à7',NULL);
+INSERT INTO "Japanize" VALUES('WideUmarenNinki7','ƒƒCƒh”n˜Al‹C7',NULL);
+INSERT INTO "Japanize" VALUES('Umatan11','”n’P1-1',NULL);
+INSERT INTO "Japanize" VALUES('Umatan12','”n’P1-2',NULL);
+INSERT INTO "Japanize" VALUES('UmatanHaitoukin1','”n’P”z“–‹à1',NULL);
+INSERT INTO "Japanize" VALUES('UmatanNinki1','”n’Pl‹C1',NULL);
+INSERT INTO "Japanize" VALUES('Umatan21','”n’P2-1',NULL);
+INSERT INTO "Japanize" VALUES('Umatan22','”n’P2-2',NULL);
+INSERT INTO "Japanize" VALUES('UmatanHaitoukin2','”n’P”z“–‹à2',NULL);
+INSERT INTO "Japanize" VALUES('UmatanNinki2','”n’Pl‹C2',NULL);
+INSERT INTO "Japanize" VALUES('Umatan31','”n’P3-1',NULL);
+INSERT INTO "Japanize" VALUES('Umatan32','”n’P3-2',NULL);
+INSERT INTO "Japanize" VALUES('UmatanHaitoukin3','”n’P”z“–‹à3',NULL);
+INSERT INTO "Japanize" VALUES('UmatanNinki3','”n’Pl‹C3',NULL);
+INSERT INTO "Japanize" VALUES('Umatan41','”n’P4-1',NULL);
+INSERT INTO "Japanize" VALUES('Umatan42','”n’P4-2',NULL);
+INSERT INTO "Japanize" VALUES('UmatanHaitoukin4','”n’P”z“–‹à4',NULL);
+INSERT INTO "Japanize" VALUES('UmatanNinki4','”n’Pl‹C4',NULL);
+INSERT INTO "Japanize" VALUES('Umatan51','”n’P5-1',NULL);
+INSERT INTO "Japanize" VALUES('Umatan52','”n’P5-2',NULL);
+INSERT INTO "Japanize" VALUES('UmatanHaitoukin5','”n’P”z“–‹à5',NULL);
+INSERT INTO "Japanize" VALUES('UmatanNinki5','”n’Pl‹C5',NULL);
+INSERT INTO "Japanize" VALUES('Umatan61','”n’P6-1',NULL);
+INSERT INTO "Japanize" VALUES('Umatan62','”n’P6-2',NULL);
+INSERT INTO "Japanize" VALUES('UmatanHaitoukin6','”n’P”z“–‹à6',NULL);
+INSERT INTO "Japanize" VALUES('UmatanNinki6','”n’Pl‹C6',NULL);
+INSERT INTO "Japanize" VALUES('Sanrenpuku11','3˜A•¡1-1',NULL);
+INSERT INTO "Japanize" VALUES('Sanrenpuku12','3˜A•¡1-2',NULL);
+INSERT INTO "Japanize" VALUES('Sanrenpuku13','3˜A•¡1-3',NULL);
+INSERT INTO "Japanize" VALUES('SanrenpukuHaitoukin1','3˜A•¡”z“–‹à1',NULL);
+INSERT INTO "Japanize" VALUES('SanrenpukuNinki1','3˜A•¡l‹C1',NULL);
+INSERT INTO "Japanize" VALUES('Sanrenpuku21','3˜A•¡2-1',NULL);
+INSERT INTO "Japanize" VALUES('Sanrenpuku22','3˜A•¡2-2',NULL);
+INSERT INTO "Japanize" VALUES('Sanrenpuku23','3˜A•¡2-3',NULL);
+INSERT INTO "Japanize" VALUES('SanrenpukuHaitoukin2','3˜A•¡”z“–‹à2',NULL);
+INSERT INTO "Japanize" VALUES('SanrenpukuNinki2','3˜A•¡l‹C2',NULL);
+INSERT INTO "Japanize" VALUES('Sanrenpuku31','3˜A•¡3-1',NULL);
+INSERT INTO "Japanize" VALUES('Sanrenpuku32','3˜A•¡3-2',NULL);
+INSERT INTO "Japanize" VALUES('Sanrenpuku33','3˜A•¡3-3',NULL);
+INSERT INTO "Japanize" VALUES('SanrenpukuHaitoukin3','3˜A•¡”z“–‹à3',NULL);
+INSERT INTO "Japanize" VALUES('SanrenpukuNinki3','3˜A•¡l‹C3',NULL);
+INSERT INTO "Japanize" VALUES('Sanrentan11','3˜A’P1-1',NULL);
+INSERT INTO "Japanize" VALUES('Sanrentan12','3˜A’P1-2',NULL);
+INSERT INTO "Japanize" VALUES('Sanrentan13','3˜A’P1-3',NULL);
+INSERT INTO "Japanize" VALUES('SanrentanHaitoukin1','3˜A’P”z“–‹à1',NULL);
+INSERT INTO "Japanize" VALUES('SanrentanNinki1','3˜A’Pl‹C1',NULL);
+INSERT INTO "Japanize" VALUES('Sanrentan21','3˜A’P2-1',NULL);
+INSERT INTO "Japanize" VALUES('Sanrentan22','3˜A’P2-2',NULL);
+INSERT INTO "Japanize" VALUES('Sanrentan23','3˜A’P2-3',NULL);
+INSERT INTO "Japanize" VALUES('SanrentanHaitoukin2','3˜A’P”z“–‹à2',NULL);
+INSERT INTO "Japanize" VALUES('SanrentanNinki2','3˜A’Pl‹C2',NULL);
+INSERT INTO "Japanize" VALUES('Sanrentan31','3˜A’P3-1',NULL);
+INSERT INTO "Japanize" VALUES('Sanrentan32','3˜A’P3-2',NULL);
+INSERT INTO "Japanize" VALUES('Sanrentan33','3˜A’P3-3',NULL);
+INSERT INTO "Japanize" VALUES('SanrentanHaitoukin3','3˜A’P”z“–‹à3',NULL);
+INSERT INTO "Japanize" VALUES('SanrentanNinki3','3˜A’Pl‹C3',NULL);
+INSERT INTO "Japanize" VALUES('Sanrentan41','3˜A’P4-1',NULL);
+INSERT INTO "Japanize" VALUES('Sanrentan42','3˜A’P4-2',NULL);
+INSERT INTO "Japanize" VALUES('Sanrentan43','3˜A’P4-3',NULL);
+INSERT INTO "Japanize" VALUES('SanrentanHaitoukin4','3˜A’P”z“–‹à4',NULL);
+INSERT INTO "Japanize" VALUES('SanrentanNinki4','3˜A’Pl‹C4',NULL);
+INSERT INTO "Japanize" VALUES('Sanrentan51','3˜A’P5-1',NULL);
+INSERT INTO "Japanize" VALUES('Sanrentan52','3˜A’P5-2',NULL);
+INSERT INTO "Japanize" VALUES('Sanrentan53','3˜A’P5-3',NULL);
+INSERT INTO "Japanize" VALUES('SanrentanHaitoukin5','3˜A’P”z“–‹à5',NULL);
+INSERT INTO "Japanize" VALUES('SanrentanNinki5','3˜A’Pl‹C5',NULL);
+INSERT INTO "Japanize" VALUES('Sanrentan61','3˜A’P6-1',NULL);
+INSERT INTO "Japanize" VALUES('Sanrentan62','3˜A’P6-2',NULL);
+INSERT INTO "Japanize" VALUES('Sanrentan63','3˜A’P6-3',NULL);
+INSERT INTO "Japanize" VALUES('SanrentanHaitoukin6','3˜A’P”z“–‹à6',NULL);
+INSERT INTO "Japanize" VALUES('SanrentanNinki6','3˜A’Pl‹C6',NULL);
+INSERT INTO "Japanize" VALUES('Wakuban','˜g”Ô',NULL);
+INSERT INTO "Japanize" VALUES('Umaban','”n”Ô',NULL);
+INSERT INTO "Japanize" VALUES('Gate','ƒQ[ƒg',NULL);
+INSERT INTO "Japanize" VALUES('KyousoubaId','‹£‘–”nID',NULL);
+INSERT INTO "Japanize" VALUES('KanaBamei','ƒJƒi”n–¼',NULL);
+INSERT INTO "Japanize" VALUES('UmaKigou','”n‹L†','UmaKigou');
+INSERT INTO "Japanize" VALUES('Seibetsu','«•Ê','Seibetsu');
+INSERT INTO "Japanize" VALUES('Nenrei','”N—î',NULL);
+INSERT INTO "Japanize" VALUES('BanushiMei','”nå–¼',NULL);
+INSERT INTO "Japanize" VALUES('TanshukuBanushiMei','’Zk”nå–¼',NULL);
+INSERT INTO "Japanize" VALUES('Blinker','ƒuƒŠƒ“ƒJ[','Blinker');
+INSERT INTO "Japanize" VALUES('Kinryou','‹Ò—Ê',NULL);
+INSERT INTO "Japanize" VALUES('Bataijuu','”n‘Ìd',NULL);
+INSERT INTO "Japanize" VALUES('Zougen','‘Œ¸',NULL);
+INSERT INTO "Japanize" VALUES('RecordShisuu','ƒŒƒR[ƒhw”',NULL);
+INSERT INTO "Japanize" VALUES('KishuId','‹RèID',NULL);
+INSERT INTO "Japanize" VALUES('KishuMei','‹Rè–¼',NULL);
+INSERT INTO "Japanize" VALUES('TanshukuKishuMei','’Zk‹Rè–¼',NULL);
+INSERT INTO "Japanize" VALUES('KishuTouzaiBetsu','‹Rè“Œ¼•Ê',NULL);
+INSERT INTO "Japanize" VALUES('KishuShozokuBasho','‹RèŠ‘®êŠ','Basho');
+INSERT INTO "Japanize" VALUES('KishuShozokuKyuushaId','‹RèŠ‘®‰XÉID',NULL);
+INSERT INTO "Japanize" VALUES('MinaraiKubun','Œ©K‚¢‹æ•ª','MinaraiKubun');
+INSERT INTO "Japanize" VALUES('Norikawari','æ‚è‘Ö‚è','Norikawari');
+INSERT INTO "Japanize" VALUES('KyuushaId','‰XÉID',NULL);
+INSERT INTO "Japanize" VALUES('KyuushaMei','‰XÉ–¼',NULL);
+INSERT INTO "Japanize" VALUES('TanshukuKyuushaMei','’Zk‰XÉ–¼',NULL);
+INSERT INTO "Japanize" VALUES('KyuushaShozokuBasho','‰XÉŠ‘®êŠ','Basho');
+INSERT INTO "Japanize" VALUES('KyuushaRitsuHokuNanBetsu','‰XÉŒI–k“ì•Ê','KyuushaRitsuHokuNanBetsu');
+INSERT INTO "Japanize" VALUES('YosouShirushi','o”n•\‚Ì—\‘zˆó','Yosou');
+INSERT INTO "Japanize" VALUES('YosouShirushiHonshi','—\‘z(–{†)','Yosou');
+INSERT INTO "Japanize" VALUES('Ninki','l‹C',NULL);
+INSERT INTO "Japanize" VALUES('Odds','ƒIƒbƒY',NULL);
+INSERT INTO "Japanize" VALUES('KakuteiChakujun','Šm’è’…‡',NULL);
+INSERT INTO "Japanize" VALUES('ChakujunFuka','’…‡•‰Á','ChakujunFuka');
+INSERT INTO "Japanize" VALUES('NyuusenChakujun','“üü’…‡',NULL);
+INSERT INTO "Japanize" VALUES('TorikeshiShubetsu','æÁí•Ê','TorikeshiShubetsu');
+INSERT INTO "Japanize" VALUES('RecordNinshiki','ƒŒƒR[ƒh”F¯','RecordFlag');
+INSERT INTO "Japanize" VALUES('Time','ƒ^ƒCƒ€',NULL);
+INSERT INTO "Japanize" VALUES('Chakusa1','’…·1',NULL);
+INSERT INTO "Japanize" VALUES('Chakusa2','’…·2','Chakusa2');
+INSERT INTO "Japanize" VALUES('TimeSa','ƒ^ƒCƒ€·',NULL);
+INSERT INTO "Japanize" VALUES('Zenhan3F','‘O”¼3F',NULL);
+INSERT INTO "Japanize" VALUES('Kouhan3F','Œã”¼3F',NULL);
+INSERT INTO "Japanize" VALUES('Juni','‡ˆÊ',NULL);
+INSERT INTO "Japanize" VALUES('YonCornerIchiDori','4ŠpˆÊ’uæ‚è','YonCornerIchiDori');
+INSERT INTO "Japanize" VALUES('ChoukyouFlag','’²‹³ƒtƒ‰ƒO','ChoukyouFlag');
+INSERT INTO "Japanize" VALUES('AwaseFlag','•¹‚¹ƒtƒ‰ƒO','AwaseFlag');
+INSERT INTO "Japanize" VALUES('Awase','•¹‚¹',NULL);
+INSERT INTO "Japanize" VALUES('Tanpyou','’Z•]',NULL);
+INSERT INTO "Japanize" VALUES('HonsuuCourse','–{”ƒR[ƒX',NULL);
+INSERT INTO "Japanize" VALUES('HonsuuHanro','–{”â˜H',NULL);
+INSERT INTO "Japanize" VALUES('HonsuuPool','–{”ƒv[ƒ‹',NULL);
+INSERT INTO "Japanize" VALUES('Rating','ƒŒƒCƒeƒBƒ“ƒO',NULL);
+INSERT INTO "Japanize" VALUES('KyuuyouRiyuu','‹x—{——R',NULL);
+INSERT INTO "Japanize" VALUES('Kijousha','‹RæÒ',NULL);
+INSERT INTO "Japanize" VALUES('Basho','êŠ',NULL);
+INSERT INTO "Japanize" VALUES('ChoukyouCourse','ƒR[ƒX',NULL);
+INSERT INTO "Japanize" VALUES('ChoukyouBaba','”nê',NULL);
+INSERT INTO "Japanize" VALUES('Kaisuu','‰ñ”',NULL);
+INSERT INTO "Japanize" VALUES('IchiDori','ˆÊ’uæ‚è',NULL);
+INSERT INTO "Japanize" VALUES('Ashiiro','‹rF',NULL);
+INSERT INTO "Japanize" VALUES('Yajirushi','’²‹³–îˆó','Yajirushi');
+INSERT INTO "Japanize" VALUES('Reigai','—áŠO',NULL);
+INSERT INTO "Japanize" VALUES('Seinen','¶”N',NULL);
+INSERT INTO "Japanize" VALUES('F','ƒnƒƒ“',NULL);
+INSERT INTO "Japanize" VALUES('Comment','ƒRƒƒ“ƒg',NULL);
+INSERT INTO "Japanize" VALUES('Ichi','ˆÊ’u','Ichi');
+INSERT INTO "Japanize" VALUES('Joukyou','ó‹µ','Joukyou');
+INSERT INTO "Japanize" VALUES('FuriByousuu','•s—˜•b”',NULL);
+INSERT INTO "Japanize" VALUES('Shisuu','w”',NULL);
+INSERT INTO "Japanize" VALUES('Tate','c',NULL);
+INSERT INTO "Japanize" VALUES('Yoko','‰¡',NULL);
+INSERT INTO "Japanize" VALUES('Keiro','–ÑF','Keiro');
+INSERT INTO "Japanize" VALUES('Kesshu','ŒŒí','Kesshu');
+INSERT INTO "Japanize" VALUES('Sanchi','Y’n','Sanchi');
+INSERT INTO "Japanize" VALUES('ChichiUmaId','•ƒ”nID',NULL);
+INSERT INTO "Japanize" VALUES('ChichiUmaMei','•ƒ”n–¼',NULL);
+INSERT INTO "Japanize" VALUES('HahaUmaId','•ê”nID',NULL);
+INSERT INTO "Japanize" VALUES('HahaUmaMei','•ê”n–¼',NULL);
+INSERT INTO "Japanize" VALUES('HahaChichiUmaId','•ê•ƒ”nID',NULL);
+INSERT INTO "Japanize" VALUES('HahaChichiUmaMei','•ê•ƒ”n',NULL);
+INSERT INTO "Japanize" VALUES('HahaHahaUmaId','•ê•ê”nID',NULL);
+INSERT INTO "Japanize" VALUES('HahaHahaUmaMei','•ê•ê”n–¼',NULL);
+INSERT INTO "Japanize" VALUES('SeisanshaMei','¶YÒ–¼',NULL);
+INSERT INTO "Japanize" VALUES('TanshukuSeisanshaMei','’Zk¶YÒ–¼',NULL);
+INSERT INTO "Japanize" VALUES('KoueiGaikokuKyuushaMei','Œö‰cŠO‘‰XÉ–¼',NULL);
+INSERT INTO "Japanize" VALUES('MasshouFlag','–•Áƒtƒ‰ƒO','MasshouFlag');
+INSERT INTO "Japanize" VALUES('MasshouNengappi','–•Á”NŒ“ú',NULL);
+INSERT INTO "Japanize" VALUES('Jiyuu','–—R',NULL);
+INSERT INTO "Japanize" VALUES('Ikisaki','sæ',NULL);
+INSERT INTO "Japanize" VALUES('Furigana','ƒtƒŠƒKƒi',NULL);
+INSERT INTO "Japanize" VALUES('Seinengappi','¶”NŒ“ú',NULL);
+INSERT INTO "Japanize" VALUES('HatsuMenkyoNen','‰–Æ‹–”N',NULL);
+INSERT INTO "Japanize" VALUES('KishuShikakuKubun','‹Ræ‘Ši‹æ•ª',NULL);
+INSERT INTO "Japanize" VALUES('TourokuMasshouFlag','“o˜^–•Áƒtƒ‰ƒO',NULL);
+INSERT INTO "Japanize" VALUES('ShutsubahyouSakuseiNengappi','o”n•\ì¬”NŒ“ú',NULL);
+INSERT INTO "Japanize" VALUES('SeisekiSakuseiNengappi','¬Ñì¬”NŒ“ú',NULL);
+INSERT INTO "Japanize" VALUES('DataSakuseiNengappi','ƒf[ƒ^ì¬”NŒ“ú',NULL);
+INSERT INTO "Japanize" VALUES('ChichiKyoriTekisei','•ƒ‹——£“K«','KyoriTekisei');
+INSERT INTO "Japanize" VALUES('HirabaOmoKousetsu','•½êdIÙ','Kousetsu');
+INSERT INTO "Japanize" VALUES('HirabaDirtKousetsu','•½êƒ_[ƒgIÙ','Kousetsu');
+INSERT INTO "Japanize" VALUES('ShougaiOmoKousetsu','áŠQdIÙ','Kousetsu');
+INSERT INTO "Japanize" VALUES('ShougaiDirtKousetsu','áŠQƒ_[ƒgIÙ','Kousetsu');
+INSERT INTO "Japanize" VALUES('Oikiri','’ÇØ‚è','Oikiri');
+INSERT INTO "Japanize" VALUES('KyuushaTouzaiBetsu','‰XÉ“Œ¼•Ê','KyuushaTouzaiBetsu');
+INSERT INTO "Japanize" VALUES('Bangou','”Ô†',NULL);
+INSERT INTO "Japanize" VALUES('KyuuBamei','‹Œ”n–¼',NULL);
 
 CREATE TABLE UserSQL(
 	Domain TEXT NOT NULL
@@ -1497,7 +1556,7 @@ CREATE TABLE UserSQL(
 );
 INSERT INTO "UserSQL" VALUES(
 'Race',
-'ãƒ¬ãƒ¼ã‚¹çµæœ(æ¨™æº–)',
+'ƒŒ[ƒXŒ‹‰Ê(•W€)',
 'SELECT
     *
 FROM
@@ -1514,7 +1573,7 @@ ORDER BY
 ,0);
 INSERT INTO "UserSQL" VALUES(
 'Shussouba',
-'èª¿æ•™',
+'’²‹³',
 'SELECT
 	Oikiri,
 	Kijousha,
@@ -1548,7 +1607,7 @@ ORDER BY
 0);
 INSERT INTO "UserSQL" VALUES(
 'Shussouba',
-'ç™ºèµ°çŠ¶æ³',
+'”­‘–ó‹µ',
 'SELECT
 	r.HassouJoukyou,
 	r.Ichi,
@@ -1570,7 +1629,7 @@ ORDER BY
 0);
 INSERT INTO "UserSQL" VALUES(
 'Shussouba',
-'çµŒé',
+'Œo‰ß',
 'SELECT
 	r.Midashi1,
 	r.Midashi2,
@@ -1590,7 +1649,7 @@ ORDER BY
 0);
 INSERT INTO "UserSQL" VALUES(
 'TekichuuRace',
-'å…¨ãƒ¬ãƒ¼ã‚¹',
+'‘SƒŒ[ƒX',
 'SELECT
 	Id
 FROM
@@ -1602,7 +1661,7 @@ FROM
 0);
 INSERT INTO "UserSQL" VALUES(
 'TekichuuShussouba',
-'äººæ°—é †',
+'l‹C‡',
 'SELECT
 	Umaban,
 	Wakuban
@@ -1658,3 +1717,222 @@ INSERT INTO 'UserSQL' VALUES('PostImport','IX_ShussoubaKeika01','CREATE INDEX IX
 INSERT INTO 'UserSQL' VALUES('PostImport','IX_ShussoubaKeika02','CREATE INDEX IX_ShussoubaKeika02 ON ShussoubaKeika(ShussoubaId)',NULL,NULL,NULL,0);
 INSERT INTO 'UserSQL' VALUES('PostImport','IX_ShussoubaHassouJoukyou01','CREATE INDEX IX_ShussoubaHassouJoukyou01 ON ShussoubaHassouJoukyou(RaceHassouJoukyouId)',NULL,NULL,NULL,0);
 INSERT INTO 'UserSQL' VALUES('PostImport','IX_ShussoubaHassouJoukyou02','CREATE INDEX IX_ShussoubaHassouJoukyou02 ON ShussoubaHassouJoukyou(ShussoubaId)',NULL,NULL,NULL,0);
+
+INSERT INTO 'UserSQL' VALUES(
+'PostImport',
+'Kishu',
+'INSERT OR REPLACE INTO Kishu
+(
+  Id,
+  KishuMei,
+  TanshukuKishuMei,
+  KishuTouzaiBetsu,
+  KishuShozokuBasho,
+  KishuShozokuKyuushaId,
+  MinaraiKubun,
+  DataSakuseiNengappi
+)
+SELECT
+  S.KishuId,
+  S.KishuMei,
+  S.TanshukuKishuMei,
+  S.KishuTouzaiBetsu,
+  S.KishuShozokuBasho,
+  S.KishuShozokuKyuushaId,
+  S.MinaraiKubun,
+  IFNULL(S.SeisekiSakuseiNengappi, S.ShutsubahyouSakuseiNengappi)
+FROM
+  Shussouba S
+  INNER JOIN
+  (
+    SELECT
+    KishuId,
+      MAX(Id % 1000000000000) AS Id2
+    FROM
+      Shussouba
+    GROUP BY
+      KishuId
+  ) S2 ON S.KishuId = S2.KishuId AND (S.Id % 1000000000000) = S2.Id2
+WHERE
+  NOT EXISTS(
+    SELECT
+    *
+  FROM
+    Kishu
+  WHERE
+    Id = S.KishuId
+  )
+OR
+  EXISTS(
+    SELECT
+    *
+  FROM
+    Kishu K
+  WHERE
+    Id = S.KishuId
+  AND
+    (
+      K.KishuMei <> S.KishuMei
+    OR
+      K.TanshukuKishuMei <> S.TanshukuKishuMei
+      OR
+      K.KishuTouzaiBetsu <> S.KishuTouzaiBetsu
+    OR
+      K.KishuShozokuBasho <> S.KishuShozokuBasho
+    OR
+      K.KishuShozokuKyuushaId <> S.KishuShozokuKyuushaId
+      OR
+        K.MinaraiKubun <> S.MinaraiKubun
+      )
+  )
+',
+NULL,
+NULL,
+NULL,
+0
+);
+
+INSERT INTO 'UserSQL' VALUES(
+'PostImport',
+'Kyuusha',
+'INSERT OR REPLACE INTO Kyuusha
+(
+  Id,
+  KyuushaMei,
+  TanshukuKyuushaMei,
+  KyuushaShozokuBasho,
+  KyuushaRitsuHokuNanBetsu,
+  DataSakuseiNengappi
+)
+SELECT
+  S.KyuushaId,
+  S.KyuushaMei,
+  S.TanshukuKyuushaMei,
+  S.KyuushaShozokuBasho,
+  S.KyuushaRitsuHokuNanBetsu,
+  IFNULL(S.SeisekiSakuseiNengappi, S.ShutsubahyouSakuseiNengappi)
+FROM
+  Shussouba S
+  INNER JOIN
+  (
+    SELECT
+    KyuushaId,
+      MAX(Id % 1000000000000) AS Id2
+    FROM
+      Shussouba
+    GROUP BY
+      KyuushaId
+  ) S2 ON S.KyuushaId = S2.KyuushaId AND (S.Id % 1000000000000) = S2.Id2
+WHERE
+  NOT EXISTS(
+    SELECT
+    *
+  FROM
+    Kyuusha
+  WHERE
+    Id = S.KyuushaId
+  )
+OR
+  EXISTS(
+    SELECT
+    *
+  FROM
+    Kyuusha K
+  WHERE
+    Id = S.KyuushaId
+  AND
+    (
+      K.KyuushaMei <> S.KyuushaMei
+    OR
+      K.TanshukuKyuushaMei <> S.TanshukuKyuushaMei
+      OR
+      K.KyuushaShozokuBasho <> S.KyuushaShozokuBasho
+    OR
+      K.KyuushaRitsuHokuNanBetsu <> S.KyuushaRitsuHokuNanBetsu
+      )
+  )
+',
+NULL,
+NULL,
+NULL,
+0
+);
+
+CREATE VIEW ChoukyouYodo AS
+SELECT
+  c.*,
+  r.*,
+  c1.Time AS ChoukyouTime1F,
+  c2.Time AS ChoukyouTime2F,
+  c3.Time AS ChoukyouTime3F,
+  c4.Time AS ChoukyouTime4F,
+  c5.Time AS ChoukyouTime5F,
+  c6.Time AS ChoukyouTime6F,
+  c7.Time AS ChoukyouTime7F,
+  c8.Time AS ChoukyouTime8F,
+  COALESCE(ht1.TanshouHaitoukin1, ht2.TanshouHaitoukin2, ht3.TanshouHaitoukin3) AS TanshouHaitoukin,
+  COALESCE(hf1.FukushouHaitoukin1, hf2.FukushouHaitoukin2, hf3.FukushouHaitoukin3, hf4.FukushouHaitoukin4, hf5.FukushouHaitoukin5) AS FukushouHaitoukin  
+FROM
+  Shussouba sk
+  INNER JOIN Choukyou c ON sk.Id = c.Id
+  INNER JOIN ChoukyouRireki r ON c.Id = r.ChoukyouId
+  LEFT OUTER JOIN ChoukyouTime c1 ON r.Id = c1.ChoukyouRirekiId AND c1.F = 1
+  LEFT OUTER JOIN ChoukyouTime c2 ON r.Id = c2.ChoukyouRirekiId AND c2.F = 2
+  LEFT OUTER JOIN ChoukyouTime c3 ON r.Id = c3.ChoukyouRirekiId AND c3.F = 3
+  LEFT OUTER JOIN ChoukyouTime c4 ON r.Id = c4.ChoukyouRirekiId AND c4.F = 4
+  LEFT OUTER JOIN ChoukyouTime c5 ON r.Id = c5.ChoukyouRirekiId AND c5.F = 5
+  LEFT OUTER JOIN ChoukyouTime c6 ON r.Id = c6.ChoukyouRirekiId AND c6.F = 6
+  LEFT OUTER JOIN ChoukyouTime c7 ON r.Id = c7.ChoukyouRirekiId AND c7.F = 7
+  LEFT OUTER JOIN ChoukyouTime c8 ON r.Id = c8.ChoukyouRirekiId AND c8.F = 8
+  LEFT OUTER JOIN RaceHaitou ht1 ON sk.RaceId = ht1.Id AND ht1.TanUmaban1 = sk.Umaban
+  LEFT OUTER JOIN RaceHaitou ht2 ON sk.RaceId = ht2.Id AND ht2.TanUmaban2 = sk.Umaban
+  LEFT OUTER JOIN RaceHaitou ht3 ON sk.RaceId = ht3.Id AND ht3.TanUmaban3 = sk.Umaban
+  LEFT OUTER JOIN RaceHaitou hf1 ON sk.RaceId = hf1.Id AND hf1.FukuUmaban1 = sk.Umaban
+  LEFT OUTER JOIN RaceHaitou hf2 ON sk.RaceId = hf2.Id AND hf2.FukuUmaban2 = sk.Umaban
+  LEFT OUTER JOIN RaceHaitou hf3 ON sk.RaceId = hf3.Id AND hf3.FukuUmaban3 = sk.Umaban
+  LEFT OUTER JOIN RaceHaitou hf4 ON sk.RaceId = hf4.Id AND hf4.FukuUmaban4 = sk.Umaban
+  LEFT OUTER JOIN RaceHaitou hf5 ON sk.RaceId = hf5.Id AND hf5.FukuUmaban5 = sk.Umaban
+;
+
+CREATE TABLE RaceFuka(
+  Id BIGINT NOT NULL PRIMARY KEY REFERENCES Race(Id) ON DELETE CASCADE
+  ,KaisaiNissuu INT
+  ,CourseNissuu INT
+  ,ChokusetsuTaisenTimeSaMean REAL
+  ,ChokusetsuTaisenTimeSaSD REAL
+  ,KansetsuTaisenTimeSaMean REAL
+  ,KansetsuTaisenTimeSaSD REAL
+);
+
+CREATE TABLE ShussoubaFuka(
+  Id BIGINT NOT NULL PRIMARY KEY REFERENCES Shussouba(Id) ON DELETE CASCADE
+  ,RaceId BIGINT NOT NULL REFERENCES RaceFuka(Id) ON DELETE CASCADE
+  ,KyousoubaId TEXT NOT NULL
+  ,DeokureByousuu REAL
+  ,FuriByousuu REAL
+  ,ShussouKaisuu INT
+  ,DeokureKaisuu INT
+  ,RaceKankaku INT
+  ,BlinkerHenka INT
+  ,Zenhan3FTimeSa REAL
+  ,Kouhan3FMadeTimeSa REAL
+  ,Kouhan3FTimeSa REAL
+  ,DeokureKakuritsu REAL
+  ,KakoZenhan3FTimeSa REAL
+  ,KakoKouhan3FMadeTimeSa REAL
+  ,KakoKouhan3FTimeSa REAL
+  ,KakoTimeSa REAL
+  ,ChokusetsuTaisenTimeSa REAL
+  ,KansetsuTaisenTimeSa REAL
+);
+CREATE INDEX IX_ShussoubaFuka01 ON ShussoubaFuka(RaceId);
+CREATE INDEX IX_ShussoubaFuka02 ON ShussoubaFuka(KyousoubaId);
+
+CREATE TABLE TaisenSeiseki(
+  KyousoubaId BIGINT NOT NULL REFERENCES Kyousouba(Id) ON DELETE CASCADE
+  ,AiteKyousoubaId TEXT NOT NULL
+  ,Chakusa NOT NULL
+  ,PRIMARY KEY(KyousoubaId, AiteKyousoubaId)
+);
+CREATE INDEX IX_TaisenSeiseki01 ON TaisenSeiseki(KyousoubaId);
+CREATE INDEX IX_TaisenSeiseki02 ON TaisenSeiseki(AiteKyousoubaId);

@@ -23,7 +23,10 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Util
 	        }
 	    }
 	    
-	    public static IList<UserSQL> GetUserSQLList(string domain){
+	    public static IList<UserSQL> GetUserSQLList(string domain, bool clear = false){
+	    	if(clear){
+	    		userSQLListMap.Remove(domain);
+	    	}
 	    	if(userSQLListMap.ContainsKey(domain)){
 	    		return userSQLListMap[domain];
 	    	}

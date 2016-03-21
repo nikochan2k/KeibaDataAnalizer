@@ -81,6 +81,13 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Properties {
 			}
 		}
 		
+		internal static System.Drawing.Bitmap database_save {
+			get {
+				object obj = ResourceManager.GetObject("database_save", resourceCulture);
+				return ((System.Drawing.Bitmap)(obj));
+			}
+		}
+		
 		internal static System.Drawing.Bitmap Icon_csv {
 			get {
 				object obj = ResourceManager.GetObject("Icon_csv", resourceCulture);

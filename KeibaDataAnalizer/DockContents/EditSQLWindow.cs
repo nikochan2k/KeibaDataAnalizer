@@ -48,10 +48,6 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.DockContents
         private UserSQL GetUserSQL()
         {
         	var userSQL = ModelUtil.GetUserSQL(userSQLProperty.Domain, nameComboBox.Text);
-            if (userSQL.Editable == 0)
-            {
-                return null;
-            }
             return userSQL;
         }
         
@@ -64,6 +60,7 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.DockContents
 	            using(var transaction = new Transaction()){
 	            	var db = transaction.DB;
 	            	var con = transaction.Connection;
+	            	userSQLProperty.UserSQL.Editable = 1;
             		db.Insert<UserSQL>(con, userSQLProperty.UserSQL);
 	            	transaction.Commit();
 	            }
@@ -73,14 +70,20 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.DockContents
             {
                 if (userSQL.Editable == 0)
                 {
-                    MessageBox.Show("変更不可",
+                    MessageBox.Show(
                         "この項目は変更できません。",
+                        "変更不可",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Exclamation
                         );
                     return;
                 }
-                if (MessageBox.Show("本当にこの項目を変更しますか？", "変更確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show(
+                	"本当にこの項目を変更しますか？",
+                	"変更確認",
+                	MessageBoxButtons.YesNo,
+                	MessageBoxIcon.Question
+                ) == DialogResult.Yes)
                 {
 		            using(var transaction = new Transaction()){
 		            	var db = transaction.DB;
@@ -98,8 +101,9 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.DockContents
             var userSQL = GetUserSQL();
             if (userSQL == null)
             {
-                MessageBox.Show("削除不可",
+                MessageBox.Show(
                     "データベースに存在しません。",
+            		"削除不可",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Exclamation
                     );
@@ -109,8 +113,9 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.DockContents
             {
                 if (userSQL.Editable == 0)
                 {
-                    MessageBox.Show("削除不可",
+                    MessageBox.Show(
                         "この項目は削除できません。",
+                		"削除不可",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Exclamation
                         );
@@ -118,12 +123,17 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.DockContents
                 }
                 else
                 {
-                    if (MessageBox.Show("本当にこの項目を削除しますか？", "削除確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    if (MessageBox.Show(
+                		"本当にこの項目を削除しますか？",
+                		"削除確認",
+                		MessageBoxButtons.YesNo,
+                		MessageBoxIcon.Question
+                	) == DialogResult.Yes)
                     {
 			            using(var transaction = new Transaction()){
 			            	var db = transaction.DB;
 			            	var con = transaction.Connection;
-		            		db.Delete<UserSQL>(con, userSQLProperty.UserSQL);
+		            		db.Delete<UserSQL>(con, userSQL);
 			            	transaction.Commit();
 			            }
                         UpdateComboBox();
@@ -134,13 +144,13 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.DockContents
 
         private void UpdateComboBox()
         {
-            var dt = ModelUtil.GetUserSQLList(userSQLProperty.Domain);
+            var list = ModelUtil.GetUserSQLList(userSQLProperty.Domain, true);
             var displayMember = this.nameComboBox.ComboBox.DisplayMember;
             this.nameComboBox.ComboBox.DataSource = null;
-            this.nameComboBox.ComboBox.DataSource = dt;
+            this.nameComboBox.ComboBox.DataSource = list;
             this.nameComboBox.ComboBox.DisplayMember = displayMember;
             this.comboBox.DataSource = null;
-            this.comboBox.DataSource = dt;
+            this.comboBox.DataSource = list;
             this.comboBox.DisplayMember = displayMember;
         }
 

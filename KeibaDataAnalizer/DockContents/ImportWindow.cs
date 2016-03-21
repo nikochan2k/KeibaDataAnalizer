@@ -15,6 +15,7 @@ using Nikochan.Keiba.KeibaDataAnalyzer.Enum;
 using Nikochan.Keiba.KeibaDataAnalyzer.Logic;
 using Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer;
 using Nikochan.Keiba.KeibaDataAnalyzer.Logic.ImporterFactory;
+using Nikochan.Keiba.KeibaDataAnalyzer.Logic.Generator;
 
 namespace Nikochan.Keiba.KeibaDataAnalyzer.DockContents
 {
@@ -23,6 +24,8 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.DockContents
 	{
 		private static readonly Logger LOGGER = LogManager.GetCurrentClassLogger();
 			
+        private IList<IGenerator> generatorList = new List<IGenerator>();
+
         private readonly ImporterListFactory importListFactory = new ImporterListFactory();
 
         private readonly BindingList<ImportHistory> importHistoryList = new BindingList<ImportHistory>();
@@ -59,11 +62,19 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.DockContents
             importFileDataGridView.Columns.Add(col3);
             
             importFileDataGridView.DataSource = importHistoryList;
+
+            BuildGenerator();
         }
 
 		#region メソッド
 
-		private void addFileNames(string[] filePathes)
+        private void BuildGenerator()
+        {
+            generatorList.Add(new FukaDataGenerator());
+            generatorList.Add(new TaisenSeisekiGenerator());
+        }
+
+		private void AddFileNames(string[] filePathes)
 		{
 			foreach (string filePath in filePathes)
 			{
@@ -89,14 +100,14 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.DockContents
 			if (openFileDialog.ShowDialog() == DialogResult.OK)
 			{
 				var filePathes = openFileDialog.FileNames;
-				addFileNames(filePathes);
+				AddFileNames(filePathes);
 			}
 		}
 
         private void importFileDataGridView_DragDrop(object sender, DragEventArgs e)
         {
             var filePathes = (string[])e.Data.GetData(DataFormats.FileDrop, false);
-            addFileNames(filePathes);
+            AddFileNames(filePathes);
         }
 
         private void importFileDataGridView_DragEnter(object sender, DragEventArgs e)
@@ -207,6 +218,14 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.DockContents
             var dockPanel = (DockPanel)this.DockPanel;
             var parent = (MainForm)dockPanel.Parent;
             parent.EnabledExceptFor(this, true);
+        }
+
+        private void fukaDataSakuseiButton_Click(object sender, EventArgs e)
+        {
+            foreach (var generator in generatorList)
+            {
+                generator.Generate(this.statusLabel);
+            }
         }
 
         #endregion

@@ -49,10 +49,6 @@
         	this.searchMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.sqlMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.tekichuuMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-        	this.executeMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-        	this.executeCustomQueryMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-        	this.raceOnlyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-        	this.raceAndShussoubaMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
         	this.menuStrip.SuspendLayout();
         	this.SuspendLayout();
@@ -60,8 +56,7 @@
         	// menuStrip
         	// 
         	this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-        	        	        	this.viewMenuItem,
-        	        	        	this.executeMenuItem});
+            this.viewMenuItem});
         	this.menuStrip.Location = new System.Drawing.Point(0, 0);
         	this.menuStrip.Name = "menuStrip";
         	this.menuStrip.Size = new System.Drawing.Size(784, 26);
@@ -106,37 +101,6 @@
         	this.tekichuuMenuItem.Size = new System.Drawing.Size(184, 22);
         	this.tekichuuMenuItem.Text = "的中率・回収率算出";
         	this.tekichuuMenuItem.Click += new System.EventHandler(this.tekichuuMenuItem_Click);
-        	// 
-        	// executeMenuItem
-        	// 
-        	this.executeMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-        	        	        	this.executeCustomQueryMenuItem});
-        	this.executeMenuItem.Name = "executeMenuItem";
-        	this.executeMenuItem.Size = new System.Drawing.Size(62, 22);
-        	this.executeMenuItem.Text = "実行(&X)";
-        	// 
-        	// executeCustomQueryMenuItem
-        	// 
-        	this.executeCustomQueryMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-        	        	        	this.raceOnlyMenuItem,
-        	        	        	this.raceAndShussoubaMenuItem});
-        	this.executeCustomQueryMenuItem.Name = "executeCustomQueryMenuItem";
-        	this.executeCustomQueryMenuItem.Size = new System.Drawing.Size(196, 22);
-        	this.executeCustomQueryMenuItem.Text = "カスタムクエリの実行";
-        	// 
-        	// raceOnlyMenuItem
-        	// 
-        	this.raceOnlyMenuItem.Name = "raceOnlyMenuItem";
-        	this.raceOnlyMenuItem.Size = new System.Drawing.Size(172, 22);
-        	this.raceOnlyMenuItem.Text = "レースのみ";
-        	this.raceOnlyMenuItem.Click += new System.EventHandler(this.RaceOnlyMenuItemClick);
-        	// 
-        	// raceAndShussoubaMenuItem
-        	// 
-        	this.raceAndShussoubaMenuItem.Name = "raceAndShussoubaMenuItem";
-        	this.raceAndShussoubaMenuItem.Size = new System.Drawing.Size(172, 22);
-        	this.raceAndShussoubaMenuItem.Text = "レース及び出走馬";
-        	this.raceAndShussoubaMenuItem.Click += new System.EventHandler(this.RaceAndShussoubaMenuItemClick);
         	// 
         	// dockPanel
         	// 
@@ -212,11 +176,8 @@
         	this.menuStrip.PerformLayout();
         	this.ResumeLayout(false);
         	this.PerformLayout();
+
         }
-        private System.Windows.Forms.ToolStripMenuItem executeMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem raceAndShussoubaMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem raceOnlyMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem executeCustomQueryMenuItem;
 
         #endregion
 

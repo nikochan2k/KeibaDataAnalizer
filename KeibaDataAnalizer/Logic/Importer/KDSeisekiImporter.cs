@@ -301,6 +301,10 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
             {11, 4}
         };
 
+        protected void BuildShussoubaTime(Shussouba shussouba){
+        	
+        }
+        
         protected IList<RaceLapTime> BuildRaceLapTimeList(Race race, byte[] buffer, int index)
         {
             var raceLapTimeList = new List<RaceLapTime>();
@@ -618,11 +622,17 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
             shussouba.Time = TIME_GETTER.GetDouble(buffer, 282, 4);
             shussouba.Chakusa1 = DEFAULT_GETTER.GetInt32(buffer, 286, 2);
             shussouba.Chakusa2 = DEFAULT_GETTER.GetInt32(buffer, 288, 1);
-            shussouba.TimeSa = GetTimeSa(buffer, 289);
+            shussouba.TimeSa = GetTimeSa(buffer, 289, shussouba.NyuusenChakujun);
             if(race.Kyori >= 1200){
 	            shussouba.Zenhan3F = ONE_TENTH_GETTER.GetDouble(buffer, 292, 3);
             }
             shussouba.Kouhan3F = ONE_TENTH_GETTER.GetDouble(buffer, 295, 3);
+            if(shussouba.Time != null){
+            	shussouba.Kouhan3FMade = shussouba.Time - shussouba.Kouhan3F;
+            	if(race.Kyori > 1200 && shussouba.Zenhan3F != null){
+	            	shussouba.Chuukan = shussouba.Time - (shussouba.Zenhan3F + shussouba.Kouhan3F);
+            	}
+            }
             shussouba.YonCornerIchiDori = DEFAULT_GETTER.GetInt32(buffer, 306, 1);
             shussouba.SeisekiSakuseiNengappi = dataSakuseiNengappi;
             shussouba.Seinen = GetSeinen(buffer, 432, 67, kaisaiNen);
@@ -686,10 +696,6 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
                         raceHassouJoukyou.FuriByousuu += 0.1;
                     }
                 }
-                else if (s.Contains("半馬身"))
-                {
-                    raceHassouJoukyou.FuriByousuu = 0.1;
-                }
                 else if ((m = BYOU.Match(s)).Success)
                 {
                     raceHassouJoukyou.FuriByousuu = Double.Parse(m.Groups[1].Value);
@@ -698,6 +704,10 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
                         raceHassouJoukyou.FuriByousuu += 0.5;
                     }
                 }
+                else if (!(s.Contains("落馬") || s.Contains("中止")))
+                {
+                	raceHassouJoukyou.FuriByousuu = 0.1;
+                }
 
                 if (s.Contains("遅れ") || s.Contains("スタート") || s.Contains("ゲート")
                     || s.Contains("ダッシュ") || s.Contains("アオ") || s.Contains("好発")
@@ -705,36 +715,18 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
                 {
                     raceHassouJoukyou.Ichi = 1;
                 }
-                else if (s.Contains("障害") || s.Contains("バンケット") || s.Contains("水ごう"))
-                {
-                    raceHassouJoukyou.Ichi = 4;
-                }
-                else if (s.Contains("正面") || s.Contains("直線") || s.Contains("ゴール")
-                    || s.Contains("スタンド"))
-                {
-                    raceHassouJoukyou.Ichi = 2;
-                }
-                else if (s.Contains("角"))
+                else if (s.Contains("4角") || s.Contains("直線") || s.Contains("ゴール"))
                 {
                     raceHassouJoukyou.Ichi = 3;
                 }
                 else
                 {
-                    raceHassouJoukyou.Ichi = 5;
+                    raceHassouJoukyou.Ichi = 2;
                 }
 
                 if (s.Contains("好発"))
                 {
                     raceHassouJoukyou.Joukyou = 50;
-                }
-                else if (s.Contains("遅れ") || s.Contains("スタート") || s.Contains("ゲート")
-                    || s.Contains("ダッシュ") || s.Contains("アオ"))
-                {
-                    raceHassouJoukyou.Joukyou = 41;
-                }
-                else if (s.Contains("外枠発走"))
-                {
-                    raceHassouJoukyou.Joukyou = 42;
                 }
                 else if (s.Contains("落馬"))
                 {
@@ -744,11 +736,14 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
                 {
                     raceHassouJoukyou.Joukyou = 33;
                 }
-                else if (s.Contains("ふくれる") || s.Contains("ササる") || s.Contains("ささる")
-                    || s.Contains("ヨレる") || s.Contains("よれる") || s.Contains("斜行")
-                    || s.Contains("内ラチ") || s.Contains("切れる"))
+                else if (s.Contains("遅れ") || s.Contains("ゲート")
+                    || s.Contains("ダッシュ") || s.Contains("アオ"))
                 {
-                    raceHassouJoukyou.Joukyou = 43;
+                    raceHassouJoukyou.Joukyou = 41;
+                }
+                else if (s.Contains("外枠発走"))
+                {
+                    raceHassouJoukyou.Joukyou = 42;
                 }
                 else
                 {
@@ -835,8 +830,16 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
             return shussoubaTsuukaJuniList;
         }
 
-        protected virtual double? GetTimeSa(byte[] buffer, int index)
+        protected virtual double? GetTimeSa(byte[] buffer, int index, int? nyuusenChakujun)
         {
+            if (nyuusenChakujun == null)
+            {
+                return null;
+            }
+            if (nyuusenChakujun == 1)
+        {
+                return 0.0;
+            }
             var timeSa = ONE_TENTH_GETTER.GetDouble(buffer, index, 3);
             if (99.7 <= timeSa)
             {

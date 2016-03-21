@@ -18,24 +18,40 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer
 		[STAThread]
 		static void Main()
 		{
-			Application.ThreadException += (sender, e) => {
-				LOGGER.Fatal(CommonUtil.FlattenException(e.Exception));
+        	Application.ThreadException += (sender, e) =>
+        	{
+        		MessageBox.Show(
+        			CommonUtil.FlattenException(e.Exception),
+        		    "予期せぬエラー",
+        		    MessageBoxButtons.OK,
+        		    MessageBoxIcon.Error);
 			};
         	
-			Thread.GetDomain().UnhandledException += (sender, e) => {
+        	Thread.GetDomain().UnhandledException += (sender, e) =>
+        	{
 				Exception ex = e.ExceptionObject as Exception;
-				if (ex != null) {
-					LOGGER.Fatal(CommonUtil.FlattenException(ex));
+				if (ex != null)
+				{
+	        		MessageBox.Show(
+	        			CommonUtil.FlattenException(ex),
+	        		    "予期せぬエラー",
+	        		    MessageBoxButtons.OK,
+	        		    MessageBoxIcon.Error);
 				}
 			};
         	
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			try {
+            try{
 				LOGGER.Info("競馬データ取り込みプログラム開始");
 				Application.Run(new MainForm());
-			} catch (Exception ex) {
-				LOGGER.Fatal(CommonUtil.FlattenException(ex));
+            }
+            catch(Exception ex){
+        		MessageBox.Show(
+        			CommonUtil.FlattenException(ex),
+        		    "予期せぬエラー",
+        		    MessageBoxButtons.OK,
+        		    MessageBoxIcon.Error);
 			}
 		}
 

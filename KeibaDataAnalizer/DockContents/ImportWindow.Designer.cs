@@ -37,8 +37,12 @@
         	this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
         	this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
         	this.importFileDataGridView = new System.Windows.Forms.DataGridView();
+            this.fukaDataSakuseiButton = new System.Windows.Forms.ToolStripButton();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
         	this.toolStrip.SuspendLayout();
         	((System.ComponentModel.ISupportInitialize)(this.importFileDataGridView)).BeginInit();
+            this.statusStrip1.SuspendLayout();
         	this.SuspendLayout();
         	// 
         	// openFileDialog
@@ -54,7 +58,8 @@
         	        	        	this.addToListButton,
         	        	        	this.removeFromListButton,
         	        	        	this.importDBButton,
-        	        	        	this.clearCompletedButton});
+            this.clearCompletedButton,
+            this.fukaDataSakuseiButton});
         	this.toolStrip.Location = new System.Drawing.Point(0, 0);
         	this.toolStrip.Name = "toolStrip";
         	this.toolStrip.Size = new System.Drawing.Size(292, 25);
@@ -128,11 +133,37 @@
         	this.importFileDataGridView.RowHeadersVisible = false;
         	this.importFileDataGridView.RowTemplate.Height = 21;
         	this.importFileDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-        	this.importFileDataGridView.Size = new System.Drawing.Size(292, 241);
+            this.importFileDataGridView.Size = new System.Drawing.Size(292, 219);
         	this.importFileDataGridView.TabIndex = 1;
         	this.importFileDataGridView.DragDrop += new System.Windows.Forms.DragEventHandler(this.importFileDataGridView_DragDrop);
         	this.importFileDataGridView.DragEnter += new System.Windows.Forms.DragEventHandler(this.importFileDataGridView_DragEnter);
         	// 
+            // fukaDataSakuseiButton
+            // 
+            this.fukaDataSakuseiButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.fukaDataSakuseiButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.fukaDataSakuseiButton.Image = global::Nikochan.Keiba.KeibaDataAnalyzer.Properties.Resources.database_save;
+            this.fukaDataSakuseiButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.fukaDataSakuseiButton.Name = "fukaDataSakuseiButton";
+            this.fukaDataSakuseiButton.Size = new System.Drawing.Size(23, 22);
+            this.fukaDataSakuseiButton.Text = "付加データ作成";
+            this.fukaDataSakuseiButton.Click += new System.EventHandler(this.fukaDataSakuseiButton_Click);
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusLabel});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 244);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(292, 22);
+            this.statusStrip1.TabIndex = 2;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // statusLabel
+            // 
+            this.statusLabel.Name = "statusLabel";
+            this.statusLabel.Size = new System.Drawing.Size(0, 17);
+            // 
         	// ImportWindow
         	// 
         	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -142,6 +173,7 @@
         	this.CloseButtonVisible = false;
         	this.Controls.Add(this.importFileDataGridView);
         	this.Controls.Add(this.toolStrip);
+            this.Controls.Add(this.statusStrip1);
         	this.DockAreas = ((WeifenLuo.WinFormsUI.Docking.DockAreas)(((WeifenLuo.WinFormsUI.Docking.DockAreas.Float | WeifenLuo.WinFormsUI.Docking.DockAreas.DockLeft) 
         	        	        	| WeifenLuo.WinFormsUI.Docking.DockAreas.DockRight)));
         	this.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
@@ -152,8 +184,11 @@
         	this.toolStrip.ResumeLayout(false);
         	this.toolStrip.PerformLayout();
         	((System.ComponentModel.ISupportInitialize)(this.importFileDataGridView)).EndInit();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
         	this.ResumeLayout(false);
         	this.PerformLayout();
+
         }
         private System.Windows.Forms.ToolStripButton clearCompletedButton;
 
@@ -167,5 +202,8 @@
         private System.Windows.Forms.ToolStripButton importDBButton;
         private System.ComponentModel.BackgroundWorker backgroundWorker;
         private System.Windows.Forms.DataGridView importFileDataGridView;
+        private System.Windows.Forms.ToolStripButton fukaDataSakuseiButton;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel statusLabel;
     }
 }

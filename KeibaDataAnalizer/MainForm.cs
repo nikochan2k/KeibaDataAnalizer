@@ -28,6 +28,22 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer
 		public MainForm()
 		{
 			InitializeComponent();
+            AddEventsToDockContent(importWindow, importMenuItem);
+            AddEventsToDockContent(dateWindow, searchMenuItem);
+            AddEventsToDockContent(tekichuuWindow, tekichuuMenuItem);
+            AddEventsToDockContent(sqlWindow, sqlMenuItem);
+		}
+
+        private void AddEventsToDockContent(DockContent content, ToolStripMenuItem menuItem)
+        {
+            content.Load += (sender, e) =>
+            {
+                menuItem.Checked = true;
+            };
+            content.FormClosed += (sender, e) =>
+            {
+                menuItem.Checked = false;
+            };
 		}
 
         public void EnabledExceptFor(DockContent dockContent, bool enabled)
@@ -92,57 +108,5 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer
             tekichuuWindow.Show(dockPanel);
         }
     
-        private const string RACE_SQL = "SELECT * FROM Race";
-        
-        private void RaceOnlyMenuItemClick(object sender, EventArgs e)
-        {
-        	using(var t = new Transaction()){
-        		var db = t.DB;
-        		var con = t.Connection;
-        		var raceEnu = db.QueryOnDemand<Race>(con, RACE_SQL);
-        		foreach (var race in raceEnu) {
-        			foreach (var userSQL in ModelUtil.GetUserSQLList("PostShutsubahyouRaceImport")) {
-		        		db.Execute(con, userSQL.SQL, race);
-        			}
-        			foreach (var userSQL in ModelUtil.GetUserSQLList("PostSeisekiRaceImport")) {
-		        		db.Execute(con, userSQL.SQL, race);
-        			}
-        		}
-        		
-        		t.Commit();
-        	}
-        }
-        
-        private const string SHUSSOUBA_SQL = "SELECT * FROM Shussouba WHERE RaceId = /* Id */0";
-        
-        private void RaceAndShussoubaMenuItemClick(object sender, EventArgs e)
-        {
-        	using(var t = new Transaction()){
-        		var db = t.DB;
-        		var con = t.Connection;
-        		var raceEnu = db.QueryOnDemand<Race>(con, RACE_SQL);
-        		foreach (var race in raceEnu) {
-        			// 出走馬データのカスタムクエリ実行
-        			var shussoubaEnu = db.QueryOnDemand<Shussouba>(con, SHUSSOUBA_SQL, race);
-        			foreach (var shussouba in shussoubaEnu) {
-	        			foreach (var userSQL in ModelUtil.GetUserSQLList("PostShutsubahyouShussoubaImport")) {
-			        		db.Execute(con, userSQL.SQL, race);
-	        			}
-	        			foreach (var userSQL in ModelUtil.GetUserSQLList("PostSeisekiShussoubaImport")) {
-			        		db.Execute(con, userSQL.SQL, race);
-	        			}
-        			}
-        			// レースデータのカスタムクエリ実行
-        			foreach (var userSQL in ModelUtil.GetUserSQLList("PostShutsubahyouRaceImport")) {
-		        		db.Execute(con, userSQL.SQL, race);
-        			}
-        			foreach (var userSQL in ModelUtil.GetUserSQLList("PostSeisekiRaceImport")) {
-		        		db.Execute(con, userSQL.SQL, race);
-        			}
-        		}
-        		
-        		t.Commit();
-        	}
-        }
 	}
 }

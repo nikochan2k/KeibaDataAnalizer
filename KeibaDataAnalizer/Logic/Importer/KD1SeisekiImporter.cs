@@ -370,11 +370,17 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
             shussouba.Time = TIME_GETTER.GetDouble(buffer, 86, 4);
             shussouba.Chakusa1 = DEFAULT_GETTER.GetInt32(buffer, 90, 2);
             shussouba.Chakusa2 = DEFAULT_GETTER.GetInt32(buffer, 92, 1);
-            shussouba.TimeSa = GetTimeSa(buffer, 93);
+            shussouba.TimeSa = GetTimeSa(buffer, 93, shussouba.NyuusenChakujun);
             if(race.Kyori >= 1200){
 	            shussouba.Zenhan3F = ONE_TENTH_GETTER.GetDouble(buffer, 96, 3);
             }
             shussouba.Kouhan3F = ONE_TENTH_GETTER.GetDouble(buffer, 99, 3);
+            if(race.HeichiShougai == 0 && shussouba.Time != null){
+            	shussouba.Kouhan3FMade = shussouba.Time - shussouba.Kouhan3F;
+            	if(race.Kyori > 1200){
+	            	shussouba.Chuukan = shussouba.Time - (shussouba.Zenhan3F + shussouba.Kouhan3F);
+            	}
+            }
             shussouba.YonCornerIchiDori = DEFAULT_GETTER.GetInt32(buffer, 110, 1);
             shussouba.Seinen = kaisaiNen - shussouba.Nenrei;
 

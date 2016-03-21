@@ -30,13 +30,13 @@
         {
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.raceSelectLabel = new System.Windows.Forms.ToolStripLabel();
-            this.editRaceSelectionSQLButton = new System.Windows.Forms.ToolStripButton();
             this.raceSelectionComboBox = new System.Windows.Forms.ToolStripComboBox();
+            this.editRaceSelectionSQLButton = new System.Windows.Forms.ToolStripButton();
             this.separator1 = new System.Windows.Forms.ToolStripSeparator();
             this.shussoubaSelectionLabel = new System.Windows.Forms.ToolStripLabel();
-            this.editShussoubaSelectionSQLButton = new System.Windows.Forms.ToolStripButton();
             this.shussoubaSelectionComboBox = new System.Windows.Forms.ToolStripComboBox();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.editShussoubaSelectionSQLButton = new System.Windows.Forms.ToolStripButton();
+            this.separator2 = new System.Windows.Forms.ToolStripSeparator();
             this.executeButton = new System.Windows.Forms.ToolStripButton();
             this.flowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.tanshouUserControl = new Nikochan.Keiba.KeibaDataAnalyzer.UserControls.ShouUserControl();
@@ -48,6 +48,7 @@
             this.sanrenpukuUserControl = new Nikochan.Keiba.KeibaDataAnalyzer.UserControls.RenTanUserControl();
             this.sanrentanUserControl = new Nikochan.Keiba.KeibaDataAnalyzer.UserControls.RenTanUserControl();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
@@ -61,18 +62,18 @@
             // 
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.raceSelectLabel,
-            this.editRaceSelectionSQLButton,
             this.raceSelectionComboBox,
+            this.editRaceSelectionSQLButton,
             this.separator1,
             this.shussoubaSelectionLabel,
-            this.editShussoubaSelectionSQLButton,
             this.shussoubaSelectionComboBox,
-            this.toolStripSeparator1,
+            this.editShussoubaSelectionSQLButton,
+            this.separator2,
             this.executeButton});
             this.toolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(646, 26);
+            this.toolStrip.Size = new System.Drawing.Size(879, 26);
             this.toolStrip.TabIndex = 0;
             this.toolStrip.Text = "toolStrip1";
             // 
@@ -81,6 +82,12 @@
             this.raceSelectLabel.Name = "raceSelectLabel";
             this.raceSelectLabel.Size = new System.Drawing.Size(92, 18);
             this.raceSelectLabel.Text = "レース選択SQL";
+            // 
+            // raceSelectionComboBox
+            // 
+            this.raceSelectionComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.raceSelectionComboBox.Name = "raceSelectionComboBox";
+            this.raceSelectionComboBox.Size = new System.Drawing.Size(160, 26);
             // 
             // editRaceSelectionSQLButton
             // 
@@ -91,12 +98,6 @@
             this.editRaceSelectionSQLButton.Size = new System.Drawing.Size(23, 20);
             this.editRaceSelectionSQLButton.Text = "レース選択SQLの編集";
             this.editRaceSelectionSQLButton.Click += new System.EventHandler(this.editRaceSQLButton_Click);
-            // 
-            // raceSelectionComboBox
-            // 
-            this.raceSelectionComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.raceSelectionComboBox.Name = "raceSelectionComboBox";
-            this.raceSelectionComboBox.Size = new System.Drawing.Size(160, 26);
             // 
             // separator1
             // 
@@ -109,6 +110,12 @@
             this.shussoubaSelectionLabel.Size = new System.Drawing.Size(92, 18);
             this.shussoubaSelectionLabel.Text = "競走馬選択SQL";
             // 
+            // shussoubaSelectionComboBox
+            // 
+            this.shussoubaSelectionComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.shussoubaSelectionComboBox.Name = "shussoubaSelectionComboBox";
+            this.shussoubaSelectionComboBox.Size = new System.Drawing.Size(160, 26);
+            // 
             // editShussoubaSelectionSQLButton
             // 
             this.editShussoubaSelectionSQLButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -119,16 +126,10 @@
             this.editShussoubaSelectionSQLButton.Text = "競走馬指数SQLの編集";
             this.editShussoubaSelectionSQLButton.Click += new System.EventHandler(this.editHorseSQLButton_Click);
             // 
-            // shussoubaSelectionComboBox
+            // separator2
             // 
-            this.shussoubaSelectionComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.shussoubaSelectionComboBox.Name = "shussoubaSelectionComboBox";
-            this.shussoubaSelectionComboBox.Size = new System.Drawing.Size(160, 26);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 23);
+            this.separator2.Name = "separator2";
+            this.separator2.Size = new System.Drawing.Size(6, 23);
             // 
             // executeButton
             // 
@@ -155,7 +156,7 @@
             this.flowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanel.Location = new System.Drawing.Point(0, 26);
             this.flowLayoutPanel.Name = "flowLayoutPanel";
-            this.flowLayoutPanel.Size = new System.Drawing.Size(646, 132);
+            this.flowLayoutPanel.Size = new System.Drawing.Size(879, 99);
             this.flowLayoutPanel.TabIndex = 20;
             // 
             // tanshouUserControl
@@ -212,7 +213,7 @@
             this.umarenUserControl.ColumnName = "Umaban";
             this.umarenUserControl.IsRen = true;
             this.umarenUserControl.Length = 2;
-            this.umarenUserControl.Location = new System.Drawing.Point(3, 36);
+            this.umarenUserControl.Location = new System.Drawing.Point(549, 3);
             this.umarenUserControl.MaxJouiTousuu = 18;
             this.umarenUserControl.MinJouiTousuu = 2;
             this.umarenUserControl.Name = "umarenUserControl";
@@ -229,7 +230,7 @@
             this.umatanUserControl.ColumnName = "Umaban";
             this.umatanUserControl.IsRen = false;
             this.umatanUserControl.Length = 2;
-            this.umatanUserControl.Location = new System.Drawing.Point(239, 36);
+            this.umatanUserControl.Location = new System.Drawing.Point(3, 36);
             this.umatanUserControl.MaxJouiTousuu = 18;
             this.umatanUserControl.MinJouiTousuu = 2;
             this.umatanUserControl.Name = "umatanUserControl";
@@ -246,7 +247,7 @@
             this.wideUserControl.ColumnName = "Umaban";
             this.wideUserControl.IsRen = true;
             this.wideUserControl.Length = 2;
-            this.wideUserControl.Location = new System.Drawing.Point(3, 69);
+            this.wideUserControl.Location = new System.Drawing.Point(239, 36);
             this.wideUserControl.MaxJouiTousuu = 18;
             this.wideUserControl.MinJouiTousuu = 2;
             this.wideUserControl.Name = "wideUserControl";
@@ -263,7 +264,7 @@
             this.sanrenpukuUserControl.ColumnName = "Umaban";
             this.sanrenpukuUserControl.IsRen = true;
             this.sanrenpukuUserControl.Length = 3;
-            this.sanrenpukuUserControl.Location = new System.Drawing.Point(242, 69);
+            this.sanrenpukuUserControl.Location = new System.Drawing.Point(478, 36);
             this.sanrenpukuUserControl.MaxJouiTousuu = 18;
             this.sanrenpukuUserControl.MinJouiTousuu = 3;
             this.sanrenpukuUserControl.Name = "sanrenpukuUserControl";
@@ -280,7 +281,7 @@
             this.sanrentanUserControl.ColumnName = "Umaban";
             this.sanrentanUserControl.IsRen = false;
             this.sanrentanUserControl.Length = 3;
-            this.sanrentanUserControl.Location = new System.Drawing.Point(3, 102);
+            this.sanrentanUserControl.Location = new System.Drawing.Point(3, 69);
             this.sanrentanUserControl.MaxJouiTousuu = 18;
             this.sanrentanUserControl.MinJouiTousuu = 3;
             this.sanrentanUserControl.Name = "sanrentanUserControl";
@@ -291,17 +292,24 @@
             // statusStrip
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusLabel,
             this.toolStripProgressBar});
-            this.statusStrip.Location = new System.Drawing.Point(0, 302);
+            this.statusStrip.Location = new System.Drawing.Point(0, 323);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(646, 22);
+            this.statusStrip.Size = new System.Drawing.Size(879, 23);
             this.statusStrip.TabIndex = 22;
             this.statusStrip.Text = "statusStrip1";
+            // 
+            // statusLabel
+            // 
+            this.statusLabel.Name = "statusLabel";
+            this.statusLabel.Size = new System.Drawing.Size(68, 18);
+            this.statusLabel.Text = "ステータス";
             // 
             // toolStripProgressBar
             // 
             this.toolStripProgressBar.Name = "toolStripProgressBar";
-            this.toolStripProgressBar.Size = new System.Drawing.Size(200, 16);
+            this.toolStripProgressBar.Size = new System.Drawing.Size(200, 17);
             // 
             // dataGridView
             // 
@@ -311,27 +319,27 @@
             this.dataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView.Location = new System.Drawing.Point(0, 158);
+            this.dataGridView.Location = new System.Drawing.Point(0, 125);
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.ReadOnly = true;
             this.dataGridView.RowHeadersVisible = false;
             this.dataGridView.RowTemplate.Height = 21;
             this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView.Size = new System.Drawing.Size(646, 144);
+            this.dataGridView.Size = new System.Drawing.Size(879, 198);
             this.dataGridView.TabIndex = 23;
             // 
             // backgroundWorker
             // 
             this.backgroundWorker.WorkerReportsProgress = true;
             this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
-            this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
             this.backgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker_ProgressChanged);
+            this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
             // 
             // TekichuuWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(646, 324);
+            this.ClientSize = new System.Drawing.Size(879, 346);
             this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.flowLayoutPanel);
@@ -354,6 +362,7 @@
             this.PerformLayout();
 
         }
+        private System.Windows.Forms.ToolStripStatusLabel statusLabel;
 
         #endregion
 
@@ -365,7 +374,7 @@
         private System.Windows.Forms.ToolStripLabel raceSelectLabel;
         private System.Windows.Forms.ToolStripComboBox shussoubaSelectionComboBox;
         private System.Windows.Forms.ToolStripLabel shussoubaSelectionLabel;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator separator2;
         private System.Windows.Forms.ToolStripButton executeButton;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel;
         private Nikochan.Keiba.KeibaDataAnalyzer.UserControls.ShouUserControl tanshouUserControl;
