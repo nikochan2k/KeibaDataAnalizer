@@ -19,6 +19,8 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.ImporterFactory
             importerFactoryList.Add(new KD3ShutsubahyouImporterFactory());
             importerFactoryList.Add(new KD2KyousoubaImportFactory());
             importerFactoryList.Add(new KD3KyousoubaImportFactory());
+            importerFactoryList.Add(new KD2YosouOddsImporterFactory());
+            importerFactoryList.Add(new KD2KakuteiOddsImporterFactory());
             importerFactoryList.Add(new KD3YosouOddsImporterFactory());
             importerFactoryList.Add(new KD3KakuteiOddsImporterFactory());
         }

@@ -173,8 +173,10 @@
     <Compile Include="Logic\ImporterFactory\AbstractImporterFactory.cs" />
     <Compile Include="Logic\ImporterFactory\IImporterFactory.cs" />
     <Compile Include="Logic\ImporterFactory\KD1KyousoubaImportFactory.cs" />
+    <Compile Include="Logic\ImporterFactory\KD2KakuteiOddsImporterFactory.cs" />
     <Compile Include="Logic\ImporterFactory\KD2KyousoubaImportFactory.cs" />
     <Compile Include="Logic\ImporterFactory\KD2ShutsubahyouImporterFactory.cs" />
+    <Compile Include="Logic\ImporterFactory\KD2YosouOddsImporterFactory.cs" />
     <Compile Include="Logic\ImporterFactory\KD3KakuteiOddsImporterFactory.cs" />
     <Compile Include="Logic\ImporterFactory\KD3ShutsubahyouImporterFactory.cs" />
     <Compile Include="Logic\ImporterFactory\KD3KyousoubaImportFactory.cs" />

@@ -261,7 +261,7 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
 		{
 			const int byteCount = 5;
 			const int tousuu = 18;
-			const double oddsLimit = 10000.0;
+			double oddsLimit = YosouOrKakutei == YosouKakutei.Yosou ? 50.0 : 10000.0;
 			var oddsList = new List<Odds>();
 			for (int i = start, umaban = 1; umaban <= tousuu; umaban++) {
 				var strOdds = DEFAULT_GETTER.GetString(buffer, i, byteCount);
@@ -293,7 +293,7 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
 		{
 			const int byteCount = 5;
 			const int wakusuu = 8;
-			const double oddsLimit = 10000.0;
+			double oddsLimit = YosouOrKakutei == YosouKakutei.Yosou ? 100.0 : 10000.0;
 			var oddsList = new List<Odds>();
 			for (int i = start, wakuban1 = 1; wakuban1 <= wakusuu; wakuban1++) {
 				for (var wakuban2 = 1; wakuban2 <= wakusuu; wakuban2++) {
@@ -328,7 +328,7 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
 		{
 			const int byteCount = 7;
 			const int tousuu = 18;
-			const double oddsLimit = 1000000.0;
+			double oddsLimit = YosouOrKakutei == YosouKakutei.Yosou ? 1000.0 : 1000000.0;
 			var oddsList = new List<Odds>();
 			for (int i = start, umaban1 = 1; umaban1 <= tousuu - 1; umaban1++) {
 				for (var umaban2 = umaban1 + 1; umaban2 <= tousuu; umaban2++) {
@@ -446,7 +446,7 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
 		{
 			const int byteCount = 5;
 			const int tousuu = 18;
-			const double oddsLimit = 1000.0;
+			double oddsLimit = YosouOrKakutei == YosouKakutei.Yosou ? 1000.0 : 10000.0;
 			var oddsList = new List<Odds>();
 			for (int i = start, umaban1 = 1; umaban1 <= tousuu; umaban1++) {
 				for (var umaban2 = 1; umaban2 <= tousuu; umaban2++) {
@@ -484,7 +484,7 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
 		{
 			const int byteCount = 7;
 			const int tousuu = 18;
-			const double oddsLimit = 1000000.0;
+			double oddsLimit = YosouOrKakutei == YosouKakutei.Yosou ? 1000.0 : 1000000.0;
 			var oddsList = new List<Odds>();
 			for (int i = start, umaban1 = 1; umaban1 <= tousuu - 2; umaban1++) {
 				for (var umaban2 = umaban1 + 1; umaban2 <= tousuu - 1; umaban2++) {
