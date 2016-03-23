@@ -8,7 +8,7 @@ using System.IO;
 
 namespace Nikochan.Keiba.KeibaDataAnalyzer.Util
 {
-    public class CSVUtil
+    public static class CSVUtil
     {
         private static readonly Encoding SJIS = Encoding.GetEncoding("Shift_JIS");
 
@@ -17,7 +17,7 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Util
             WriteCSV<T>(list, csvPath, SJIS);
         }
 
-        protected static string GetString(object obj)
+        public static string GetString(object obj)
         {
             if (obj == null)
             {
