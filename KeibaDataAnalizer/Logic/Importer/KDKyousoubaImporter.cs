@@ -101,7 +101,6 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
                     }
                     catch (Exception ex)
                     {
-						LOGGER.Warn(ex);
                         importHistory.AddImportLog(null, null, "予期せぬエラーが発生しました。",
                             CommonUtil.FlattenException(ex), ImportFileStatusEnum.一部失敗);
                     }
