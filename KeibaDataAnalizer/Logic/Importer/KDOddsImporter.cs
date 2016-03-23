@@ -165,18 +165,25 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
 		protected virtual double? ParseOdds(string strOdds, double limit)
 		{
 			if (String.IsNullOrWhiteSpace(strOdds)) {
-				return null;
+				return limit;
 			}
 			
 			double? odds;
 			int intOdds;
 			if (Int32.TryParse(strOdds, out intOdds)) {
 				odds = (double)intOdds / 10;
+				if (odds <= 0.0) {
+					odds = limit;
+				}
 			} else if (strOdds.Contains("*")) {
 				odds = limit;
+			} else if (strOdds.Contains("-")) {
+				odds = null;
 			} else {
+				LOGGER.Warn("不正なオッズ: " + strOdds);
 				odds = null;
 			}
+			
 			return odds;
 		}
 		
@@ -296,7 +303,7 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
 			double oddsLimit = YosouOrKakutei == YosouKakutei.Yosou ? 100.0 : 10000.0;
 			var oddsList = new List<Odds>();
 			for (int i = start, wakuban1 = 1; wakuban1 <= wakusuu; wakuban1++) {
-				for (var wakuban2 = 1; wakuban2 <= wakusuu; wakuban2++) {
+				for (var wakuban2 = wakuban1; wakuban2 <= wakusuu; wakuban2++) {
 					var strOdds1 = DEFAULT_GETTER.GetString(buffer, i, byteCount);
 					i += byteCount;
 					var odds1 = ParseOdds(strOdds1, oddsLimit);

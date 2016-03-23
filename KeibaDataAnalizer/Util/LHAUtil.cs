@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace Nikochan.Keiba.KeibaDataAnalyzer.Util
 {
-	public class LHAUtil
+	public static class LHAUtil
 	{
 		/// <summary>
 		/// UNLHA32.DLLで書庫を展開する
@@ -16,8 +16,9 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Util
 			string archiveFile, string extractDir)
 		{
 			//指定されたファイルがあるか調べる
-			if (!File.Exists(archiveFile))
-				throw new ApplicationException("ファイルが見つかりません");
+			if (!File.Exists(archiveFile)){
+				throw new FileNotFoundException("ファイルが見つかりません:" + archiveFile);
+			}
 
 			//ファイル名とフォルダ名を修正する
 			if (archiveFile.IndexOf(' ') > 0)
