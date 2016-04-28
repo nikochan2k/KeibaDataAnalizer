@@ -73,6 +73,7 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
 	                            	DatabaseUtil.SetForeignKey(db, con, false);
 	
 	                                race = BuildRace(buffer, raceId, dataSakuseiNengappi.Value);
+	                                race.YosouPace = oldRace.YosouPace;
 	                                db.Insert<Race>(con, race);
 	                            }
 	                            else

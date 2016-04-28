@@ -105,6 +105,7 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
 	                        if (oldRace != null)
 	                        {
 	                        	// 既に成績レースデータが入っている場合
+	                            race.YosouPace = oldRace.YosouPace;
 	                            race.ShutsubahyouSakuseiNengappi = oldRace.ShutsubahyouSakuseiNengappi;
 	                            db.Update<Race>(con, race);
 	                        }
