@@ -275,6 +275,7 @@
     <None Include="app.config" />
     <None Include="App_Readme\Soma.readme.txt" />
     <None Include="license.txt" />
+    <None Include="Logic\Importer\KeibaDataAnalizer.sln" />
     <None Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

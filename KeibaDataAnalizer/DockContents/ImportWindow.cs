@@ -207,6 +207,7 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.DockContents
             var dockPanel = (DockPanel)this.DockPanel;
             var parent = (MainForm)dockPanel.Parent;
             parent.EnabledExceptFor(this, true);
+            this.importFileDataGridView.Refresh();
         }
 
         #endregion

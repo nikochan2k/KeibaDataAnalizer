@@ -225,7 +225,7 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
 					DatabaseUtil.SetForeignKey(db, con, true);
 					db.Execute(
 						con,
-						"DELETE FROM " +
+						"DELETE FROM OddsKubun " +
 						"WHERE RaceId = /* RaceId */0 AND YosouKakutei = /* YosouKakutei */0 " +
 						"AND BakenShubetsu IN /* BakenShubetsuList*/(0,1)",
 						condition

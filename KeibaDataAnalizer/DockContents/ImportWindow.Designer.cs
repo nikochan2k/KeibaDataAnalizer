@@ -51,10 +51,10 @@
         	// toolStrip
         	// 
         	this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-        	        	        	this.addToListButton,
-        	        	        	this.removeFromListButton,
-        	        	        	this.importDBButton,
-        	        	        	this.clearCompletedButton});
+			this.addToListButton,
+			this.removeFromListButton,
+			this.importDBButton,
+			this.clearCompletedButton});
         	this.toolStrip.Location = new System.Drawing.Point(0, 0);
         	this.toolStrip.Name = "toolStrip";
         	this.toolStrip.Size = new System.Drawing.Size(292, 25);
@@ -143,7 +143,7 @@
         	this.Controls.Add(this.importFileDataGridView);
         	this.Controls.Add(this.toolStrip);
         	this.DockAreas = ((WeifenLuo.WinFormsUI.Docking.DockAreas)(((WeifenLuo.WinFormsUI.Docking.DockAreas.Float | WeifenLuo.WinFormsUI.Docking.DockAreas.DockLeft) 
-        	        	        	| WeifenLuo.WinFormsUI.Docking.DockAreas.DockRight)));
+			| WeifenLuo.WinFormsUI.Docking.DockAreas.DockRight)));
         	this.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
         	this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
         	this.Name = "ImportWindow";
@@ -154,6 +154,7 @@
         	((System.ComponentModel.ISupportInitialize)(this.importFileDataGridView)).EndInit();
         	this.ResumeLayout(false);
         	this.PerformLayout();
+
         }
         private System.Windows.Forms.ToolStripButton clearCompletedButton;
 
