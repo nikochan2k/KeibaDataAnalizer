@@ -1,7 +1,6 @@
 ﻿using System;
 
 using Nikochan.Keiba.KeibaDataAnalyzer.Model;
-using Nikochan.Keiba.KeibaDataAnalyzer.Enum;
 using Nikochan.Keiba.KeibaDataAnalyzer.Util;
 
 namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer

@@ -5,7 +5,6 @@ using System.IO;
 
 using Soma.Core;
 using Nikochan.Keiba.KeibaDataAnalyzer.Model;
-using Nikochan.Keiba.KeibaDataAnalyzer.Enum;
 using Nikochan.Keiba.KeibaDataAnalyzer.Util;
 
 using NLog;
@@ -97,7 +96,7 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
                     catch (Exception ex)
                     {
                         importHistory.AddImportLog(null, null, "予期せぬエラーが発生しました。",
-                            CommonUtil.FlattenException(ex), ImportFileStatusEnum.一部失敗);
+                            CommonUtil.FlattenException(ex));
                     }
                     finally
                     {
@@ -207,7 +206,7 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
                     catch (Exception ex)
                     {
                         importHistory.AddImportLog(null, null, "予期せぬエラーが発生しました。",
-                            CommonUtil.FlattenException(ex), ImportFileStatusEnum.一部失敗);
+                            CommonUtil.FlattenException(ex));
                     }
                     finally
                     {

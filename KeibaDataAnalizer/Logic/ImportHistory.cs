@@ -7,12 +7,11 @@ using System.ComponentModel;
 
 using Soma.Core;
 using Nikochan.Keiba.KeibaDataAnalyzer.Model;
-using Nikochan.Keiba.KeibaDataAnalyzer.Enum;
 using Nikochan.Keiba.KeibaDataAnalyzer.Util;
 
 namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic
 {
-    public class ImportHistory : INotifyPropertyChanged
+    public class ImportHistory
     {
         public static ImportHistory CreateInstance(String filePath)
         {
@@ -56,7 +55,6 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic
         private ImportHistory()
         {
             ImportFile = new ImportFile();
-            Status = ImportFileStatusEnum.未取込;
             importLogList = new List<ImportLog>();
         }
 
@@ -104,8 +102,6 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic
             {
                 if (value != index)
                 {
-                	Progress = (int)Math.Round((double)index / Length * 100.0);
-                    NotifyPropertyChanged("Progress");
                     UncompressedFileIndex += (value - index);
                 }
                 index = value;
@@ -122,40 +118,11 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic
             }
         }
 
-        public ImportFileStatusEnum Status
-        {
-            get
-            {
-                return (ImportFileStatusEnum)ImportFile.Status;
-            }
-            set
-            {
-                if ((int)value != ImportFile.Status)
-                {
-                    NotifyPropertyChanged("Status");
-                }
-                ImportFile.Status = (int)value;
-            }
-        }
-
         public int Progress { get; protected set; }
 
-        public void NotifyPropertyChanged(String propertyName)
+        public void AddImportLog(int? index, int? size, String message, String detailedMessage)
         {
-            if (PropertyChanged != null)
-            {
-                try
-                {
-                    PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-                catch
-                {
-                }
-            }
-        }
-
-        public void AddImportLog(int? index, int? size, String message, String detailedMessage, ImportFileStatusEnum status)
-        {
+           
             var importLog = new ImportLog();
 
             importLog.UncompressedFileName = this.UncompressedFileName;
@@ -165,19 +132,10 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic
             importLog.DetailedMessage = detailedMessage;
 
             this.importLogList.Add(importLog);
-
-            this.Status = status;
         }
 
         public void Save()
-        {
-            if (this.Status == ImportFileStatusEnum.取込中)
-            {
-                this.Status = ImportFileStatusEnum.成功;
-                this.Progress = 100;
-                NotifyPropertyChanged("Progress");
-            }
-            
+        {        
             using(var transaction = new Transaction()){
             	var db = transaction.DB;
             	var con = transaction.Connection;

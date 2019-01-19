@@ -6,7 +6,6 @@ using System.Text.RegularExpressions;
 using System.IO;
 using Soma.Core;
 using Nikochan.Keiba.KeibaDataAnalyzer.Model;
-using Nikochan.Keiba.KeibaDataAnalyzer.Enum;
 using Nikochan.Keiba.KeibaDataAnalyzer.Util;
 
 using NLog;
@@ -150,7 +149,7 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
                     catch (Exception ex)
                     {
                         importHistory.AddImportLog(null, null, "予期せぬエラーが発生しました。",
-                            CommonUtil.FlattenException(ex), ImportFileStatusEnum.一部失敗);
+                            CommonUtil.FlattenException(ex));
                     }
                     finally
                     {
@@ -251,7 +250,7 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
                     catch (Exception ex)
                     {
                         importHistory.AddImportLog(null, null, "予期せぬエラーが発生しました。",
-                            CommonUtil.FlattenException(ex), ImportFileStatusEnum.一部失敗);
+                            CommonUtil.FlattenException(ex));
                     }
                     finally
                     {
@@ -515,7 +514,7 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
                             case '落':
                                 break;
                             default:
-                                importHistory.AddImportLog(null, null, "不正な経過" + raceKeika.Id + " : " + keika, null, ImportFileStatusEnum.一部失敗);
+                                importHistory.AddImportLog(null, null, "不正な経過" + raceKeika.Id + " : " + keika, null);
                                 return EMPTY_SHUSSOUBA_KEIKA_LIST;
                         }
                     }
@@ -536,7 +535,7 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
                             case '落':
                                 break;
                             default:
-                                importHistory.AddImportLog(null, null, "不正な経過" + raceKeika.Id + " : " + keika, null, ImportFileStatusEnum.一部失敗);
+                                importHistory.AddImportLog(null, null, "不正な経過" + raceKeika.Id + " : " + keika, null);
                                 return EMPTY_SHUSSOUBA_KEIKA_LIST;
                         }
                     }
@@ -556,7 +555,7 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
             {
                 importHistory.AddImportLog(null, null,
                     "成績レース経過[" + raceKeika.Id + "]にて重複する馬番 : " + umaban,
-                    null, ImportFileStatusEnum.一部失敗);
+                    null);
                 return;
             }
             shussoubaIdList.Add(shussoubaId);
@@ -775,7 +774,7 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
                 {
                     importHistory.AddImportLog(null, null,
                         "成績レース発走状況[" + raceHassouJoukyou.Id + "]にて重複する馬番 : " + umaban,
-                        null, ImportFileStatusEnum.一部失敗);
+                        null);
                     continue;
                 }
                 shussoubaIdList.Add(shussoubaId);

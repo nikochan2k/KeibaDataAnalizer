@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Globalization;
-using Nikochan.Keiba.KeibaDataAnalyzer.Enum;
 using Nikochan.Keiba.KeibaDataAnalyzer.Util;
 
 namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Getter
@@ -28,7 +27,7 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Getter
                 catch (FormatException ex)
                 {
                     ImportHistory.AddImportLog(index, count, "yyyyMMdd形式の日付を解釈できません: " + s,
-                            CommonUtil.FlattenException(ex), ImportFileStatusEnum.一部失敗);
+                            CommonUtil.FlattenException(ex));
                 }
             }
             return result;

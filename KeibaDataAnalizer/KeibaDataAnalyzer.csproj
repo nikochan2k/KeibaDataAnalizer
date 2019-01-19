@@ -6,7 +6,7 @@
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{78881233-3B90-4CA1-99B0-9E01EF970EB4}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Nikochan.Keiba.KeibaDataAnalyzer</RootNamespace>
     <AssemblyName>KeibaDataAnalyzer</AssemblyName>
@@ -19,7 +19,6 @@
     <NoStdLib>False</NoStdLib>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <WarningLevel>4</WarningLevel>
-    <NoWin32Manifest>False</NoWin32Manifest>
     <SignAssembly>False</SignAssembly>
     <DelaySign>False</DelaySign>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
@@ -79,6 +78,9 @@
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <StartAction>Project</StartAction>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core">
       <HintPath>..\packages\FSharp.Core.4.0.0.1\lib\net40\FSharp.Core.dll</HintPath>
@@ -116,60 +118,8 @@
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="WeifenLuo.WinFormsUI.Docking">
-      <HintPath>..\packages\DockPanelSuite.2.9.0.0\lib\net40\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DockContents\EditSQLWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DockContents\EditSQLWindow.Designer.cs">
-      <DependentUpon>EditSQLWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DockContents\ShussoubaWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DockContents\ShussoubaWindow.Designer.cs">
-      <DependentUpon>ShussoubaWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DockContents\ImportWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DockContents\ImportWindow.Designer.cs">
-      <DependentUpon>ImportWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DockContents\ResultWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DockContents\ResultWindow.Designer.cs">
-      <DependentUpon>ResultWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DockContents\RaceWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DockContents\RaceWindow.Designer.cs">
-      <DependentUpon>RaceWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DockContents\DateWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DockContents\DateWindow.Designer.cs">
-      <DependentUpon>DateWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DockContents\SQLWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DockContents\SQLWindow.Designer.cs">
-      <DependentUpon>SQLWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DockContents\TekichuuWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DockContents\TekichuuWindow.Designer.cs">
-      <DependentUpon>TekichuuWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Enum\ImportFileStatusEnum.cs" />
     <Compile Include="Logic\ImporterFactory\AbstractImporterFactory.cs" />
     <Compile Include="Logic\ImporterFactory\IImporterFactory.cs" />
     <Compile Include="Logic\ImporterFactory\KD1KyousoubaImportFactory.cs" />
@@ -213,59 +163,14 @@
     <Compile Include="Logic\Getter\ValueGetter.cs" />
     <Compile Include="Logic\Getter\TimeGetter.cs" />
     <Compile Include="Logic\Getter\ZeroToNullGetter.cs" />
-    <Compile Include="MainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Model\Transaction.cs" />
     <Compile Include="Model\Model.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="DockContents\EditSQLWindow.resx">
-      <DependentUpon>EditSQLWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DockContents\ShussoubaWindow.resx">
-      <DependentUpon>ShussoubaWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DockContents\ImportWindow.resx">
-      <DependentUpon>ImportWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DockContents\ResultWindow.resx">
-      <DependentUpon>ResultWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DockContents\RaceWindow.resx">
-      <DependentUpon>RaceWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DockContents\DateWindow.resx">
-      <DependentUpon>DateWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DockContents\SQLWindow.resx">
-      <DependentUpon>SQLWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DockContents\TekichuuWindow.resx">
-      <DependentUpon>TekichuuWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\DataControl.resx">
-      <DependentUpon>DataControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\PropertyControl.resx">
-      <DependentUpon>PropertyControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\RenTanUserControl.resx">
-      <DependentUpon>RenTanUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\ShouUserControl.resx">
-      <DependentUpon>ShouUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -274,7 +179,6 @@
     </Compile>
     <None Include="app.config" />
     <None Include="App_Readme\Soma.readme.txt" />
-    <None Include="license.txt" />
     <None Include="Logic\Importer\KeibaDataAnalizer.sln" />
     <None Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -287,7 +191,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Keiba.sqlite">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -298,66 +202,18 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="SQLite\AGGREGATE.cs" />
-    <Compile Include="SQLite\NORMDIST.cs" />
-    <Compile Include="SQLite\SLOPE.cs" />
-    <Compile Include="SQLite\VARIANCE.cs" />
-    <Compile Include="SQLite\STD.cs" />
-    <Compile Include="SQLite\AGGREGATE2.cs" />
-    <Compile Include="SQLite\INTERCEPT.cs" />
-    <Compile Include="SQLite\CORREL.cs" />
-    <Compile Include="SQLite\COEFF.cs" />
-    <Compile Include="SQLite\COVAR.cs" />
-    <Compile Include="UserControls\DataControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\DataControl.Designer.cs">
-      <DependentUpon>DataControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\PropertyControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\PropertyControl.Designer.cs">
-      <DependentUpon>PropertyControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\RenTanUserControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\RenTanUserControl.Designer.cs">
-      <DependentUpon>RenTanUserControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\ShouUserControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\ShouUserControl.Designer.cs">
-      <DependentUpon>ShouUserControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="Util\CommonUtil.cs" />
-    <Compile Include="Util\CSVUtil.cs" />
     <Compile Include="Util\DatabaseUtil.cs" />
     <Compile Include="Util\LHAUtil.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Logic\ImportHistory.cs" />
     <Compile Include="Util\ModelUtil.cs" />
-    <Compile Include="Util\Permutation.cs" />
-    <Compile Include="Util\ViewUtil.cs" />
     <None Include="unlha32.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\action_go.gif" />
-    <None Include="Resources\date_delete.gif" />
-    <None Include="Resources\date_new.gif" />
-  </ItemGroup>
-  <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\action_save.gif" />
-    <None Include="Resources\Icon_csv.gif" />
-    <None Include="Resources\action_stop.gif" />
-    <Content Include="Resources\icon_settings.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.99.0\build\net40\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.99.0\build\net40\System.Data.SQLite.Core.targets')" />

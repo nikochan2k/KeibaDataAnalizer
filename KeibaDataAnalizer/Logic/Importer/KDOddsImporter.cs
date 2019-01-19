@@ -12,7 +12,6 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Configuration;
 using NLog;
-using Nikochan.Keiba.KeibaDataAnalyzer.Enum;
 using Nikochan.Keiba.KeibaDataAnalyzer.Model;
 using Nikochan.Keiba.KeibaDataAnalyzer.Util;
 
@@ -614,7 +613,7 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
 						}
 					} catch (Exception ex) {
 						importHistory.AddImportLog(null, null, "予期せぬエラーが発生しました。",
-							CommonUtil.FlattenException(ex), ImportFileStatusEnum.一部失敗);
+							CommonUtil.FlattenException(ex));
 					} finally {
 						importHistory.Index += ByteOfOdds;
 					}
@@ -659,7 +658,7 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
 						}
 					} catch (Exception ex) {
 						importHistory.AddImportLog(null, null, "予期せぬエラーが発生しました。",
-							CommonUtil.FlattenException(ex), ImportFileStatusEnum.一部失敗);
+							CommonUtil.FlattenException(ex));
 					} finally {
 						importHistory.Index += ByteOfOdds2;
 					}
@@ -700,7 +699,7 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Importer
 						}
 					} catch (Exception ex) {
 						importHistory.AddImportLog(null, null, "予期せぬエラーが発生しました。",
-							CommonUtil.FlattenException(ex), ImportFileStatusEnum.一部失敗);
+							CommonUtil.FlattenException(ex));
 					} finally {
 						importHistory.Index += ByteOfOdds3;
 					}

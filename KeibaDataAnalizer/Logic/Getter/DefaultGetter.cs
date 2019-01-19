@@ -6,7 +6,6 @@ using System.Data;
 using System.ComponentModel;
 
 using Nikochan.Keiba.KeibaDataAnalyzer.Logic;
-using Nikochan.Keiba.KeibaDataAnalyzer.Enum;
 using Nikochan.Keiba.KeibaDataAnalyzer.Util;
 
 namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Getter
@@ -77,7 +76,7 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic.Getter
             catch (Exception ex)
             {
                 ImportHistory.AddImportLog(index, count, s + " を型 " + conversionType.Name + "に変換できません。",
-                            CommonUtil.FlattenException(ex), ImportFileStatusEnum.一部失敗);
+                            CommonUtil.FlattenException(ex));
                 return default(TOutput);
             }
         }
