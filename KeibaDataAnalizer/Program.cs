@@ -54,6 +54,7 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer
 
         static void Import(ImporterListFactory factory, string lzhFilePath)
         {
+            Console.WriteLine(String.Format("{0} を取り込んでいます", lzhFilePath));
             var history = ImportHistory.CreateInstance(lzhFilePath);
             String tempDirectory = GetTemporaryDirectory();
             try

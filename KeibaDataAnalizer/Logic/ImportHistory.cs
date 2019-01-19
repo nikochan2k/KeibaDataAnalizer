@@ -16,12 +16,6 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic
         public static ImportHistory CreateInstance(String filePath)
         {
             var fileName = Path.GetFileName(filePath);
-            var extension = Path.GetExtension(fileName).ToLower();
-            if (!".lzh".Equals(extension))
-            {
-                return null;
-            }
-
             var importHistory = new ImportHistory();
 
             importHistory.FileName = fileName;
@@ -43,12 +37,6 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Logic
 
             return importHistory;
         }
-
-        #region INotifyPropertyChanged メンバ
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        #endregion
 
         private IList<ImportLog> importLogList;
 

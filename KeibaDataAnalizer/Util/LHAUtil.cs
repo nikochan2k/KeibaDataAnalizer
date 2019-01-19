@@ -30,11 +30,12 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Util
 			}
 
 			//展開する
-            ProcessStartInfo info;
+            String argument;
+            String lha;
             if (IsLinux)
             {
-                var argument = string.Format("xqiw={0} {1}", extractDir, archiveFile);
-                info = new ProcessStartInfo("lha", argument);
+                argument = string.Format("xqiw={0} {1}", extractDir, archiveFile);
+                lha = "lha";
             }
             else
             {
@@ -52,12 +53,12 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Util
                     extractDir = "\"" + extractDir + "\"";
                 }
 
-                var argument = string.Format("x -n1 {0} {1} *", archiveFile, extractDir);
-                info = new ProcessStartInfo("unlha32.exe", argument);
+                argument = string.Format("x -n1 {0} {1} *", archiveFile, extractDir);
+                lha = "unlha32.exe";
             }
+            var info = new ProcessStartInfo(GetLhaPath(lha), argument);
             info.UseShellExecute = false;
-            info.WorkingDirectory = Path.GetDirectoryName(Application.ExecutablePath);
-			info.CreateNoWindow = false;
+			info.CreateNoWindow = true;
 			info.WindowStyle = ProcessWindowStyle.Hidden;
             try
             {
@@ -70,5 +71,13 @@ namespace Nikochan.Keiba.KeibaDataAnalyzer.Util
                 Environment.Exit(1);
             }
 		}
+
+        static string GetLhaPath(string lha)
+        {
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, lha);
+            return Path.GetFullPath(new Uri(path).LocalPath)
+                       .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+        }
+
 	}
 }
